@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 20:14:14 by isemin            #+#    #+#             */
-/*   Updated: 2024/07/01 09:39:51 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/07/01 15:37:08 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,6 @@ int	here_doc(int argc, char **argv, char **env_paths, char **envp)
 		status = execute_args_h_doc(argc - 1, new_argv, env_paths, envp);
 	unlink(here_doc_file);
 	free(here_doc_file);
-	//free(new_argv);
 	if (new_argv == NULL)
 		return (EXIT_FAILURE);
 	free(new_argv);

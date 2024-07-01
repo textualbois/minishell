@@ -14,14 +14,13 @@ BONUS_SRCS = ft_lstnew.c ft_lstadd_front.c ft_lstsize.c \
 
 OBJ_DIR = ./obj/
 OBJS = $(addprefix $(OBJ_DIR), $(SRCS:.c=.o))
-
 BONUS_OBJS = $(addprefix $(OBJ_DIR), $(BONUS_SRCS:.c=.o))
 
 CC = cc
-
 CFLAGS = -Wall -Wextra -Werror
 
 all: $(NAME)
+	@echo "\033[0;32mlibft compiled successful\033[0m"
 
 $(NAME): $(OBJ_DIR) $(OBJS)
 	ar rcs $(NAME) $(OBJS)
@@ -31,7 +30,6 @@ $(OBJ_DIR)%.o: %.c | $(OBJ_DIR)
 
 $(OBJ_DIR):
 	@mkdir -p $(OBJ_DIR)
-	@echo "OBJ_DIR DONE"
 
 bonus: $(OBJ_DIR) $(BONUS_OBJS)
 	ar rcs $(NAME) $(BONUS_OBJS)
@@ -40,6 +38,7 @@ clean:
 	rm -f $(OBJS) $(BONUS_OBJS)
 
 fclean: clean
+	rm -rf $(OBJ_DIR)
 	rm -f $(NAME)
 
 re: fclean all
