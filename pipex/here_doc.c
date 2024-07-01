@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 20:14:14 by isemin            #+#    #+#             */
-/*   Updated: 2024/05/01 21:46:12 by isemin           ###   ########.fr       */
+/*   Updated: 2024/07/01 09:39:51 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,12 @@ static char	*create_here_doc(void)
 	char	*here_doc_file;
 	char	*base_file_name;
 	int		extension_code;
-	char	extension;
+	char	*extension;
 
 	extension_code = 0;
 	extension = ft_itoa(extension_code);
 	base_file_name = ".here_doc_temp_";
-	here_doc_file = ft_strjoin(base_file_name, ft_itoa(extension_code));
+	here_doc_file = ft_strjoin(base_file_name, extension);
 	free(extension);
 	while (access(here_doc_file, F_OK) == 0)
 	{
@@ -102,7 +102,7 @@ int	here_doc(int argc, char **argv, char **env_paths, char **envp)
 		status = execute_args_h_doc(argc - 1, new_argv, env_paths, envp);
 	unlink(here_doc_file);
 	free(here_doc_file);
-	free(new_argv);
+	//free(new_argv);
 	if (new_argv == NULL)
 		return (EXIT_FAILURE);
 	free(new_argv);
