@@ -22,8 +22,8 @@ all: $(NAME)
 	@echo "all DONE"
 
 $(NAME): ${OBJ_DIR} $(OBJS)
-	make all bonus -C ./libft/
-	$(CC) $(CFLAGS) $(OBJS) libft/libft.a -o ${NAME}
+	make all bonus -C ./../libft/
+	$(CC) $(CFLAGS) $(OBJS) ../libft/libft.a -o ${NAME}
 
 $(OBJ_DIR)%.o: %.c | obj
 	$(CC) $(CFLAGS) -g -c $< -o $@
@@ -33,15 +33,15 @@ $(OBJ_DIR):
 	@echo "OBJ_DIR DONE"
 
 bonus: fclean $(B_OBJS)
-	make all bonus -C ./libft/
-	$(CC) $(CFLAGS) $(B_OBJS) libft/libft.a -o ${NAME}
+	make all bonus -C ./../libft/
+	$(CC) $(CFLAGS) $(B_OBJS) ../libft/libft.a -o ${NAME}
 
 clean:
-	make clean -C ./libft/
+	make clean -C ./../libft/
 	rm -f $(OBJS) $(B_OBJS)
 
 fclean: clean
-	make fclean -C ./libft/
+	make fclean -C ./../libft/
 	rm -f $(NAME)
 
 re: fclean all
