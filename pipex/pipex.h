@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/16 00:24:50 by isemin            #+#    #+#             */
-/*   Updated: 2024/04/28 23:39:28 by isemin           ###   ########.fr       */
+/*   Updated: 2024/07/01 09:24:40 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 # include <stdio.h>
 # include <sys/wait.h>
 # include <fcntl.h>
-# include "libft/libft.h"
+# include "../libft/libft.h"
 
 # ifndef READ_END
 #  define READ_END 0
