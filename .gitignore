@@ -1,4 +1,6 @@
 # project executables
+minishell
+asd.c
 
 # macOS system files
 .DS_Store

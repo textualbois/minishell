@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/16 00:24:50 by isemin            #+#    #+#             */
-/*   Updated: 2024/07/01 09:24:40 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/07/03 15:08:28 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,8 +86,5 @@ int		here_doc(int argc, char **argv, char **env_paths, char **envp);
 
 // get_next_line.c
 char	*get_next_line(int fd, int clear_stash);
-
-//debug.c
-void	debug(const char *msg, char *file_name);
 
 #endif
