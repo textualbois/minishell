@@ -6,7 +6,7 @@
 #    By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/01 09:20:11 by mrusu             #+#    #+#              #
-#    Updated: 2024/07/01 15:35:55 by mrusu            ###   ########.fr        #
+#    Updated: 2024/07/05 16:14:08 by mrusu            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,6 +34,13 @@ NAME = minishell
 HEADER = $(INC_DIR)/minishell.h
 
 # LIST OF SOURCE FILES
+#$(SRC_DIR)/parse/token.c 
+#$(SRC_DIR)/parse/parse.c 
+#$(SRC_DIR)/builtins/builtins0.c $(SRC_DIR)/builtins/builtins1.c
+#		$(SRC_DIR)/exec/exec0.c $(SRC_DIR)/exec/exec1.c
+#		$(SRC_DIR)/error/error.c 
+#		$(SRC_DIR)/signal/signals.c 
+#		$(SRC_DIR)/utile/utiles0.c
 SRC = $(SRC_DIR)/main.c 
 OBJS = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC))
 

@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 13:43:41 by mrusu             #+#    #+#             */
-/*   Updated: 2024/07/03 17:20:22 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/07/05 16:09:42 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	display_prompt(void)
 {
-	printf(GREEN "minishell> " RESET);
+	printf(GREEN "minishell$ " RESET);
 }
 
 char	*read_input(void)
@@ -47,7 +47,7 @@ void	print_welcome_msg(void)
 	printf("\n\n");
 }
 
-int	loop(void)
+int	loop(t_data *data)
 {
 	char	*input;
 
@@ -58,13 +58,25 @@ int	loop(void)
 		printf("\nExiting minishell. Goodbye!\n");
 		return (0);
 	}
-	free(input);
+	// if (!tokenize(data, input))
+	// {
+	// 	free(input);
+	// 	return (ft_error(data, 1));
+	// }
+	// for (int i =0; i< data->token_count; i++) //debug
+	// {
+	// 	printf("Token %d: Type %d, Value: %s\n", i, data->tokens[i].type, data->tokens[i].value);
+	// }
+	// // todo: app parsing and execution steps
+	// free(input);
+	// // todo: free tokens
+	(void)data;
 	return (1);
 }
 
 int	main(int ac, char *av[], char *env[])
 {
-//	t_data	data;
+	t_data	data;
 
 	if (ac != 1 || av[1])
 	{
@@ -73,7 +85,7 @@ int	main(int ac, char *av[], char *env[])
 	}
 	//init_data(&data, env);
 	print_welcome_msg();
-	while (loop())
+	while (loop(&data))
 		;
 	(void)ac;
 	(void)av;
