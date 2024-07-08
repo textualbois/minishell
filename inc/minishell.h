@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
+/*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 13:17:13 by mrusu             #+#    #+#             */
-/*   Updated: 2024/07/05 16:09:14 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/07/08 15:51:56 by isemin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@
 typedef enum e_tokentype
 {
 	T_WORD, // word
-	T_PIPE, // | 
+	T_PIPE, // |
 	T_REDIRECT_IN, // <
 	T_REDIRECT_OUT, // >
 	T_REDIRECT_APPEND, // >>
@@ -50,6 +50,16 @@ typedef enum e_tokentype
 }	t_tokentype;
 
 // **********************====STRUCT====*********************
+
+// main shell object
+typedef struct s_shell //todo
+{
+	char	*terminal_prompt;
+	char	*input_prompt;
+	int		exit_code;
+	char	**env;
+}	t_shell;
+
 // Strucutre for token
 typedef struct s_token
 {
@@ -89,6 +99,22 @@ typedef struct s_data
 // **********************====FUNCTION DECLARATION====*********************
 // main.c
 
+//loop
+//loop.c
+int		shell_loop(t_shell	*shell);
+void	*ft_readline(t_shell *shell);
+
+// setup
+// init_shell.c
+void	init_shell(t_shell *shell, char **env);
+
+// env.c
+char	*ft_getenv(void);
+
+// prompts
+// terminal_prompt.c
+void	form_prompt(t_shell *shell);
+
 // utile
 // ---utiles0.c
 char	**ft_arrdup(char **arr);
@@ -97,10 +123,10 @@ char	**ft_arrdup(char **arr);
 int		ft_error(t_data *data, int error_code);
 int		syntax_error(void);
 
-void display_prompt(void);
-char *read_input(void);
-void print_welcome_msg(void);
-int loop(t_data *data);
+void	display_prompt(void);
+char	*read_input(void);
+void	print_welcome_msg(void);
+int		loop(t_data *data);
 
 
 
