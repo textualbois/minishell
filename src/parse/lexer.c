@@ -1,0 +1,86 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   lexer.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/09 15:34:33 by mrusu             #+#    #+#             */
+/*   Updated: 2024/07/09 17:50:44 by mrusu            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../inc/minishell.h"
+
+t_tokentype	get_token_type(char *str)
+{
+	if (ft_strncmp(str, "|", 1) == 0)
+		return (T_PIPE);
+	else if (ft_strncmp(str, "<", 1) == 0)
+		return (T_REDIRECT_IN);
+	else if (ft_strncmp(str, ">", 1) == 0)
+		return (T_REDIRECT_OUT);
+	else if (ft_strncmp(str, "<<", 2) == 0)
+		return (T_REDIRECT_APPEND);
+	else if (ft_strncmp(str, ">>", 2) == 0)
+		return (T_HEREDOC);
+	else
+		return (T_WORD);
+}
+
+void	add_token(t_data *data, t_tokentype type, char *value)
+{
+	int		i;
+	t_token	*new_tokens;
+
+	i = -1;
+	new_tokens = malloc(sizeof(t_token) * (data->token_count + 1));
+	if(!new_tokens)
+	{
+		perror("malloc failed in add_token");
+		exit(1);
+	}
+	while (++i < data->token_count)
+	{
+		new_tokens[i] = data->tokens[i];
+	}
+	new_tokens[i].type = type;
+	new_tokens[i].value = value;
+	free(data->tokens);
+	data->tokens = new_tokens;
+	data->token_count++;
+}
+
+int	tokenize(t_data *data, char *input)
+{
+	size_t	i;
+	size_t	start;
+
+	start = 0;
+	i = -1;
+	data->tokens = NULL;
+	data->token_count = 0;
+	while (input[i])
+	{
+		while (input[i] && ft_isspace(input[i]))
+			i++;
+		if (!input[i])
+			break ;
+		start = i;
+		if (ft_is_special_char(input[i]))
+		{
+			if (ft_strncmp(input + i, "<<", 2) == 0 || ft_strncmp(input + i, ">>", 2))
+				i += 2;
+			else
+				i++;
+		}
+		else
+		{
+			while (input[i] && !ft_isspace(input[i]) && !ft_is_special_char(input[i]))
+				i++;
+		}
+		if (i > start)
+			add_token(data, get_token_type(input + start), ft_substr(input, start, i - start));
+	}
+	return (1);
+}

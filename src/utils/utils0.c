@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 13:22:09 by mrusu             #+#    #+#             */
-/*   Updated: 2024/07/08 13:27:07 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/07/09 17:47:58 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,4 +38,14 @@ char	**ft_arrdup(char **arr)
 	}
 	new_arr[i] = NULL;
 	return (new_arr);
+}
+
+int	ft_isspace(char c)
+{
+	return (c == ' ' || c == '\t' || c == '\n' || c == '\v' || c == '\f');
+}
+
+int	ft_is_special_char(char c)
+{
+	return (c == '|' || c == '<' || c == '>');
 }

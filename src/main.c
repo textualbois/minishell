@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 13:43:41 by mrusu             #+#    #+#             */
-/*   Updated: 2024/07/05 16:09:42 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/07/09 17:46:38 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,6 @@
 void	display_prompt(void)
 {
 	printf(GREEN "minishell$ " RESET);
-}
-
-char	*read_input(void)
-{
-	char	*line;
-	size_t	bufsize;
-
-	line = NULL;
-	bufsize = 0;
-	getline(&line, &bufsize, stdin);
-	return (line);
 }
 
 void	print_welcome_msg(void)
@@ -47,46 +36,18 @@ void	print_welcome_msg(void)
 	printf("\n\n");
 }
 
-int	loop(t_data *data)
-{
-	char	*input;
-
-	display_prompt();
-	input = read_input();
-	if (!input)
-	{
-		printf("\nExiting minishell. Goodbye!\n");
-		return (0);
-	}
-	// if (!tokenize(data, input))
-	// {
-	// 	free(input);
-	// 	return (ft_error(data, 1));
-	// }
-	// for (int i =0; i< data->token_count; i++) //debug
-	// {
-	// 	printf("Token %d: Type %d, Value: %s\n", i, data->tokens[i].type, data->tokens[i].value);
-	// }
-	// // todo: app parsing and execution steps
-	// free(input);
-	// // todo: free tokens
-	(void)data;
-	return (1);
-}
-
 int	main(int ac, char *av[], char *env[])
 {
-	t_data	data;
+	t_shell	shell;
 
 	if (ac != 1 || av[1])
 	{
 		printf(RED"I don't want to argue, no arguments!\n"RESET);
 		exit(1);
 	}
-	//init_data(&data, env);
+	// init_shell(&shell, env);
 	print_welcome_msg();
-	while (loop(&data))
-		;
+	shell_loop(&shell);
 	(void)ac;
 	(void)av;
 	(void)env;

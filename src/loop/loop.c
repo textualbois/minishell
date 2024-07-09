@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   loop.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 14:02:02 by isemin            #+#    #+#             */
-/*   Updated: 2024/07/08 15:48:21 by isemin           ###   ########.fr       */
+/*   Updated: 2024/07/09 17:15:14 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,28 @@
 
 int	shell_loop(t_shell	*shell)
 {
+	t_data	data;
 	while (true)
 	{
 		form_prompt(shell);
-		while (ft_readline(shell) == NULL) //should be null on ctrl+d
+		if (ft_readline(shell) == NULL) //should be null on ctrl+d
 			break ;
+		if (!tokenize(&data, shell->input_prompt))
+		{
+			free(shell->input_prompt);
+			return (ft_error(&data, 1));
+		}
+		for (int i = 0; i < data.token_count; i++) // debug
+		{
+			printf("token %d: %s\n", i, data.tokens[i].value);
+		}
+		// parsing adn exewcution
 		printf("doing stuff with input:\n");
+		// free(shell->input_prompt);
+		// free(data.tokens);
 		printf("%s\n", shell->input_prompt);
 	}
+	return (0);
 }
 
 //readline works if stdin has not been redirected or messed with
