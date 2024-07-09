@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 16:29:47 by mrusu             #+#    #+#             */
-/*   Updated: 2024/07/05 16:08:18 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/07/08 16:04:04 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,17 +20,21 @@ void	add_token(t_data *data, char *value, t_tokentype type)
 	data->token_count++;
 }
 
-int	tokenize(t_data *data, char *input) {
+int	tokenize(t_data *data, char *input)
+{
 	int i = 0;
 	char buffer[1024];
 	int buf_index = 0;
 
-    while (input[i]) {
-        if (is_special_char(input[i])) {
-            if (buf_index > 0) {
-                buffer[buf_index] = '\0';
-                add_token(data, buffer, T_WORD);
-                buf_index = 0;
+	while (input[i])
+	{
+		if (is_special_char(input[i]))
+		{
+			if (buf_index > 0)
+			{
+				buffer[buf_index] = '\0';
+				add_token(data, buffer, T_WORD);
+				buf_index = 0;
             }
             if (input[i] == '|')
                 add_token(data, "|", T_PIPE);
