@@ -6,7 +6,7 @@
 /*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 13:30:39 by isemin            #+#    #+#             */
-/*   Updated: 2024/07/08 13:59:50 by isemin           ###   ########.fr       */
+/*   Updated: 2024/07/09 15:42:21 by isemin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@ void	init_shell(t_shell *shell, char **env) //should init the shell
 	}
 	else
 	{
-		// todo get some stuff from the default env
+		shell->env = env;
+		shell->user = getenv("USER");
 	}
 	// here stuff that need to be done either way
 	shell->terminal_prompt = NULL;
-
 }
