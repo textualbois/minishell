@@ -1,6 +1,6 @@
 NAME = pipex.a
 
-SRCS = executioner.c utils.c utils2.c \
+SRCS = executioner.c utils.c utils2.c pipex.c\
 		get_path.c manage_fd.c manage_fd_helpers.c \
 		here_doc.c gnl.c error.c command_parser.c
 

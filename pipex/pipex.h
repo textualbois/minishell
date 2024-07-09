@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
+/*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/16 00:24:50 by isemin            #+#    #+#             */
-/*   Updated: 2024/07/03 15:08:28 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/07/09 15:34:58 by isemin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,9 @@
 # ifndef ANY_CHILD
 #  define ANY_CHILD -1
 # endif
+
+// pipex.c
+int		pipex(int argc, char **argv, char **envp);
 
 // get_path.c
 char	**get_path(char **envp);
