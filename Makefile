@@ -3,12 +3,15 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+         #
+#    By: isemin <isemin@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/01 09:20:11 by mrusu             #+#    #+#              #
-#    Updated: 2024/07/05 16:14:08 by mrusu            ###   ########.fr        #
+#    Updated: 2024/07/09 15:58:20 by isemin           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
+
+# vars
+USER = $(shell whoami)
 
 # COMPILER
 CC = cc
@@ -34,14 +37,14 @@ NAME = minishell
 HEADER = $(INC_DIR)/minishell.h
 
 # LIST OF SOURCE FILES
-#$(SRC_DIR)/parse/token.c 
-#$(SRC_DIR)/parse/parse.c 
+#$(SRC_DIR)/parse/token.c
+#$(SRC_DIR)/parse/parse.c
 #$(SRC_DIR)/builtins/builtins0.c $(SRC_DIR)/builtins/builtins1.c
 #		$(SRC_DIR)/exec/exec0.c $(SRC_DIR)/exec/exec1.c
-#		$(SRC_DIR)/error/error.c 
-#		$(SRC_DIR)/signal/signals.c 
+#		$(SRC_DIR)/error/error.c
+#		$(SRC_DIR)/signal/signals.c
 #		$(SRC_DIR)/utile/utiles0.c
-SRC = $(SRC_DIR)/main.c 
+SRC = $(SRC_DIR)/main.c
 OBJS = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC))
 
 # ALL RULE
@@ -58,6 +61,8 @@ pipex:
 
 $(NAME): $(OBJS) $(LIBFT_DIR)/libft.a $(PIPEX_DIR)/pipex.a
 	@$(CC) $(FLAGS) -I$(INC_DIR) $(OBJS) $(LIBFT_DIR)/libft.a $(PIPEX_DIR)/pipex.a -o $(NAME)
+	@rm -r obj/general_utils
+	@cd obj/general_utils && touch user.txt && echo $$USER > user.txt
 
 # RULES FOR CREATING OBJECT FILES
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(HEADER)
