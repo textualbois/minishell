@@ -6,7 +6,7 @@
 /*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 13:30:39 by isemin            #+#    #+#             */
-/*   Updated: 2024/07/09 15:59:59 by isemin           ###   ########.fr       */
+/*   Updated: 2024/07/09 16:04:42 by isemin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ void	init_shell(t_shell *shell, char **env) //should init the shell
 	{
 		shell->env = env;
 		shell->user = getenv("USER");
+		shell->cmd_paths = get_path(env);
 	}
 	// here stuff that need to be done either way
 	shell->terminal_prompt = NULL;

@@ -6,7 +6,7 @@
 /*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 15:32:24 by isemin            #+#    #+#             */
-/*   Updated: 2024/07/09 15:41:11 by isemin           ###   ########.fr       */
+/*   Updated: 2024/07/09 16:04:40 by isemin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,15 @@ typedef enum e_tokentype
 typedef struct s_shell //todo
 {
 	char	*terminal_prompt;
-	char	*input_prompt;
+	char	*raw_input;
 	int		exit_code;
 	char	*user;
 	char	**env;
+	char	*heredoc;
+	char	*last_input;
+	int		stdio_fds[2];
+	char	*raw_input;
+	char	**cmd_paths;
 }	t_shell;
 
 // Strucutre for token
