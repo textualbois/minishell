@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
+/*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 13:17:13 by mrusu             #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2024/07/10 17:49:00 by mrusu            ###   ########.fr       */
+=======
+/*   Updated: 2024/07/10 17:47:21 by isemin           ###   ########.fr       */
+>>>>>>> 288ef6c3d7bc66609de97f2c4a37bb4a02923234
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +89,11 @@ int			parse(t_shell *shell);
 void		free_commands(t_shell *shell);
 void		print_commands(t_shell *shell);
 void		free_tokens(t_shell *shell);
+
+
+// pipex_wrapper
+// ---input_formatting.c
+int			package_pipex(t_shell *shell);
 
 
 #endif
