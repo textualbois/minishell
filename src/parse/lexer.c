@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 15:34:33 by mrusu             #+#    #+#             */
-/*   Updated: 2024/07/10 10:58:24 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/07/10 13:34:52 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int	tokenize(t_shell *shell, char *input)
 		start = i;
 		if (ft_is_special_char(input[i]))
 		{
-			if (ft_strncmp(input + i, "<<", 2) == 0 || ft_strncmp(input + i, ">>", 2))
+			if (ft_strncmp(input + i, "<<", 2) == 0 || ft_strncmp(input + i, ">>", 2) == 0)
 				i += 2;
 			else
 				i++;

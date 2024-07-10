@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 14:02:02 by isemin            #+#    #+#             */
-/*   Updated: 2024/07/10 11:06:03 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/07/10 13:54:18 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,15 +24,25 @@ int	shell_loop(t_shell	*shell)
 			free(shell->raw_input);
 			return (ft_error(shell, 1));
 		}
+		if(!parse(shell))
+		{
+			free(shell->raw_input);
+			free_tokens(shell);
+			return (ft_error(shell, 2));
+		}
 		for (int i = 0; i < shell->token_count; i++) // debug
 		{
 			printf("token %d: %s\n", i, shell->tokens[i].value);
 		}
-		// parsing adn exewcution
-		printf("doing stuff with input:\n");
-		// free(shell->raw_input);
-		// free(data.tokens);
-		printf("%s\n", shell->raw_input);
+		//execute_commands(shell); // execut parsed cmd
+		free(shell->raw_input);
+		free_tokens(shell);
+		int i =-1;
+		while (++i < shell->commands[i])
+		{
+			free(shell->commands[i]);
+		}
+		free(shell->commands);
 	}
 	return (0);
 }
@@ -49,5 +59,7 @@ void	*ft_readline(t_shell *shell) //readline works if stdin has not been redirec
 		printf("readline gave null\n");
 		return (NULL);
 	}
+	// if (*(shell->raw_input) != 0)
+	// 	add_history(shell->raw_input);
 	return ((void *)1);
 }

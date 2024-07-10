@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 13:43:41 by mrusu             #+#    #+#             */
-/*   Updated: 2024/07/09 17:46:38 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/07/10 13:48:24 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	main(int ac, char *av[], char *env[])
 		printf(RED"I don't want to argue, no arguments!\n"RESET);
 		exit(1);
 	}
-	// init_shell(&shell, env);
+	init_shell(&shell, env);
 	print_welcome_msg();
 	shell_loop(&shell);
 	(void)ac;
