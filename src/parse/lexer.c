@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 15:34:33 by mrusu             #+#    #+#             */
-/*   Updated: 2024/07/10 13:34:52 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/07/10 17:18:13 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@ t_tokentype	get_token_type(char *str)
 	else if (ft_strncmp(str, ">", 1) == 0)
 		return (T_REDIRECT_OUT);
 	else if (ft_strncmp(str, "<<", 2) == 0)
-		return (T_REDIRECT_APPEND);
-	else if (ft_strncmp(str, ">>", 2) == 0)
 		return (T_HEREDOC);
+	else if (ft_strncmp(str, ">>", 2) == 0)
+		return (T_REDIRECT_APPEND);
 	else
 		return (T_WORD);
 }
@@ -35,7 +35,7 @@ void	add_token(t_shell *shell, t_tokentype type, char *value)
 
 	i = -1;
 	new_tokens = malloc(sizeof(t_token) * (shell->token_count + 1));
-	if(!new_tokens)
+	if (!new_tokens)
 	{
 		perror("malloc failed in add_token");
 		exit(1);
@@ -82,5 +82,22 @@ int	tokenize(t_shell *shell, char *input)
 		if (i > start)
 			add_token(shell, get_token_type(input + start), ft_substr(input, start, i - start));
 	}
-	return (1);
+	return (0);
+}
+
+char	**tokens_to_argv(t_shell *shell)
+{
+	char	**argv;
+	int		i;
+
+	i = -1;
+	argv = malloc(sizeof(char *) * (shell->token_count + 1));
+	if (!argv)
+		return (NULL);
+	while (++i < shell->token_count)
+	{
+		argv[i] = shell->tokens[i].value;
+	}
+	argv[shell->token_count] = NULL;
+	return (argv);
 }

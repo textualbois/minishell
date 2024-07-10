@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 13:17:13 by mrusu             #+#    #+#             */
-/*   Updated: 2024/07/10 13:04:56 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/07/10 17:49:00 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <stdbool.h>
 # include <errno.h>
 # include <readline/readline.h>
+# include <readline/history.h>
 
 // own lib's
 # include "../libft/libft.h"
@@ -77,5 +78,13 @@ void	print_welcome_msg(void);
 t_tokentype	get_token_type(char *str);
 void		add_token(t_shell *shell, t_tokentype type, char *value);
 int			tokenize(t_shell *shell, char *input);
+char		**tokens_to_argv(t_shell *shell);
+
+// ---parse.c
+int			parse(t_shell *shell);
+void		free_commands(t_shell *shell);
+void		print_commands(t_shell *shell);
+void		free_tokens(t_shell *shell);
+
 
 #endif
