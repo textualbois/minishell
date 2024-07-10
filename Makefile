@@ -6,7 +6,7 @@
 #    By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/01 09:20:11 by mrusu             #+#    #+#              #
-#    Updated: 2024/07/09 17:45:50 by mrusu            ###   ########.fr        #
+#    Updated: 2024/07/10 12:23:31 by mrusu            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,7 +37,16 @@ NAME = minishell
 HEADER = $(INC_DIR)/minishell.h
 
 # LIST OF SOURCE FILES
-SRC = $(SRC_DIR)/main.c $(SRC_DIR)/loop/loop.c
+SRC = $(SRC_DIR)/main.c \
+	$(SRC_DIR)/loop/loop.c \
+	$(SRC_DIR)/exec/exec0.c \
+	$(SRC_DIR)/parse/parse.c $(SRC_DIR)/parse/lexer.c $(SRC_DIR)/parse/token.c \
+	$(SRC_DIR)/prompts/terminal_prompt.c \
+	$(SRC_DIR)/setup/env.c $(SRC_DIR)/setup/init_shell.c \
+	$(SRC_DIR)/utils/utils0.c \
+	$(SRC_DIR)/error/error.c
+
+# OBJ FILES
 OBJS = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC))
 
 # ALL RULE
@@ -53,9 +62,10 @@ pipex:
 	@$(MAKE) -C $(PIPEX_DIR)
 
 $(NAME): $(OBJS) $(LIBFT_DIR)/libft.a $(PIPEX_DIR)/pipex.a
+	@mkdir -p obj/general_utils
 	@$(CC) $(FLAGS) -I$(INC_DIR) $(OBJS) $(LIBFT_DIR)/libft.a $(PIPEX_DIR)/pipex.a -o $(NAME)
 	@rm -r obj/general_utils
-	@cd obj/general_utils && touch user.txt && echo $$USER > user.txt
+	@touch obj/general_utils/user.txt && echo $$USER > obj/general_utils/user.txt
 
 # RULES FOR CREATING OBJECT FILES
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(HEADER)

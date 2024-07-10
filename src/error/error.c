@@ -6,13 +6,13 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 17:17:47 by mrusu             #+#    #+#             */
-/*   Updated: 2024/07/05 16:01:00 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/07/10 12:06:42 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-int	ft_error(t_data *data, int error_code)
+int	ft_error(t_shell *shell, int error_code)
 {
 	ft_putstr_fd("minishell: ", STDERR_FILENO);
 	if (error_code == 0)
@@ -29,7 +29,8 @@ int	ft_error(t_data *data, int error_code)
 		ft_putstr_fd("error 5\n", STDERR_FILENO);
 	else if (error_code == 6)
 		ft_putstr_fd("error 6\n", STDERR_FILENO);
-	clean(data);
+	//clean(shell);
+	(void)shell;
 	return (1);
 }
 

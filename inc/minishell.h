@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 13:17:13 by mrusu             #+#    #+#             */
-/*   Updated: 2024/07/09 17:57:35 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/07/10 10:57:16 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,6 @@
 
 // Typdef
 
-
-
 // **********************====FUNCTION DECLARATION====*********************
 // main.c
 
@@ -66,7 +64,7 @@ int		ft_isspace(char c);
 int		ft_is_special_char(char c);
 // error
 // ---error.c
-int		ft_error(t_data *data, int error_code);
+int		ft_error(t_shell *shell, int error_code);
 int		syntax_error(void);
 
 // prompts
@@ -77,8 +75,7 @@ void	print_welcome_msg(void);
 // parse
 // ---lexer.c
 t_tokentype	get_token_type(char *str);
-void	add_token(t_data *data, t_tokentype type, char *value);
-int		tokenize(t_data *data, char *input);
-
+void		add_token(t_shell *shell, t_tokentype type, char *value);
+int			tokenize(t_shell *shell, char *input);
 
 #endif

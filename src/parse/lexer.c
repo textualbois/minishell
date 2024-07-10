@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 15:34:33 by mrusu             #+#    #+#             */
-/*   Updated: 2024/07/09 17:50:44 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/07/10 10:58:24 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,38 +28,38 @@ t_tokentype	get_token_type(char *str)
 		return (T_WORD);
 }
 
-void	add_token(t_data *data, t_tokentype type, char *value)
+void	add_token(t_shell *shell, t_tokentype type, char *value)
 {
 	int		i;
 	t_token	*new_tokens;
 
 	i = -1;
-	new_tokens = malloc(sizeof(t_token) * (data->token_count + 1));
+	new_tokens = malloc(sizeof(t_token) * (shell->token_count + 1));
 	if(!new_tokens)
 	{
 		perror("malloc failed in add_token");
 		exit(1);
 	}
-	while (++i < data->token_count)
+	while (++i < shell->token_count)
 	{
-		new_tokens[i] = data->tokens[i];
+		new_tokens[i] = shell->tokens[i];
 	}
 	new_tokens[i].type = type;
 	new_tokens[i].value = value;
-	free(data->tokens);
-	data->tokens = new_tokens;
-	data->token_count++;
+	free(shell->tokens);
+	shell->tokens = new_tokens;
+	shell->token_count++;
 }
 
-int	tokenize(t_data *data, char *input)
+int	tokenize(t_shell *shell, char *input)
 {
 	size_t	i;
 	size_t	start;
 
 	start = 0;
 	i = -1;
-	data->tokens = NULL;
-	data->token_count = 0;
+	shell->tokens = NULL;
+	shell->token_count = 0;
 	while (input[i])
 	{
 		while (input[i] && ft_isspace(input[i]))
@@ -80,7 +80,7 @@ int	tokenize(t_data *data, char *input)
 				i++;
 		}
 		if (i > start)
-			add_token(data, get_token_type(input + start), ft_substr(input, start, i - start));
+			add_token(shell, get_token_type(input + start), ft_substr(input, start, i - start));
 	}
 	return (1);
 }

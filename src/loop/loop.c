@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 14:02:02 by isemin            #+#    #+#             */
-/*   Updated: 2024/07/09 17:15:14 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/07/10 11:06:03 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,26 +14,25 @@
 
 int	shell_loop(t_shell	*shell)
 {
-	t_data	data;
 	while (true)
 	{
 		form_prompt(shell);
 		if (ft_readline(shell) == NULL) //should be null on ctrl+d
 			break ;
-		if (!tokenize(&data, shell->input_prompt))
+		if (!tokenize(shell, shell->raw_input))
 		{
-			free(shell->input_prompt);
-			return (ft_error(&data, 1));
+			free(shell->raw_input);
+			return (ft_error(shell, 1));
 		}
-		for (int i = 0; i < data.token_count; i++) // debug
+		for (int i = 0; i < shell->token_count; i++) // debug
 		{
-			printf("token %d: %s\n", i, data.tokens[i].value);
+			printf("token %d: %s\n", i, shell->tokens[i].value);
 		}
 		// parsing adn exewcution
 		printf("doing stuff with input:\n");
-		// free(shell->input_prompt);
+		// free(shell->raw_input);
 		// free(data.tokens);
-		printf("%s\n", shell->input_prompt);
+		printf("%s\n", shell->raw_input);
 	}
 	return (0);
 }
@@ -44,8 +43,8 @@ void	*ft_readline(t_shell *shell) //readline works if stdin has not been redirec
 {
 	//char	*line;
 
-	shell->input_prompt = readline(shell->terminal_prompt); //shows prompt and reads line
-	if (shell->input_prompt == NULL)
+	shell->raw_input = readline(shell->terminal_prompt); //shows prompt and reads line
+	if (shell->raw_input == NULL)
 	{
 		printf("readline gave null\n");
 		return (NULL);

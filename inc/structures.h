@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   structures.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 15:32:24 by isemin            #+#    #+#             */
-/*   Updated: 2024/07/09 16:04:40 by isemin           ###   ########.fr       */
+/*   Updated: 2024/07/10 11:03:30 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 // Forward declaration of structs
+typedef struct s_token		t_token;
+typedef struct s_command	t_command;
 
 // code for tokentype
 typedef enum e_tokentype
@@ -36,8 +38,17 @@ typedef struct s_shell //todo
 	char	*heredoc;
 	char	*last_input;
 	int		stdio_fds[2];
-	char	*raw_input;
 	char	**cmd_paths;
+
+    // Additional fields from t_data
+	char		**path;
+	char		*pwd;
+	int			pipes;
+	int			*pid;
+	int			token_count;
+	int			command_count; // keep track of number of commands in current pipe
+	t_token		*tokens;
+	t_command	**commands;
 }	t_shell;
 
 // Strucutre for token
@@ -58,20 +69,3 @@ typedef struct s_command
 	int		pipe_in; //store fd for in
 	int		pipe_out; // for out
 }	t_command;
-
-// Strucutre for data
-typedef struct s_data
-{
-	char		**av;
-	char		**env;
-	char		**path;
-	char		*pwd;
-	int			pipes;
-	int			*pid;
-	int			token_count;
-	int			command_count; // keep track of number of commands in curent pipe
-	int			exit_status; //store exit status for $?
-	char		*input_line; // store original input line , for error or history
-	t_token		*tokens;
-	t_command	**commands;
-}	t_data;
