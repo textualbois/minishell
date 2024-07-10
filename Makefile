@@ -3,21 +3,53 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+         #
+#    By: isemin <isemin@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/01 09:20:11 by mrusu             #+#    #+#              #
-#    Updated: 2024/07/10 12:23:31 by mrusu            ###   ########.fr        #
+#    Updated: 2024/07/10 14:03:42 by isemin           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # vars
 USER = $(shell whoami)
 
+# requisites helpers
+
+INC_RDL_HEADER = -I /Users/$(USER)/.brew/opt/readline/include
+INC_RDL_LIB	= -L /Users/$(USER)/.brew/opt/readline/lib -lreadline
+
+#-L/usr/local/opt/readline/lib -lreadline
+
+BREW_DIR = /Users/$(USER)/.brew/bin
+READLINE_DIR = /Users/$(USER)/.brew/opt/readline/include/readline
+
+READLINE_FLAG = -lreadline
+
+brew_check:
+	@if [ -d $(BREW_DIR) ]; then \
+		echo "BREW is already installed in $(BERW_DIR)"; \
+	else \
+		\
+			echo "Installing Homebrew..."; \
+			curl -fsSL https://rawgit.com/kube/42homebrew/master/install.sh | zsh; \
+	fi
+	@$(MAKE) readline_check
+
+readline_check:
+	@if [ -d $(READLINE_DIR) ]; then \
+		echo "READLINE is already installed in $(READLINE_DIR)"; \
+	else \
+			echo "Installing Readline..."; \
+			brew install readline; \
+	fi
+	@$(MAKE) all
+
 # COMPILER
 CC = cc
 
 # FLAGS FOR COMPILATION
 FLAGS = -Wall -Wextra -Werror -g #-Ofast -Wunreachable-code -fsanitize=address
+LFLAGS = READLINE_FLAG
 
 # COLORS
 GREEN = \033[0;32m
@@ -63,8 +95,7 @@ pipex:
 
 $(NAME): $(OBJS) $(LIBFT_DIR)/libft.a $(PIPEX_DIR)/pipex.a
 	@mkdir -p obj/general_utils
-	@$(CC) $(FLAGS) -I$(INC_DIR) $(OBJS) $(LIBFT_DIR)/libft.a $(PIPEX_DIR)/pipex.a -o $(NAME)
-	@rm -r obj/general_utils
+	@$(CC) $(FLAGS) -I$(INC_DIR) $(OBJS) $(LIBFT_DIR)/libft.a $(PIPEX_DIR)/pipex.a -o $(NAME) $(INC_RDL_LIB)
 	@touch obj/general_utils/user.txt && echo $$USER > obj/general_utils/user.txt
 
 # RULES FOR CREATING OBJECT FILES
