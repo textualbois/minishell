@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
+/*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 13:17:13 by mrusu             #+#    #+#             */
-/*   Updated: 2024/07/10 13:04:56 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/07/10 17:47:21 by isemin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,5 +77,10 @@ void	print_welcome_msg(void);
 t_tokentype	get_token_type(char *str);
 void		add_token(t_shell *shell, t_tokentype type, char *value);
 int			tokenize(t_shell *shell, char *input);
+
+// pipex_wrapper
+// ---input_formatting.c
+int			package_pipex(t_shell *shell);
+
 
 #endif

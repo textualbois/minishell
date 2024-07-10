@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structures.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
+/*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 15:32:24 by isemin            #+#    #+#             */
-/*   Updated: 2024/07/10 11:03:30 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/07/10 17:47:25 by isemin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ typedef enum e_tokentype
 }	t_tokentype;
 
 // **********************====STRUCT====*********************
+
+typedef struct s_pipex;
 
 // main shell object
 typedef struct s_shell //todo
@@ -49,7 +51,19 @@ typedef struct s_shell //todo
 	int			command_count; // keep track of number of commands in current pipe
 	t_token		*tokens;
 	t_command	**commands;
+	t_pipex		**pipex;
 }	t_shell;
+
+typedef struct s_pipex
+{
+	int		fd_in;
+	int		fd_out;
+	int		is_heredoc;
+	char	*heredoc_delimiter;
+	int		append_output;
+	char	**cmds;
+	char	**flags;
+} t_pipex;
 
 // Strucutre for token
 typedef struct s_token
