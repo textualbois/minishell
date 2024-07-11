@@ -6,40 +6,60 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 14:02:02 by isemin            #+#    #+#             */
-/*   Updated: 2024/07/10 17:32:17 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/07/11 16:13:34 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-int	shell_loop(t_shell	*shell)
+int	shell_loop(t_shell *shell)
 {
-	char	**splitted_input;
-	int		i;
-	
-	
 	while (true)
 	{
 		form_prompt(shell);
-		if (ft_readline(shell) == NULL) //should be null on ctrl+d
+		if (ft_readline(shell) == NULL) // should be null on ctrl+d
+		{
+			printf("Exiting shell.\n");
 			break ;
-		printf("raw_input: %s\n", shell->raw_input);
-		splitted_input = ft_split(shell->raw_input, '|');
-		i = 0;
-		while (splitted_input[i])
-		{
-			printf("splitted_input[%d]: %s\n", i, splitted_input[i]);
-			i++;
 		}
-		if (tokenize(shell, shell->raw_input) == 0)
+		char *trimmed_input = shell->raw_input; // Trim leading whitespace
+		while (*trimmed_input && (*trimmed_input == ' ' || *trimmed_input == '\t'))
+			trimmed_input++;
+		if (*trimmed_input == '\0') // Skip empty input
 		{
-			if (parse(shell) == 0)
+			free(shell->raw_input);
+			continue ;
+		}
+		printf("raw_input: %s\n", trimmed_input);
+		int parse_result = parse(shell);
+		if (parse_result == 0)
+		{
+			printf("Tokenization result:\n");
+			for (int i = 0; i < shell->token_count; i++)
 			{
-				//execution here
+				printf("Token %d: Type = ", i);
+				if (shell->tokens[i].type == T_WORD)
+					printf("WORD");
+				else if (shell->tokens[i].type == T_PIPE)
+					printf("PIPE");
+				else if (shell->tokens[i].type == T_REDIRECT_IN)
+					printf("REDIRECT_IN");
+				else if (shell->tokens[i].type == T_REDIRECT_OUT)
+					printf("REDIRECT_OUT");
+				else if (shell->tokens[i].type == T_HEREDOC)
+					printf("HEREDOC");
+				else if (shell->tokens[i].type == T_REDIRECT_APPEND)
+					printf("REDIRECT_APPEND");
+				else
+					printf("UNKNOWN");
+				printf(", Value = '%s'\n", shell->tokens[i].value);
 			}
-			free_commands(shell);
-			free_tokens(shell);
 		}
+		else
+		{
+			printf("Parsing failed with error code: %d\n", parse_result);
+		}    
+		free_tokens(shell);
 		free(shell->raw_input);
 	}
 	return (0);

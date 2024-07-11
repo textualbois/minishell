@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 16:29:47 by mrusu             #+#    #+#             */
-/*   Updated: 2024/07/10 17:17:59 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/07/11 16:13:12 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,101 +14,51 @@
 
 int	parse(t_shell *shell)
 {
-	int			cmd_index;
-	int			i;
-	t_command	*cmd;
-
-	cmd_index = 0;
-	i = -1;
-	cmd = NULL;
-	shell->commands = malloc(sizeof(t_command) * (shell->token_count + 1));
-	if (!shell->commands)
-		return (1);
-	while (++i < shell->token_count)
+	 // Step 1: Check for quotes
+	printf("Entering parse function\n");
+	if (handle_quotes(shell) != 0)
 	{
-		if (shell->tokens[i].type == T_WORD)
-		{
-			if (!cmd)
-			{
-				cmd = malloc(sizeof(t_command));
-				if (!cmd)
-					return (1);
-				ft_memset(cmd, 0, sizeof(t_command));
-				shell->commands[cmd_index] = cmd;
-			}
-			if (!cmd->name)
-				cmd->name = ft_strdup(shell->tokens[i].value);
-			else
-			{
-				int arg_count = 0;
-				while (cmd->args && cmd->args[arg_count])
-					arg_count++;
-				cmd->args = realloc(cmd->args, sizeof(char *) * (arg_count + 2));
-				cmd->args[arg_count] = ft_strdup(shell->tokens[i].value);
-				cmd->args[arg_count + 1] = NULL;
-			}
-		}
-		else if (shell->tokens[i].type == T_PIPE)
-			cmd = NULL;
-		else if (shell->tokens[i].type == T_REDIRECT_IN)
-		{
-			if (i + 1 < shell->token_count && shell->tokens[i + 1].type == T_WORD)
-			{
-				if (cmd->input_file)
-					free(cmd->input_file);
-				cmd->input_file = ft_strdup(shell->tokens[++i].value);
-			}
-		}
-		else if (shell->tokens[i].type == T_REDIRECT_OUT || shell->tokens[i].type == T_REDIRECT_APPEND)
-		{
-			if (i + 1 < shell->token_count && shell->tokens[i + 1].type == T_WORD)
-			{
-				if (cmd->output_file)
-					free(cmd->output_file);
-				cmd->output_file = ft_strdup(shell->tokens[++i].value);
-				cmd->append_output = (shell->tokens[i - 1].type == T_REDIRECT_APPEND);
-			}
-		}
-		else if (shell->tokens[i].type == T_HEREDOC)
-		{
-			if (i + 1 < shell->token_count && shell->tokens[i + 1].type == T_WORD)
-			{
-				if (cmd->heredoc_delimiter)
-					free(cmd->heredoc_delimiter);
-				cmd->heredoc_delimiter = ft_strdup(shell->tokens[++i].value);
-			}
-		}
-		i++;
+		printf("Error: unmatched quotes\n");
+		return (1);
 	}
-	shell->commands[cmd_index] = NULL;
-	shell->command_count = cmd_index + 1;
+	printf("Quotes handled successfully\n");
+	// step 2: Tokenize
+	if (tokenize(shell, shell->raw_input) != 0)
+	{
+		printf("Error: tokenization failed\n");
+		return (1);
+	}
+	printf("Tokenization completed successfully\n");	
+	// step 3: create commands list from tokens
+	// if(create_commands(shell) != 0)
+	// {
+	// 	printf("Error: command creation failed\n");
+	// 	return (1);
+	// }
+	printf("Exiting parse function\n");
 	return (0);
 }
 
-void	free_commands(t_shell *shell)
+int	handle_quotes(t_shell *shell)
 {
-	int	i;
-	int	j;
+	char	*input;
+	int		single_quote;
+	int		double_quote;
 
-	i = -1;
-	j = -1;
-	while (++i < shell->token_count)
+	input = shell->raw_input;
+	single_quote = 0;
+	double_quote = 0;
+	while (*input)
 	{
-		if (shell->commands[i])
-		{
-			free(shell->commands[i]->name);
-			while (shell->commands[i]->args && shell->commands[i]->args[++j])
-				free(shell->commands[i]->args[j]);
-			free(shell->commands[i]->args);
-			free(shell->commands[i]->input_file);
-			free(shell->commands[i]->output_file);
-			free(shell->commands[i]->heredoc_delimiter);
-			free(shell->commands[i]);
-		}
+		if (*input == '\'' && !double_quote)
+			single_quote = !single_quote;
+		if (*input == '"' && !single_quote)
+			double_quote = !double_quote;
+		input++;
 	}
-	free(shell->commands);
-	shell->tokens = NULL;
-	shell->token_count = 0;
+	if (single_quote || double_quote)
+		return (1);
+	return (0);
 }
 
 void	free_tokens(t_shell *shell)

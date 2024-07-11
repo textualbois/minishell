@@ -3,16 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   structures.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 15:32:24 by isemin            #+#    #+#             */
-/*   Updated: 2024/07/10 17:47:25 by isemin           ###   ########.fr       */
+/*   Updated: 2024/07/11 16:00:34 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 // Forward declaration of structs
 typedef struct s_token		t_token;
 typedef struct s_command	t_command;
+typedef struct s_pipex		t_pipex;
+typedef struct s_shell		t_shell;
 
 // code for tokentype
 typedef enum e_tokentype
@@ -27,22 +29,18 @@ typedef enum e_tokentype
 
 // **********************====STRUCT====*********************
 
-typedef struct s_pipex;
-
 // main shell object
 typedef struct s_shell //todo
 {
-	char	*terminal_prompt;
-	char	*raw_input;
-	int		exit_code;
-	char	*user;
-	char	**env;
-	char	*heredoc;
-	char	*last_input;
-	int		stdio_fds[2];
-	char	**cmd_paths;
-
-    // Additional fields from t_data
+	char		*terminal_prompt;
+	char		*raw_input;
+	int			exit_code;
+	char		*user;
+	char		**env;
+	char		*heredoc;
+	char		*last_input;
+	int			stdio_fds[2];
+	char		**cmd_paths;
 	char		**path;
 	char		*pwd;
 	int			pipes;
@@ -63,7 +61,7 @@ typedef struct s_pipex
 	int		append_output;
 	char	**cmds;
 	char	**flags;
-} t_pipex;
+}	t_pipex;
 
 // Strucutre for token
 typedef struct s_token
