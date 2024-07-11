@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 15:34:33 by mrusu             #+#    #+#             */
-/*   Updated: 2024/07/11 15:54:58 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/07/11 16:33:22 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,14 @@ int	tokenize(t_shell *shell, char *input)
 	shell->token_count = 0;
 	quote_char = 0;
 	in_quote = 0;
-	while (input[i])
+	while (input[++i])
 	{
 		if ((input[i] == '\'' || input[i] == '"') && !in_quote)
 		{
 			if (i > start)
+			{
 				add_token(shell, T_WORD, ft_substr(input, start, i - start));
+			}
 			in_quote = 1;
 			quote_char = input[i];
 			start = i + 1;
@@ -60,7 +62,9 @@ int	tokenize(t_shell *shell, char *input)
 		else if (!in_quote && (ft_isspace(input[i]) || ft_is_special_char(input[i])))
 		{
 			if (i > start)
+			{
 				add_token(shell, get_token_type(input + start), ft_substr(input, start, i - start));
+			}
 			if (ft_is_special_char(input[i]))
 			{
 				if (input[i] == '>' && input[i + 1] == '>')
@@ -74,14 +78,17 @@ int	tokenize(t_shell *shell, char *input)
 					i++;
 				}
 				else
+				{
 					add_token(shell, get_token_type(input + i), ft_substr(input, i, 1));
+				}
 			}
 			start = i + 1;
 		}
-		i++;
 	}
 	if (i > start)
+	{
 		add_token(shell, T_WORD, ft_substr(input, start, i - start));
+	}
 	return (0);
 }
 
