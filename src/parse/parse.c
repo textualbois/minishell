@@ -6,17 +6,21 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 16:29:47 by mrusu             #+#    #+#             */
-/*   Updated: 2024/07/11 16:13:12 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/07/11 20:06:22 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
+/*
+* @ brief: Parses the raw input string, tokenizes it 
+*	and creates a list of commands.
+*/
 int	parse(t_shell *shell)
 {
 	 // Step 1: Check for quotes
 	printf("Entering parse function\n");
-	if (handle_quotes(shell) != 0)
+	if (quotes_check(shell) != 0)
 	{
 		printf("Error: unmatched quotes\n");
 		return (1);
@@ -39,7 +43,11 @@ int	parse(t_shell *shell)
 	return (0);
 }
 
-int	handle_quotes(t_shell *shell)
+/*
+* @ brief: Checks if there are unmatched quotes in the input string.
+* 
+*/
+int	quotes_check(t_shell *shell)
 {
 	char	*input;
 	int		single_quote;
@@ -59,16 +67,4 @@ int	handle_quotes(t_shell *shell)
 	if (single_quote || double_quote)
 		return (1);
 	return (0);
-}
-
-void	free_tokens(t_shell *shell)
-{
-	int	i;
-
-	i = -1;
-	while (++i < shell->token_count)
-		free(shell->tokens[i].value);
-	free(shell->tokens);
-	shell->tokens = NULL;
-	shell->token_count = 0;
 }

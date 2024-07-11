@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 13:17:13 by mrusu             #+#    #+#             */
-/*   Updated: 2024/07/11 15:57:12 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/07/11 20:05:04 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,17 +75,19 @@ void		print_welcome_msg(void);
 
 // parse
 // ---lexer.c
-t_tokentype	get_token_type(char *str);
 int			tokenize(t_shell *shell, char *input);
 void		tokens_to_argv(t_command *cmd, char *arg);
 void		add_token(t_shell *shell, t_tokentype type, char *value);
 void		handle_token(t_command *cmd, t_token *token);
+void		handle_quote_token(t_shell *shell, char *input, int *i, int *start);
+t_tokentype	get_token_type(char *str);
+void		handle_special_chars(t_shell *shell,
+				char *input, int *i, int *start);
 
 // ---parse.c
 int			parse(t_shell *shell);
-int			handle_quotes(t_shell *shell);
+int			quotes_check(t_shell *shell);
 void		free_tokens(t_shell *shell);
-
 
 // pipex_wrapper
 // ---input_formatting.c

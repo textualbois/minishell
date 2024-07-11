@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 15:32:24 by isemin            #+#    #+#             */
-/*   Updated: 2024/07/11 16:00:34 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/07/11 19:09:10 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,10 @@ typedef struct s_shell //todo
 	char		*pwd;
 	int			pipes;
 	int			*pid;
-	int			token_count;
+	int			token_count; // the number of tokens in the current input
 	int			command_count; // keep track of number of commands in current pipe
-	t_token		*tokens;
+	int			token_capacity; // the capacity of the tokens array
+	t_token		*tokens; // array of tokens
 	t_command	**commands;
 	t_pipex		**pipex;
 }	t_shell;
@@ -63,7 +64,9 @@ typedef struct s_pipex
 	char	**flags;
 }	t_pipex;
 
-// Strucutre for token
+// Strucutre for storing tokens
+// value: the actual token value
+// type: the type of token (enum t_tokentype)
 typedef struct s_token
 {
 	char	*value;
