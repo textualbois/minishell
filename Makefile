@@ -15,19 +15,29 @@ USER = $(shell whoami)
 
 # requisites helpers
 
-INC_RDL_HEADER = -I /Users/$(USER)/.brew/opt/readline/include
-INC_RDL_LIB	= -L /Users/$(USER)/.brew/opt/readline/lib -lreadline
+#INC_RDL_HEADER_DEFAULT := -I /Users/$(USER)/.brew/opt/readline/include
+#INC_RDL_LIB_DEFAULT := -L /Users/$(USER)/.brew/opt/readline/lib -lreadline
+#INC_RDL_HEADER := $(INC_RDL_HEADER_DEFAULT)
+#INC_RDL_LIB := $(INC_RDL_LIB_DEFAULT)
 
 #-L/usr/local/opt/readline/lib -lreadline
 
-BREW_DIR = /Users/$(USER)/.brew/bin
-READLINE_DIR = /Users/$(USER)/.brew/opt/readline/include/readline
+#BREW_DIR := $(if $(BREW_BIN),$(shell dirname $(BREW_BIN)),)
+#BREW_DIR = /Users/$(USER)/.brew/bin
+#BREW_DIR_ALT = /usr/local/bin/brew
+#READLINE_DIR := /Users/$(USER)/.brew/opt/readline/include/readline
 
-READLINE_FLAG = -lreadline
+BREW_EXEC := $(shell which brew)
+READLINE_DIR = $(shell brew --prefix readline)
+INC_RDL_HEADER = -I $(READLINE_DIR)/include
+INC_RDL_LIB = -L $(READLINE_DIR)/lib -lreadline
+
+READLINE_FLAG:= -lreadline
 
 brew_check:
-	@if [ -d $(BREW_DIR) ]; then \
-		echo "BREW is already installed in $(BERW_DIR)"; \
+	@echo "BREW_EXEC = $(BREW_EXEC)\n";
+	@if [ -f $(BREW_EXEC) ]; then \
+		echo "BREW is already here $(BREW_EXEC)"; \
 	else \
 		\
 			echo "Installing Homebrew..."; \
@@ -39,8 +49,8 @@ readline_check:
 	@if [ -d $(READLINE_DIR) ]; then \
 		echo "READLINE is already installed in $(READLINE_DIR)"; \
 	else \
-			echo "Installing Readline..."; \
-			brew install readline; \
+		echo "Installing Readline..."; \
+		brew install readline; \
 	fi
 	@$(MAKE) all
 
