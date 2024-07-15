@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 16:29:47 by mrusu             #+#    #+#             */
-/*   Updated: 2024/07/15 15:14:39 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/07/15 17:16:04 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,25 +18,21 @@
 */
 int	parse(t_shell *shell)
 {
-	printf("Entering parse function\n"); //DEBUG
 	if (quotes_check(shell) != 0)
 	{
 		printf("Error: unmatched quotes\n");
 		return (1);
 	}
-	printf("Quotes handled successfully\n"); //DEBUG
 	if (tokenize(shell, shell->raw_input) != 0)
 	{
 		printf("Error: tokenization failed\n");
 		return (1);
 	}
-	printf("Tokenization completed successfully\n");	//DEBUG
-	if(process_tokens(shell) != 0)
+	if (process_tokens(shell) != 0)
 	{
 		printf("Error: command creation failed\n");
 		return (1);
 	}
-	printf("Exiting parse function\n"); // DEBUG
 	return (0);
 }
 
@@ -76,24 +72,18 @@ int	process_tokens(t_shell *shell)
 
 	shell->commands = NULL;
 	shell->command_count = 0;
-	start = 0;
 	i = -1;
+	start = 0;
 	while (++i < shell->token_count)
 	{
 		if (shell->tokens[i].type == T_PIPE || i == shell->token_count - 1)
 		{
 			if (i == shell->token_count - 1)
 				i++;
-			printf("Creating command from tokens %d to %d:\n", start, i - 1); // DEBUG
 			new_cmd = init_command(shell->tokens, start, i);
-			if (!new_cmd)
+			if (!new_cmd || add_command(shell, new_cmd) != 0)
 			{
-				fprintf(stderr, "Error: Failed to initialize command\n");
-				return (1);
-			}
-			if (add_command(shell, new_cmd) != 0)
-			{
-				printf("Error: failed to add command\n");
+				printf("Error: failed to initialize or add command\n");
 				return (1);
 			}
 			start = i + 1;
@@ -124,14 +114,6 @@ t_command	*init_command(t_token *tokens, int start, int end)
 	{
 		handle_token(new_cmd, &tokens[i]);
 	}
-	// Debug print for command details
-	printf("Created command: ");
-	for (int j = 0; new_cmd->args && new_cmd->args[j]; j++)
-	{
-		printf("'%s' ", new_cmd->args[j]);
-	}
-	printf(", pipe_out = %d, output_file = '%s', input_file = '%s', heredoc_delimiter = '%s', append_output = %d\n",
-		new_cmd->pipe_out, new_cmd->output_file, new_cmd->input_file, new_cmd->heredoc_delimiter, new_cmd->append_output);
 	return (new_cmd);
 }
 
@@ -159,15 +141,11 @@ int	add_command(t_shell *shell, t_command *new_cmd)
 	shell->commands = new_commands;
 	shell->command_count++;
 
-
 	// Debug print for command addition
 	printf("Command added: args = ");
 	for (int j = 0; new_cmd->args && new_cmd->args[j]; j++)
 	{
-		printf("'%s' ", new_cmd->args[j]);
+		printf("'%s' \n", new_cmd->args[j]);
 	}
-	printf(", pipe_out = %d, output_file = '%s', input_file = '%s', heredoc_delimiter = '%s', append_output = %d\n",
-		new_cmd->pipe_out, new_cmd->output_file, new_cmd->input_file, new_cmd->heredoc_delimiter, new_cmd->append_output);
-
 	return (0);
 }

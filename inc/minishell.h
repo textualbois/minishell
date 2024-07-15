@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 13:17:13 by mrusu             #+#    #+#             */
-/*   Updated: 2024/07/15 17:00:25 by isemin           ###   ########.fr       */
+/*   Updated: 2024/07/15 17:23:28 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@
 // **********************====FUNCTION DECLARATION====*********************
 // main.c
 
-// builtins
+// ----------DIR-----builtins
 // ---builtins0.c
 void		builtin_echo(char **args);
 void		builtin_cd(char **args);
@@ -55,8 +55,6 @@ void		print_env(t_shell *shell);
 int			ft_set_env_node(t_env *env_list, char *key, char *value);
 t_env		*ft_unset_env_node(t_env *env_list, char *key);
 
-// loop
-// ---loop.c
 // ----------DIR-----loop
 // -loop.c
 int			shell_loop(t_shell	*shell);
@@ -74,7 +72,7 @@ t_env		*init_env_node(char *key, char *value);
 // -terminal_prompt.c
 void		form_prompt(t_shell *shell);
 
-// utils
+// ----------DIR-----utils
 // ---env.c
 t_env		*get_tail(t_env *env_list);
 t_env		*get_key_node(t_env *env_list, char *key);
@@ -83,10 +81,8 @@ t_env		*get_key_node(t_env *env_list, char *key);
 char		**ft_arrdup(char **arr);
 int			ft_isspace(char c);
 int			ft_is_special_char(char c);
-int	ft_strcmp(const char *str1, const char *str2);
+int			ft_strcmp(const char *str1, const char *str2);
 
-// error
-// ---error.c
 // ----------DIR-----utile
 // -utiles0.c
 char		**ft_arrdup(char **arr);
@@ -121,7 +117,7 @@ int			parse(t_shell *shell);
 int			quotes_check(t_shell *shell);
 int			process_tokens(t_shell *shell);
 t_command	*init_command(t_token *tokens, int start, int end);
-int		add_command(t_shell *shell, t_command *new_cmd);
+int			add_command(t_shell *shell, t_command *new_cmd);
 
 // -utils.c
 t_tokentype	get_token_type(char *str);
