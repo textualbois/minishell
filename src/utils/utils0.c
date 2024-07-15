@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils0.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
+/*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 13:22:09 by mrusu             #+#    #+#             */
-/*   Updated: 2024/07/09 17:47:58 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/07/15 16:46:24 by isemin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,4 +48,25 @@ int	ft_isspace(char c)
 int	ft_is_special_char(char c)
 {
 	return (c == '|' || c == '<' || c == '>');
+}
+
+static int	convert_ascii(int i) // maybe replace with typecasting to char
+{
+	if (i < 0)
+		return (256 - i);
+	return (i);
+}
+
+int	ft_strcmp(const char *str1, const char *str2)
+{
+	size_t	i;
+
+	i = 0;
+	while (str1[i] != '\0' || str2[i] != '\0')
+	{
+		if (str1[i] != str2[i])
+			return (convert_ascii(str1[i]) - convert_ascii(str2[i])); // maybe replace with typecasting to char
+		i++;
+	}
+	return (0);
 }
