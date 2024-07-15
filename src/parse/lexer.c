@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 15:34:33 by mrusu             #+#    #+#             */
-/*   Updated: 2024/07/11 20:03:59 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/07/15 13:11:37 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,25 +118,6 @@ void	add_token(t_shell *shell, t_tokentype type, char *value)
 }
 
 /*
-* @ brief: Determines the type of a token based on char.
-*/
-t_tokentype	get_token_type(char *str)
-{
-	if (ft_strncmp(str, "|", 1) == 0)
-		return (T_PIPE);
-	else if (ft_strncmp(str, "<", 1) == 0)
-		return (T_REDIRECT_IN);
-	else if (ft_strncmp(str, ">", 1) == 0)
-		return (T_REDIRECT_OUT);
-	else if (ft_strncmp(str, "<<", 2) == 0)
-		return (T_HEREDOC);
-	else if (ft_strncmp(str, ">>", 2) == 0)
-		return (T_REDIRECT_APPEND);
-	else
-		return (T_WORD);
-}
-
-/*
 * @ brief: Adds a new argument to the command's argument list.
 *	convert tokens to char **args so we can execve
 */
@@ -162,46 +143,4 @@ void	tokens_to_argv(t_command *cmd, char *arg)
 	new_args[i + 1] = NULL;
 	free(cmd->args);
 	cmd->args = new_args;
-}
-
-/*
-* @ brief: Processes a token, shuld execut the command
-*/
-void	handle_token(t_command *cmd, t_token *token)
-{
-	if (token->type == T_WORD)
-		tokens_to_argv(cmd, token->value);
-	else if (token->type == T_PIPE)
-	{
-		cmd->pipe_out = 1;
-	}
-	else if (token->type == T_REDIRECT_IN)
-	{
-		cmd->input_file = token->value;
-	}
-	else if (token->type == T_REDIRECT_OUT)
-	{
-		cmd->output_file = token->value;
-	}
-	else if (token->type == T_HEREDOC)
-	{
-		cmd->heredoc_delimiter = token->value;
-	}
-	else if (token->type == T_REDIRECT_APPEND)
-	{
-		cmd->append_output = 1;
-		cmd->output_file = token->value;
-	}
-}
-
-void	free_tokens(t_shell *shell)
-{
-	int	i;
-
-	i = -1;
-	while (++i < shell->token_count)
-		free(shell->tokens[i].value);
-	free(shell->tokens);
-	shell->tokens = NULL;
-	shell->token_count = 0;
 }
