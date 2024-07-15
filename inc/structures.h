@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structures.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
+/*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 15:32:24 by isemin            #+#    #+#             */
-/*   Updated: 2024/07/11 19:09:10 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/07/15 16:44:44 by isemin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@ typedef struct s_token		t_token;
 typedef struct s_command	t_command;
 typedef struct s_pipex		t_pipex;
 typedef struct s_shell		t_shell;
+typedef struct s_env		t_env;
 
 // code for tokentype
 typedef enum e_tokentype
@@ -36,6 +37,7 @@ typedef struct s_shell //todo
 	char		*raw_input;
 	int			exit_code;
 	char		*user;
+	t_env		*env_list;
 	char		**env;
 	char		*heredoc;
 	char		*last_input;
@@ -52,6 +54,13 @@ typedef struct s_shell //todo
 	t_command	**commands;
 	t_pipex		**pipex;
 }	t_shell;
+
+typedef struct s_env
+{
+	t_env	*next;
+	char	*key;
+	char	*value;
+}	t_env;
 
 typedef struct s_pipex
 {

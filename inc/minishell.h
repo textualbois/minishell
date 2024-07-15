@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
+/*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 13:17:13 by mrusu             #+#    #+#             */
-/*   Updated: 2024/07/11 20:05:04 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/07/15 16:46:43 by isemin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,19 @@
 // **********************====FUNCTION DECLARATION====*********************
 // main.c
 
+// builtins
+// ---builtins0.c
+void		builtin_echo(char **args);
+void		builtin_cd(char **args);
+void		builtin_pwd(void);
+void		builtin_export(t_shell *shell, char **args);
+void		builtin_exit(void);
+
+// ---env.c
+void		print_env(t_shell *shell);
+int			ft_set_env_node(t_env *env_list, char *key, char *value);
+t_env		*ft_unset_env_node(t_env *env_list, char *key);
+
 // loop
 // ---loop.c
 int			shell_loop(t_shell	*shell);
@@ -53,16 +66,23 @@ void		init_shell(t_shell *shell, char **env);
 
 // ---env.c
 char		*ft_getenv(void);
+t_env		*init_env_node(char *key, char *value);
 
 // prompts
 // ---terminal_prompt.c
 void		form_prompt(t_shell *shell);
 
-// utile
+// utils
+// ---env.c
+t_env		*get_tail(t_env *env_list);
+t_env		*get_key_node(t_env *env_list, char *key);
+
 // ---utiles0.c
 char		**ft_arrdup(char **arr);
 int			ft_isspace(char c);
 int			ft_is_special_char(char c);
+int	ft_strcmp(const char *str1, const char *str2);
+
 // error
 // ---error.c
 int			ft_error(t_shell *shell, int error_code);
