@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 15:34:33 by mrusu             #+#    #+#             */
-/*   Updated: 2024/07/15 13:11:37 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/07/15 15:14:28 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,8 @@ int	tokenize(t_shell *shell, char *input)
 */
 void	handle_quote_token(t_shell *shell, char *input, int *i, int *start)
 {
-	static int	in_quote;
-	static char	current_quote;
+	int		in_quote;
+	char	current_quote;
 
 	in_quote = 0;
 	current_quote = 0;
@@ -94,6 +94,7 @@ void	handle_special_chars(t_shell *shell, char *input, int *i, int *start)
 	*start = *i + 1;
 }
 
+
 /*
 * @ brief: Adds a new token to the shell's token list.
 */
@@ -104,7 +105,10 @@ void	add_token(t_shell *shell, t_tokentype type, char *value)
 
 	new_tokens = malloc(sizeof(t_token) * (shell->token_count + 1));
 	if (!new_tokens)
+	{
+		printf("Error: malloc failed in add_token\n");
 		return ;
+	}
 	i = -1;
 	while (++i < shell->token_count)
 	{

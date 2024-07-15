@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 16:29:47 by mrusu             #+#    #+#             */
-/*   Updated: 2024/07/15 13:23:31 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/07/15 15:14:39 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,11 @@ int	parse(t_shell *shell)
 		return (1);
 	}
 	printf("Tokenization completed successfully\n");	//DEBUG
-	if(create_commands(shell) != 0)
+	if(process_tokens(shell) != 0)
 	{
 		printf("Error: command creation failed\n");
 		return (1);
 	}
-	printf("Commands created successfully\n"); // DEBUG
 	printf("Exiting parse function\n"); // DEBUG
 	return (0);
 }
@@ -69,7 +68,7 @@ int	quotes_check(t_shell *shell)
 /*
 * @ brief: Creates a list of commands from the shell's token list.
 */
-int	create_commands(t_shell *shell)
+int	process_tokens(t_shell *shell)
 {
 	t_command	*new_cmd;
 	int			i;
@@ -85,12 +84,90 @@ int	create_commands(t_shell *shell)
 		{
 			if (i == shell->token_count - 1)
 				i++;
-            printf("Creating command from tokens %d to %d:\n", start, i - 1); // DEBUG
-			new_cmd = create_command(shell, start, i);
-			add_command(shell, new_cmd);
+			printf("Creating command from tokens %d to %d:\n", start, i - 1); // DEBUG
+			new_cmd = init_command(shell->tokens, start, i);
+			if (!new_cmd)
+			{
+				fprintf(stderr, "Error: Failed to initialize command\n");
+				return (1);
+			}
+			if (add_command(shell, new_cmd) != 0)
+			{
+				printf("Error: failed to add command\n");
+				return (1);
+			}
 			start = i + 1;
 		}
 	}
 	return (0);
 }
 
+/*
+* @ brief: Creates a new command structure and initializes it.
+*/
+t_command	*init_command(t_token *tokens, int start, int end)
+{
+	t_command	*new_cmd;
+	int			i;
+
+	i = start -1;
+	new_cmd = malloc(sizeof(t_command));
+	if (!new_cmd)
+		return (NULL);
+	new_cmd->args = NULL;
+	new_cmd->pipe_out = 0;
+	new_cmd->output_file = NULL;
+	new_cmd->input_file = NULL;
+	new_cmd->heredoc_delimiter = NULL;
+	new_cmd->append_output = 0;
+	while (++i < end)
+	{
+		handle_token(new_cmd, &tokens[i]);
+	}
+	// Debug print for command details
+	printf("Created command: ");
+	for (int j = 0; new_cmd->args && new_cmd->args[j]; j++)
+	{
+		printf("'%s' ", new_cmd->args[j]);
+	}
+	printf(", pipe_out = %d, output_file = '%s', input_file = '%s', heredoc_delimiter = '%s', append_output = %d\n",
+		new_cmd->pipe_out, new_cmd->output_file, new_cmd->input_file, new_cmd->heredoc_delimiter, new_cmd->append_output);
+	return (new_cmd);
+}
+
+/*
+* @brief: Adds a command to the shell's command list.
+*/
+int	add_command(t_shell *shell, t_command *new_cmd)
+{
+	t_command	**new_commands;
+	int			i;
+
+	i = -1;
+	new_commands = malloc(sizeof(t_command *) * (shell->command_count + 1));
+	if (!new_commands)
+	{
+		printf("Error: malloc failed in add_command\n");
+		return (1);
+	}
+	while (++i < shell->command_count)
+	{
+		new_commands[i] = shell->commands[i];
+	}
+	new_commands[i] = new_cmd;
+	free(shell->commands);
+	shell->commands = new_commands;
+	shell->command_count++;
+
+
+	// Debug print for command addition
+	printf("Command added: args = ");
+	for (int j = 0; new_cmd->args && new_cmd->args[j]; j++)
+	{
+		printf("'%s' ", new_cmd->args[j]);
+	}
+	printf(", pipe_out = %d, output_file = '%s', input_file = '%s', heredoc_delimiter = '%s', append_output = %d\n",
+		new_cmd->pipe_out, new_cmd->output_file, new_cmd->input_file, new_cmd->heredoc_delimiter, new_cmd->append_output);
+
+	return (0);
+}
