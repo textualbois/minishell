@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 15:34:33 by mrusu             #+#    #+#             */
-/*   Updated: 2024/07/11 20:03:59 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/07/15 15:14:28 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,8 @@ int	tokenize(t_shell *shell, char *input)
 */
 void	handle_quote_token(t_shell *shell, char *input, int *i, int *start)
 {
-	static int	in_quote;
-	static char	current_quote;
+	int		in_quote;
+	char	current_quote;
 
 	in_quote = 0;
 	current_quote = 0;
@@ -94,6 +94,7 @@ void	handle_special_chars(t_shell *shell, char *input, int *i, int *start)
 	*start = *i + 1;
 }
 
+
 /*
 * @ brief: Adds a new token to the shell's token list.
 */
@@ -104,7 +105,10 @@ void	add_token(t_shell *shell, t_tokentype type, char *value)
 
 	new_tokens = malloc(sizeof(t_token) * (shell->token_count + 1));
 	if (!new_tokens)
+	{
+		printf("Error: malloc failed in add_token\n");
 		return ;
+	}
 	i = -1;
 	while (++i < shell->token_count)
 	{
@@ -115,25 +119,6 @@ void	add_token(t_shell *shell, t_tokentype type, char *value)
 	free(shell->tokens);
 	shell->tokens = new_tokens;
 	shell->token_count++;
-}
-
-/*
-* @ brief: Determines the type of a token based on char.
-*/
-t_tokentype	get_token_type(char *str)
-{
-	if (ft_strncmp(str, "|", 1) == 0)
-		return (T_PIPE);
-	else if (ft_strncmp(str, "<", 1) == 0)
-		return (T_REDIRECT_IN);
-	else if (ft_strncmp(str, ">", 1) == 0)
-		return (T_REDIRECT_OUT);
-	else if (ft_strncmp(str, "<<", 2) == 0)
-		return (T_HEREDOC);
-	else if (ft_strncmp(str, ">>", 2) == 0)
-		return (T_REDIRECT_APPEND);
-	else
-		return (T_WORD);
 }
 
 /*
@@ -162,46 +147,4 @@ void	tokens_to_argv(t_command *cmd, char *arg)
 	new_args[i + 1] = NULL;
 	free(cmd->args);
 	cmd->args = new_args;
-}
-
-/*
-* @ brief: Processes a token, shuld execut the command
-*/
-void	handle_token(t_command *cmd, t_token *token)
-{
-	if (token->type == T_WORD)
-		tokens_to_argv(cmd, token->value);
-	else if (token->type == T_PIPE)
-	{
-		cmd->pipe_out = 1;
-	}
-	else if (token->type == T_REDIRECT_IN)
-	{
-		cmd->input_file = token->value;
-	}
-	else if (token->type == T_REDIRECT_OUT)
-	{
-		cmd->output_file = token->value;
-	}
-	else if (token->type == T_HEREDOC)
-	{
-		cmd->heredoc_delimiter = token->value;
-	}
-	else if (token->type == T_REDIRECT_APPEND)
-	{
-		cmd->append_output = 1;
-		cmd->output_file = token->value;
-	}
-}
-
-void	free_tokens(t_shell *shell)
-{
-	int	i;
-
-	i = -1;
-	while (++i < shell->token_count)
-		free(shell->tokens[i].value);
-	free(shell->tokens);
-	shell->tokens = NULL;
-	shell->token_count = 0;
 }

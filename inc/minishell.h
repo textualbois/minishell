@@ -6,7 +6,7 @@
 /*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 13:17:13 by mrusu             #+#    #+#             */
-/*   Updated: 2024/07/15 16:46:43 by isemin           ###   ########.fr       */
+/*   Updated: 2024/07/15 17:00:25 by isemin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,19 +57,21 @@ t_env		*ft_unset_env_node(t_env *env_list, char *key);
 
 // loop
 // ---loop.c
+// ----------DIR-----loop
+// -loop.c
 int			shell_loop(t_shell	*shell);
 void		*ft_readline(t_shell *shell);
 
-// setup
-// ---init_shell.c
+// ----------DIR-----setup
+// -init_shell.c
 void		init_shell(t_shell *shell, char **env);
 
-// ---env.c
+// -env.c
 char		*ft_getenv(void);
 t_env		*init_env_node(char *key, char *value);
 
-// prompts
-// ---terminal_prompt.c
+// ----------DIR-----prompts
+// -terminal_prompt.c
 void		form_prompt(t_shell *shell);
 
 // utils
@@ -85,32 +87,48 @@ int	ft_strcmp(const char *str1, const char *str2);
 
 // error
 // ---error.c
+// ----------DIR-----utile
+// -utiles0.c
+char		**ft_arrdup(char **arr);
+int			ft_isspace(char c);
+int			ft_is_special_char(char c);
+
+// ----------DIR-----error
+// -error.c
 int			ft_error(t_shell *shell, int error_code);
 int			syntax_error(void);
 
-// prompts
-// ---prompts.c
+// ----------DIR-----prompts
+// -prompts.c
 void		display_prompt(void);
 void		print_welcome_msg(void);
 
-// parse
-// ---lexer.c
-int			tokenize(t_shell *shell, char *input);
-void		tokens_to_argv(t_command *cmd, char *arg);
-void		add_token(t_shell *shell, t_tokentype type, char *value);
+// ----------DIR-----parse
+// -execute.c
+int			execute_command(t_shell *shell);
 void		handle_token(t_command *cmd, t_token *token);
-void		handle_quote_token(t_shell *shell, char *input, int *i, int *start);
-t_tokentype	get_token_type(char *str);
-void		handle_special_chars(t_shell *shell,
-				char *input, int *i, int *start);
 
-// ---parse.c
+// -lexer.c
+int			tokenize(t_shell *shell, char *input);
+void		handle_quote_token(t_shell *shell, char *input, int *i, int *start);
+void		handle_special_chars(t_shell *shell, char *input,
+				int *i, int *start);
+void		add_token(t_shell *shell, t_tokentype type, char *value);
+void		tokens_to_argv(t_command *cmd, char *arg);
+
+// -parse.c
 int			parse(t_shell *shell);
 int			quotes_check(t_shell *shell);
+int			process_tokens(t_shell *shell);
+t_command	*init_command(t_token *tokens, int start, int end);
+int		add_command(t_shell *shell, t_command *new_cmd);
+
+// -utils.c
+t_tokentype	get_token_type(char *str);
 void		free_tokens(t_shell *shell);
 
-// pipex_wrapper
-// ---input_formatting.c
+// ----------DIR-----pipex_wrapper
+// -input_formatting.c
 int			package_pipex(t_shell *shell);
 
 #endif
