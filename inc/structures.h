@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structures.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 15:32:24 by isemin            #+#    #+#             */
-/*   Updated: 2024/07/15 16:44:44 by isemin           ###   ########.fr       */
+/*   Updated: 2024/07/16 17:44:56 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ typedef enum e_tokentype
 	T_REDIRECT_OUT, // >
 	T_REDIRECT_APPEND, // >>
 	T_HEREDOC, // <<
+	T_OR, // ||
+	T_AND // &&
 }	t_tokentype;
 
 // **********************====STRUCT====*********************
@@ -78,18 +80,21 @@ typedef struct s_pipex
 // type: the type of token (enum t_tokentype)
 typedef struct s_token
 {
-	char	*value;
-	int		type;
+	char			*value;
+	int				type;
+	struct s_token	*next;
+	struct s_token	*prev;
 }	t_token;
 
 typedef struct s_command
 {
-	char	**args;
-	char	*name;
-	char	*input_file;
-	char	*output_file;
-	char	*heredoc_delimiter;
-	int		append_output;
-	int		pipe_in; //store fd for in
-	int		pipe_out; // for out
+	char				**args;
+	char				*name;
+	char				*input_file;
+	char				*output_file;
+	char				*heredoc_delimiter;
+	int					append_output;
+	int					pipe_in; //store fd for in
+	int					pipe_out; // for out
+	struct s_command	*next;
 }	t_command;

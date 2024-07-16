@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 16:29:47 by mrusu             #+#    #+#             */
-/*   Updated: 2024/07/15 17:16:04 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/07/16 17:51:38 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,17 @@ int	parse(t_shell *shell)
 	{
 		printf("Error: command creation failed\n");
 		return (1);
+	}
+	    // Add debug output for commands
+    printf("Commands:\n");
+    for (int i = 0; i < shell->command_count; i++)
+    {
+        printf("Command %d:\n", i);
+        printf("Args: ");
+        for (int j = 0; shell->commands[i]->args && shell->commands[i]->args[j]; j++)
+        {
+            printf("'%s' \n", shell->commands[i]->args[j]);
+        }
 	}
 	return (0);
 }
@@ -80,6 +91,7 @@ int	process_tokens(t_shell *shell)
 		{
 			if (i == shell->token_count - 1)
 				i++;
+			printf("Creating command from tokens %d to %d\n", start, i - 1);
 			new_cmd = init_command(shell->tokens, start, i);
 			if (!new_cmd || add_command(shell, new_cmd) != 0)
 			{
@@ -141,7 +153,6 @@ int	add_command(t_shell *shell, t_command *new_cmd)
 	shell->commands = new_commands;
 	shell->command_count++;
 
-	// Debug print for command addition
 	printf("Command added: args = ");
 	for (int j = 0; new_cmd->args && new_cmd->args[j]; j++)
 	{

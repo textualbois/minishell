@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 15:34:33 by mrusu             #+#    #+#             */
-/*   Updated: 2024/07/15 16:37:09 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/07/16 17:48:30 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,15 @@ int	tokenize(t_shell *shell, char *input)
 		{
 			handle_quote_token(shell, input, &i, &start);
 		}
-		else if (ft_isspace(input[i]) || ft_is_special_char(input[i]))
+		else if (ft_isspace(input[i]))
+		{
+			if (i > start)
+			{
+				add_token(shell, T_WORD, ft_substr(input, start, i - start));
+			}
+			start = i + 1;
+		}
+		else if (ft_is_special_char(input[i]))
 		{
 			handle_special_chars(shell, input, &i, &start);
 		}
@@ -75,28 +83,24 @@ void	handle_quote_token(t_shell *shell, char *input, int *i, int *start)
 */
 void	handle_special_chars(t_shell *shell, char *input, int *i, int *start)
 {
-	char	special[3];
+	char		special[3];
+	t_tokentype	type;
 
 	special[0] = input[*i];
 	special[1] = '\0';
 	special[2] = '\0';
 	if (*i > *start)
-	{
 		add_token(shell, T_WORD, ft_substr(input, *start, *i - *start));
-	}
-	if (ft_is_special_char(input[*i]))
+	type = get_token_type(input + *i);
+	if (type != T_WORD)
 	{
-		if (input[*i] == '>' && input[*i + 1] == '>')
+		if ((type == T_HEREDOC || type == T_REDIRECT_APPEND
+				|| type == T_OR || type == T_AND) && input[*i + 1])
 		{
-			special[1] = '>';
+			special[1] = input[*i + 1];
 			(*i)++;
 		}
-		else if (input[*i] == '<' && input[*i + 1] == '<')
-		{
-			special[1] = '<';
-			(*i)++;
-		}
-		add_token(shell, T_WORD, special);
+		add_token(shell, type, special);
 	}
 	*start = *i + 1;
 }
