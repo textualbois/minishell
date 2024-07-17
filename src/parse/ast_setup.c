@@ -77,7 +77,7 @@ t_token	*get_nodes_pipes(t_token *start, t_token *stop, t_tree *parent)
 	{
 		res = init_tree_node(parent, pipe_token);
 		res->left = init_cmd_node(start, pipe_token, res);  // Assuming init_cmd can take a list up to a point
-		res->right = get_nodes_pipes(pipe_node->next, stop, res);
+		res->right = get_nodes_pipes(pipe_token->next, stop, res);
 		return res;
 	}
 	else
@@ -87,6 +87,26 @@ t_token	*get_nodes_pipes(t_token *start, t_token *stop, t_tree *parent)
 t_tree	*imit_cmd_node(t_token *start, t_token *stop, t_token *parent)
 {
 	t_tree	*res;
+	t_token	*current;
+
+	current = start;
+	res = init_tree_node(current, parent);
+	//if res not null
+	res->cmd = ft_calloc(sizeof(t_command), 1);
+	// if cmd not null
+	res->cmd->name = current->value;
+	res->cmd->args = NULL;
+	res->cmd->input_file = NULL;
+	res->cmd->output_file = NULL;
+	while (current != stop)
+	{
+		if (current->type == T_SPECIAL && current->value == '(')
+			return (get_nodes_and_or(current->next, stop, parent));
+		current = current->next;
+	}
+	res = init_tree_node(parent, start);
+	res->cmd = init_command(start, stop);
+	return (res);
 }
 
 t_tree	*init_tree_node(t_token *token, t_tree *parent)
