@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 13:17:13 by mrusu             #+#    #+#             */
-/*   Updated: 2024/07/15 17:23:28 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/07/17 13:44:02 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,6 @@ void		print_welcome_msg(void);
 // ----------DIR-----parse
 // -execute.c
 int			execute_command(t_shell *shell);
-void		handle_token(t_command *cmd, t_token *token);
 
 // -lexer.c
 int			tokenize(t_shell *shell, char *input);
@@ -110,7 +109,6 @@ void		handle_quote_token(t_shell *shell, char *input, int *i, int *start);
 void		handle_special_chars(t_shell *shell, char *input,
 				int *i, int *start);
 void		add_token(t_shell *shell, t_tokentype type, char *value);
-void		tokens_to_argv(t_command *cmd, char *arg);
 
 // -parse.c
 int			parse(t_shell *shell);

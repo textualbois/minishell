@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 15:34:33 by mrusu             #+#    #+#             */
-/*   Updated: 2024/07/17 12:36:42 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/07/17 13:44:15 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,32 +134,4 @@ void	add_token(t_shell *shell, t_tokentype type, char *value)
 	free(shell->tokens);
 	shell->tokens = new_tokens;
 	shell->token_count++;
-}
-
-/*
-* @ brief: Adds a new argument to the command's argument list.
-*	convert tokens to char **args so we can execve
-*/
-void	tokens_to_argv(t_command *cmd, char *arg)
-{
-	char	**new_args;
-	int		i;
-	int		j;
-
-	i = 0;
-	while (cmd->args && cmd->args[i])
-		i++;
-	new_args = malloc(sizeof(char *) * (i + 2));
-	if (!new_args)
-		return ;
-	j = 0;
-	while (i > j)
-	{
-		new_args[j] = cmd->args[j];
-		j++;
-	}
-	new_args[i] = ft_strdup(arg);
-	new_args[i + 1] = NULL;
-	free(cmd->args);
-	cmd->args = new_args;
 }

@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 15:32:24 by isemin            #+#    #+#             */
-/*   Updated: 2024/07/17 13:20:39 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/07/17 13:45:24 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,9 +97,10 @@ typedef struct s_command
 	struct s_command	*next;
 }	t_command;
 
-typedef struct s_tree // somting liek this
+// Structure for the abstract syntax tree
+typedef struct	s_tree
 {
-	t_command	*cmd;
+	t_command		*cmd;
 	struct s_tree	*left;
 	struct s_tree	*right;
 	struct s_tree	*parent;
