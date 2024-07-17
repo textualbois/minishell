@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 16:29:47 by mrusu             #+#    #+#             */
-/*   Updated: 2024/07/17 12:39:27 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/07/17 18:02:34 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 */
 int	parse(t_shell *shell)
 {
-	if (quotes_check(shell) != 0)
+	if (quotes_a_parenthesis(shell) != 0)
 	{
 		printf("Error: unmatched quotes\n");
 		return (1);
@@ -39,24 +39,32 @@ int	parse(t_shell *shell)
 /*
 * @ brief: Checks if there are unmatched quotes in the input string.
 */
-int	quotes_check(t_shell *shell)
+int	quotes_a_parenthesis(t_shell *shell)
 {
 	char	*input;
 	int		single_quote;
 	int		double_quote;
+	int		open_parenthesis;
 
 	input = shell->raw_input;
 	single_quote = 0;
 	double_quote = 0;
+	open_parenthesis = 0;
 	while (*input)
 	{
 		if (*input == '\'' && !double_quote)
 			single_quote = !single_quote;
-		if (*input == '"' && !single_quote)
+		else if (*input == '"' && !single_quote)
 			double_quote = !double_quote;
+		else if (*input == '(' && !single_quote && !double_quote)
+			open_parenthesis++;
+		else if (*input == ')' && !single_quote && !double_quote)
+			open_parenthesis--;
+		if (open_parenthesis < 0)
+			return (1);
 		input++;
 	}
-	if (single_quote || double_quote)
+	if (single_quote || double_quote || open_parenthesis)
 		return (1);
 	return (0);
 }

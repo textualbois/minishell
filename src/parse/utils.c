@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 10:05:39 by mrusu             #+#    #+#             */
-/*   Updated: 2024/07/17 12:15:54 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/07/17 17:58:59 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,28 @@
 // 	else
 // 		return (T_WORD);
 // }
+// t_tokentype	get_token_type(char *str)
+// {
+// 	if (*str == '|')
+// 	{
+// 		if (*(str + 1) == '|')
+// 			return (T_OR);
+// 		else
+// 			return (T_PIPE);
+// 	}
+// 	else if (*str == '&' && *(str + 1) == '&')
+// 		return (T_AND);
+// 	else if ((*str == '<' && *(str + 1) == '<')
+// 		|| (*str == '>' && *(str + 1) == '>' ))
+// 		return (T_SPECIAL);
+// 	else if (*str == '<' || *str == '>')
+// 		return (T_SPECIAL);
+// 	else if (*str == '"' || *str == '\'')
+// 		return (T_QUOTE);
+// 	else
+// 		return (T_WORD);
+// }
+
 t_tokentype	get_token_type(char *str)
 {
 	if (*str == '|')
@@ -54,8 +76,11 @@ t_tokentype	get_token_type(char *str)
 	}
 	else if (*str == '&' && *(str + 1) == '&')
 		return (T_AND);
-	else if (*str == '<' || *str == '>' || *str == '(' || *str == ')')
+	else if ((*str == '<' && *(str + 1) == '<')
+		|| (*str == '>' && *(str + 1) == '>' ))
 		return (T_SPECIAL);
+	else if (*str == '"' || *str == '\'')
+		return (T_QUOTE);
 	else
 		return (T_WORD);
 }
