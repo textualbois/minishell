@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 10:05:39 by mrusu             #+#    #+#             */
-/*   Updated: 2024/07/16 13:08:45 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/07/17 12:15:54 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,34 @@
 /*
 * @ brief: Determines the type of a token based on char.
 */
+// t_tokentype	get_token_type(char *str)
+// {
+// 	if (*str == '|')
+// 	{
+// 		if (*(str + 1) == '|')
+// 			return (T_OR);
+// 		else
+// 			return (T_PIPE);
+// 	}
+// 	else if (*str == '<')
+// 	{
+// 		if (*(str + 1) == '<')
+// 			return (T_HEREDOC);
+// 		else
+// 			return (T_REDIRECT_IN);
+// 	}
+// 	else if (*str == '>')
+// 	{
+// 		if (*(str + 1) == '>')
+// 			return (T_REDIRECT_APPEND);
+// 		else
+// 			return (T_REDIRECT_OUT);
+// 	}
+// 	else if (*str == '&' && *(str + 1) == '&')
+// 		return (T_AND);
+// 	else
+// 		return (T_WORD);
+// }
 t_tokentype	get_token_type(char *str)
 {
 	if (*str == '|')
@@ -24,22 +52,10 @@ t_tokentype	get_token_type(char *str)
 		else
 			return (T_PIPE);
 	}
-	else if (*str == '<')
-	{
-		if (*(str + 1) == '<')
-			return (T_HEREDOC);
-		else
-			return (T_REDIRECT_IN);
-	}
-	else if (*str == '>')
-	{
-		if (*(str + 1) == '>')
-			return (T_REDIRECT_APPEND);
-		else
-			return (T_REDIRECT_OUT);
-	}
 	else if (*str == '&' && *(str + 1) == '&')
 		return (T_AND);
+	else if (*str == '<' || *str == '>' || *str == '(' || *str == ')')
+		return (T_SPECIAL);
 	else
 		return (T_WORD);
 }

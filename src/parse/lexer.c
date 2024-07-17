@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 15:34:33 by mrusu             #+#    #+#             */
-/*   Updated: 2024/07/16 17:48:30 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/07/17 12:36:42 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,8 +94,7 @@ void	handle_special_chars(t_shell *shell, char *input, int *i, int *start)
 	type = get_token_type(input + *i);
 	if (type != T_WORD)
 	{
-		if ((type == T_HEREDOC || type == T_REDIRECT_APPEND
-				|| type == T_OR || type == T_AND) && input[*i + 1])
+		if ((type == T_OR || type == T_AND) && input[*i + 1])
 		{
 			special[1] = input[*i + 1];
 			(*i)++;
@@ -128,7 +127,7 @@ void	add_token(t_shell *shell, t_tokentype type, char *value)
 	new_tokens[i].value = ft_strdup(value);
 	if (!new_tokens[i].value)
 	{
-		printf("Error: strdup failed in add_token\n");
+		printf("Error: ft_strdup failed in add_token\n");
 		free(new_tokens);
 		return ;
 	}

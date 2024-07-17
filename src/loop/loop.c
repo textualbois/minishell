@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 14:02:02 by isemin            #+#    #+#             */
-/*   Updated: 2024/07/16 17:47:59 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/07/17 13:03:52 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,16 +47,8 @@ int	shell_loop(t_shell *shell)
 				printf("WORD");
 			else if (shell->tokens[i].type == T_PIPE)
 				printf("PIPE");
-			else if (shell->tokens[i].type == T_REDIRECT_IN)
-				printf("REDIRECT_IN");
-			else if (shell->tokens[i].type == T_REDIRECT_OUT)
-				printf("REDIRECT_OUT");
-			else if (shell->tokens[i].type == T_HEREDOC)
-				printf("HEREDOC");
-			else if (shell->tokens[i].type == T_REDIRECT_APPEND)
-				printf("REDIRECT_APPEND");
 			else if (shell->tokens[i].type == T_OR)
-   				 printf("OR");
+				printf("OR");
 			else if (shell->tokens[i].type == T_AND)
 				printf("AND");
 			else

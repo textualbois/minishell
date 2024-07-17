@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 15:32:24 by isemin            #+#    #+#             */
-/*   Updated: 2024/07/16 17:44:56 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/07/17 13:20:39 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,11 @@ typedef struct s_env		t_env;
 typedef enum e_tokentype
 {
 	T_WORD, // word
+	T_SPECIAL, // special character ( >, <,)
 	T_PIPE, // |
-	T_REDIRECT_IN, // <
-	T_REDIRECT_OUT, // >
-	T_REDIRECT_APPEND, // >>
-	T_HEREDOC, // <<
 	T_OR, // ||
-	T_AND // &&
+	T_AND, // &&
+	T_QUOTE // ' or "
 }	t_tokentype;
 
 // **********************====STRUCT====*********************
@@ -82,8 +80,8 @@ typedef struct s_token
 {
 	char			*value;
 	int				type;
-	struct s_token	*next;
-	struct s_token	*prev;
+	struct s_token	*next; // not sure if needed
+	struct s_token	*prev; // not sure if needed
 }	t_token;
 
 typedef struct s_command
@@ -98,3 +96,12 @@ typedef struct s_command
 	int					pipe_out; // for out
 	struct s_command	*next;
 }	t_command;
+
+typedef struct s_tree // somting liek this
+{
+	t_command	*cmd;
+	struct s_tree	*left;
+	struct s_tree	*right;
+	struct s_tree	*parent;
+	struct t_token	*token;
+}	t_tree;

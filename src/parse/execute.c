@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 10:18:53 by mrusu             #+#    #+#             */
-/*   Updated: 2024/07/15 13:12:16 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/07/17 12:37:54 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,22 +35,5 @@ void	handle_token(t_command *cmd, t_token *token)
 	else if (token->type == T_PIPE)
 	{
 		cmd->pipe_out = 1;
-	}
-	else if (token->type == T_REDIRECT_IN)
-	{
-		cmd->input_file = token->value;
-	}
-	else if (token->type == T_REDIRECT_OUT)
-	{
-		cmd->output_file = token->value;
-	}
-	else if (token->type == T_HEREDOC)
-	{
-		cmd->heredoc_delimiter = token->value;
-	}
-	else if (token->type == T_REDIRECT_APPEND)
-	{
-		cmd->append_output = 1;
-		cmd->output_file = token->value;
 	}
 }
