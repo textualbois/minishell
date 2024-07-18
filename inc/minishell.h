@@ -100,6 +100,19 @@ void		display_prompt(void);
 void		print_welcome_msg(void);
 
 // ----------DIR-----parse
+
+// -ast_helper.c
+t_token		*get_input_file(t_command *cmd, t_token *start, t_token *stop);
+t_token		*get_heredoc(t_command *cmd, t_token *start, t_token *stop);
+t_token		*get_output_file(t_command *cmd, t_token *start, t_token *stop);
+char		**list_to_arr(t_token *start, t_token *stop);
+
+// -ast_setup.c
+t_tree		*init_cmd_node(t_token *start, t_token *stop, t_token *parent);
+t_tree		*init_tree_node(t_token *token, t_tree *parent);
+t_tree		*get_nodes_pipes(t_token *start, t_token *stop, t_tree *parent);
+t_tree		*get_nodes_and_or(t_token *start, t_token *stop, t_tree *parent);
+
 // -execute.c
 int			execute_command(t_shell *shell);
 

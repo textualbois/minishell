@@ -84,28 +84,23 @@ t_token	*get_nodes_pipes(t_token *start, t_token *stop, t_tree *parent)
 		return (init_cmd_node(start, stop, parent));
 }
 
-t_tree	*imit_cmd_node(t_token *start, t_token *stop, t_token *parent)
+t_tree	*init_cmd_node(t_token *start, t_token *stop, t_token *parent)
 {
 	t_tree	*res;
 	t_token	*current;
+	t_command *cmd;
 
+	//if res not null
+	cmd = ft_calloc(sizeof(t_command), 1);
+	// if cmd not null
+	start = get_input_file(cmd, start, stop);
+	stop = get_heredoc(cmd, start, stop); 
+	stop = get_output_file(cmd, start, stop);
 	current = start;
 	res = init_tree_node(current, parent);
-	//if res not null
-	res->cmd = ft_calloc(sizeof(t_command), 1);
-	// if cmd not null
-	res->cmd->name = current->value;
-	res->cmd->args = NULL;
-	res->cmd->input_file = NULL;
-	res->cmd->output_file = NULL;
-	while (current != stop)
-	{
-		if (current->type == T_SPECIAL && current->value == '(')
-			return (get_nodes_and_or(current->next, stop, parent));
-		current = current->next;
-	}
-	res = init_tree_node(parent, start);
-	res->cmd = init_command(start, stop);
+	res->cmd = cmd;
+	cmd->name = current->value;
+	cmd->args = list_to_arr(current, stop);
 	return (res);
 }
 

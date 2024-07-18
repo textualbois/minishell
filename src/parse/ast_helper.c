@@ -12,65 +12,104 @@
 
 #include "../../inc/minishell.h"
 
-t_token	*get_nodes_and_or(t_shell *shell, char *input, t_token *parent)
+t_token *get_input_file(t_command *cmd, t_token *start, t_token *stop)
 {
-	int	i = 0;
-	int	head_node_location;
-	int	head_node_depth = 1;
-	int	depth = 0;
-	int	we_are_inside_quotes = 0;
-	t_token		*res = NULL;
+	t_token	*current;
+	char	*error_str;
 
-	while (input[i])
+	current = start;
+	while (current != stop) // if the lexer handles input checking then this should nopt be a while loop, just an if
 	{
-		if (input[i] == '(') // todo check that this is the correct way to check for brackets
-			depth++;
-		if (input[i] == ')')
-			depth--;
-		if (ft_strncmp(input + i, "||", 2) || ft_strncmp(input + i, "&&", 2)) // todo check that this is the correct way to check for or and and
+		if (current->type == T_SPECIAL && current->value == '<')
 		{
-			if (depth < head_node_depth)
+			if (current->next->type == T_WORD)
 			{
-				head_node_depth = depth;
-				head_node_location = i;
+				cmd->input_file = current->next->type;
+				return (current->next);
+			}
+			else // is the error handled here or later or in lexing!!!! need to check against bash. If bash "lets this pass" i.e. still executes later commands, then we should act accordingly
+			{
+				error_str = ft_strjoin("Error near ", current->next->value);
+				perror(error_str);
+				free(error_str);
+				return (NULL);
 			}
 		}
-		i++;
+		current = current->next;
 	}
-	if (head_node_location != 0)
-	{
-		res = init_token(parent, ft_substr(input, head_node_location, 2), 2);
-		res->left = get_nodes_and_or(shell, ft_substr(input, 0, head_node_location), res);
-		res->right = get_nodes_and_or(shell, ft_substr(input, head_node_location + 2, ft_strlen(input) - head_node_location - 2), res);
-		return (res);
-	}
-	else // and_or_not_found
-	{
-		return (get_nodes_pipes(shell, input, parent));
-	}
+	return (start);
 }
 
-t_token	*get_nodes_pipes(t_token *shell, char *input, t_token *parent)
+t_token *get_heredoc(t_command *cmd, t_token *start, t_token *stop)
 {
-	int		i = 0;
-	int		pipe_node_location;
-	t_token	*res;
+	t_token	*current;
 
-	while (input[i])
+	current = start;
+	while (current != stop)
 	{
-		if (input[i] == '|')
+		if (current->type == T_SPECIAL && current->value == '<<')
 		{
-			pipe_node_location = i;
-			res = init_token(parent, ft_substr(input, pipe_node_location, 1), 1);
-			res->left = init_cmd(ft_substr(input, 0, pipe_node_location), res);
-			res->right = get_nodes_pipes(shell, ft_substr(input, pipe_node_location + 1, ft_strlen(input) - pipe_node_location - 1), res);
+			if (current->next->type == T_WORD)
+			{
+				cmd->heredoc_delimiter = current->next->value;
+				return (current);
+			}
+			else // i dont think we should have a "<<" folowed by not a word
+				return (stop);
 		}
-		i++;
+		current = current->next;
 	}
-	if (pipe_node_location != 0)
-	{
-		res = init_cmd(input, parent);
-	}
+	return (stop);
 }
 
-init_token();
+t_token	*get_output_file(t_command *cmd, t_token *start, t_token *stop)
+{
+	t_token	*current;
+
+	current = start;
+	while (current != stop)
+	{
+		if (current->type == T_SPECIAL && current->value[0] == '>')
+		{
+			if (current->next->type == T_WORD)
+			{
+				cmd->output_file = current->next->value;
+				cmd->append_output = (ft_strcmp(current->value, ">>"));
+				return (current);
+			}
+			else
+				return (stop);
+		}
+		current = current->next;
+	}
+	return (stop);
+}
+
+char	**list_to_arr(t_token *start, t_token *stop)
+{
+	t_token	*current;
+	char	**res;
+	int		i;
+
+	current = start;
+	i = 0;
+	while (current != stop)
+	{
+		if (current->type == T_WORD)
+			i++;
+		current = current->next;
+	}
+	res = ft_calloc(sizeof(char *), i + 1);
+	current = start;
+	i = 0;
+	while (current != stop)
+	{
+		if (current->type == T_WORD) //handle this or nah?
+		{
+			res[i] = current->value;
+			i++;
+		}
+		current = current->next;
+	}
+	return (res);
+}
