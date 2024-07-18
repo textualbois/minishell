@@ -26,9 +26,9 @@ t_tree	*get_nodes_and_or(t_token *start, t_token *stop, t_tree *parent)
 
 	while (current != stop)
 	{
-		if (current->type == T_SPECIAL && current->value == '(')
+		if (current->type == T_SPECIAL && current->value[0] == '(')
 			depth++;
-		else if (current->type == T_SPECIAL && current->value == ')')
+		else if (current->type == T_SPECIAL && current->value[0] == ')')
 			depth--;
 		else if (current->type == T_OR || current->type == T_AND)
 		{
@@ -54,7 +54,7 @@ t_tree	*get_nodes_and_or(t_token *start, t_token *stop, t_tree *parent)
 	return (NULL);
 }
 
-t_token	*get_nodes_pipes(t_token *start, t_token *stop, t_tree *parent)
+t_tree	*get_nodes_pipes(t_token *start, t_token *stop, t_tree *parent)
 {
 	t_token	*current;
 	t_token	*pipe_token;
@@ -72,19 +72,18 @@ t_token	*get_nodes_pipes(t_token *start, t_token *stop, t_tree *parent)
 		}
 		current = current->next;
 	}
-
 	if (pipe_token != NULL)
 	{
-		res = init_tree_node(parent, pipe_token);
+		res = init_tree_node(pipe_token, parent);
 		res->left = init_cmd_node(start, pipe_token, res);  // Assuming init_cmd can take a list up to a point
 		res->right = get_nodes_pipes(pipe_token->next, stop, res);
-		return res;
+		return (res);
 	}
 	else
 		return (init_cmd_node(start, stop, parent));
 }
 
-t_tree	*init_cmd_node(t_token *start, t_token *stop, t_token *parent)
+t_tree	*init_cmd_node(t_token *start, t_token *stop, t_tree *parent)
 {
 	t_tree	*res;
 	t_token	*current;

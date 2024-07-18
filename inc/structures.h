@@ -16,6 +16,7 @@ typedef struct s_command	t_command;
 typedef struct s_pipex		t_pipex;
 typedef struct s_shell		t_shell;
 typedef struct s_env		t_env;
+typedef struct s_tree		t_tree;
 
 // code for tokentype
 typedef enum e_tokentype
@@ -51,6 +52,7 @@ typedef struct s_shell //todo
 	int			command_count; // keep track of number of commands in current pipe
 	int			token_capacity; // the capacity of the tokens array
 	t_token		*tokens; // array of tokens
+	t_tree		*ast; // the abstract syntax tree
 	t_command	**commands;
 	t_pipex		**pipex;
 }	t_shell;
@@ -78,31 +80,31 @@ typedef struct s_pipex
 // type: the type of token (enum t_tokentype)
 typedef struct s_token
 {
-	char			*value;
-	int				type;
-	struct s_token	*next; // not sure if needed
-	struct s_token	*prev; // not sure if needed
+	char	*value;
+	int		type;
+	t_token	*next; // not sure if needed
+	t_token	*prev; // not sure if needed
 }	t_token;
 
 typedef struct s_command
 {
-	char				**args;
-	char				*name;
-	char				*input_file;
-	char				*output_file;
-	char				*heredoc_delimiter;
-	int					append_output;
-	int					pipe_in; //store fd for in
-	int					pipe_out; // for out
-	struct s_command	*next;
+	char		**args;
+	char		*name;
+	char		*input_file;
+	char		*output_file;
+	char		*heredoc_delimiter;
+	int			append_output;
+	int			pipe_in; //store fd for in
+	int			pipe_out; // for out
+	t_command	*next;
 }	t_command;
 
 // Structure for the abstract syntax tree
 typedef struct	s_tree
 {
-	t_command		*cmd;
-	struct s_tree	*left;
-	struct s_tree	*right;
-	struct s_tree	*parent;
-	struct t_token	*token;
+	t_command	*cmd;
+	t_tree		*left;
+	t_tree		*right;
+	t_tree		*parent;
+	t_token		*token;
 }	t_tree;

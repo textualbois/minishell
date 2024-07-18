@@ -20,11 +20,11 @@ t_token *get_input_file(t_command *cmd, t_token *start, t_token *stop)
 	current = start;
 	while (current != stop) // if the lexer handles input checking then this should nopt be a while loop, just an if
 	{
-		if (current->type == T_SPECIAL && current->value == '<')
+		if (current->type == T_SPECIAL && current->value[0] == '<')
 		{
 			if (current->next->type == T_WORD)
 			{
-				cmd->input_file = current->next->type;
+				cmd->input_file = current->next->value;
 				return (current->next);
 			}
 			else // is the error handled here or later or in lexing!!!! need to check against bash. If bash "lets this pass" i.e. still executes later commands, then we should act accordingly
@@ -47,7 +47,7 @@ t_token *get_heredoc(t_command *cmd, t_token *start, t_token *stop)
 	current = start;
 	while (current != stop)
 	{
-		if (current->type == T_SPECIAL && current->value == '<<')
+		if (current->type == T_SPECIAL && ft_strcmp(current->value, "<<") == 0)
 		{
 			if (current->next->type == T_WORD)
 			{

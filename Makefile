@@ -82,6 +82,7 @@ HEADER = $(INC_DIR)/minishell.h
 SRC = $(SRC_DIR)/main.c \
 	$(SRC_DIR)/loop/loop.c \
 	$(SRC_DIR)/exec/exec0.c \
+	$(SRC_DIR)/parse/ast_helper.c $(SRC_DIR)/parse/ast_setup.c \
 	$(SRC_DIR)/parse/parse.c $(SRC_DIR)/parse/lexer.c \
 	$(SRC_DIR)/parse/utils.c $(SRC_DIR)/parse/execute.c \
 	$(SRC_DIR)/prompts/terminal_prompt.c \

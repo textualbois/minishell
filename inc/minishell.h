@@ -108,7 +108,7 @@ t_token		*get_output_file(t_command *cmd, t_token *start, t_token *stop);
 char		**list_to_arr(t_token *start, t_token *stop);
 
 // -ast_setup.c
-t_tree		*init_cmd_node(t_token *start, t_token *stop, t_token *parent);
+t_tree		*init_cmd_node(t_token *start, t_token *stop, t_tree *parent);
 t_tree		*init_tree_node(t_token *token, t_tree *parent);
 t_tree		*get_nodes_pipes(t_token *start, t_token *stop, t_tree *parent);
 t_tree		*get_nodes_and_or(t_token *start, t_token *stop, t_tree *parent);
