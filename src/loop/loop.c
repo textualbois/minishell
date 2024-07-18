@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 14:02:02 by isemin            #+#    #+#             */
-/*   Updated: 2024/07/17 13:03:52 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/07/18 12:20:23 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,8 @@ int	shell_loop(t_shell *shell)
 				printf("OR");
 			else if (shell->tokens[i].type == T_AND)
 				printf("AND");
+			else if (shell->tokens[i].type == T_SPECIAL)
+				printf("SPECIAL");
 			else
 				printf("UNKNOWN");
 			printf(", Value = '%s'\n", shell->tokens[i].value);

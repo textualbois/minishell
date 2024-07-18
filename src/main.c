@@ -6,16 +6,11 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 13:43:41 by mrusu             #+#    #+#             */
-/*   Updated: 2024/07/11 15:37:46 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/07/18 10:28:03 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
-
-void	display_prompt(void)
-{
-	printf(GREEN "minishell$ " RESET);
-}
 
 void	print_welcome_msg(void)
 {

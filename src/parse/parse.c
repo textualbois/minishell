@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 16:29:47 by mrusu             #+#    #+#             */
-/*   Updated: 2024/07/17 18:02:34 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/07/18 12:21:14 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@
 */
 int	parse(t_shell *shell)
 {
-	if (quotes_a_parenthesis(shell) != 0)
+	if (quotes_a_parentheses(shell) != 0)
 	{
-		printf("Error: unmatched quotes\n");
+		printf("Error: unmatched quotes or parentheses\n");
 		return (1);
 	}
 	if (tokenize(shell, shell->raw_input) != 0)
@@ -28,6 +28,23 @@ int	parse(t_shell *shell)
 		printf("Error: tokenization failed\n");
 		return (1);
 	}
+
+  // Build the AST
+    // if (shell->token_count > 0)
+    // {
+    //     shell->ast = get_nodes_and_or(&shell->tokens[0], &shell->tokens[shell->token_count - 1], NULL);
+    //     if (!shell->ast)
+    //     {
+    //         printf("Error: failed to build AST\n");
+    //         return (1);
+    //     }
+    // }
+    // else
+    // {
+    //     shell->ast = NULL;  // No tokens, no AST
+    // }
+
+
 	// if (process_tokens(shell) != 0)
 	// {
 	// 	printf("Error: command creation failed\n");
@@ -39,32 +56,31 @@ int	parse(t_shell *shell)
 /*
 * @ brief: Checks if there are unmatched quotes in the input string.
 */
-int	quotes_a_parenthesis(t_shell *shell)
+int	quotes_a_parentheses(t_shell *shell)
 {
 	char	*input;
 	int		single_quote;
 	int		double_quote;
-	int		open_parenthesis;
+	int		open_parentheses;
 
 	input = shell->raw_input;
 	single_quote = 0;
 	double_quote = 0;
-	open_parenthesis = 0;
-	while (*input)
+	open_parentheses = 0;
+	while (*input++)
 	{
 		if (*input == '\'' && !double_quote)
 			single_quote = !single_quote;
 		else if (*input == '"' && !single_quote)
 			double_quote = !double_quote;
 		else if (*input == '(' && !single_quote && !double_quote)
-			open_parenthesis++;
+			open_parentheses++;
 		else if (*input == ')' && !single_quote && !double_quote)
-			open_parenthesis--;
-		if (open_parenthesis < 0)
+			open_parentheses--;
+		if (open_parentheses < 0)
 			return (1);
-		input++;
 	}
-	if (single_quote || double_quote || open_parenthesis)
+	if (single_quote || double_quote || open_parentheses)
 		return (1);
 	return (0);
 }

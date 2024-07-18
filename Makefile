@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: isemin <isemin@student.42.fr>              +#+  +:+       +#+         #
+#    By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/01 09:20:11 by mrusu             #+#    #+#              #
-#    Updated: 2024/07/15 17:00:54 by isemin           ###   ########.fr        #
+#    Updated: 2024/07/18 10:12:50 by mrusu            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -84,7 +84,7 @@ SRC = $(SRC_DIR)/main.c \
 	$(SRC_DIR)/exec/exec0.c \
 	$(SRC_DIR)/parse/ast_helper.c $(SRC_DIR)/parse/ast_setup.c \
 	$(SRC_DIR)/parse/parse.c $(SRC_DIR)/parse/lexer.c \
-	$(SRC_DIR)/parse/utils.c $(SRC_DIR)/parse/execute.c \
+	$(SRC_DIR)/parse/utils.c \
 	$(SRC_DIR)/prompts/terminal_prompt.c \
 	$(SRC_DIR)/setup/env.c $(SRC_DIR)/setup/init_shell.c \
 	$(SRC_DIR)/utils/utils0.c $(SRC_DIR)/utils/env.c \

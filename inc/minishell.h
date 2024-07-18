@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 13:17:13 by mrusu             #+#    #+#             */
-/*   Updated: 2024/07/17 18:03:55 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/07/18 12:15:10 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,7 @@ void		add_token(t_shell *shell, t_tokentype type, char *value);
 
 // -parse.c
 int			parse(t_shell *shell);
-int			quotes_a_parenthesis(t_shell *shell);
+int			quotes_a_parentheses(t_shell *shell);
 int			process_tokens(t_shell *shell);
 t_command	*init_command(t_token *tokens, int start, int end);
 int			add_command(t_shell *shell, t_command *new_cmd);

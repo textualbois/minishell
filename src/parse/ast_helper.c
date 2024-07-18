@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast_helper.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 15:58:09 by isemin            #+#    #+#             */
-/*   Updated: 2024/07/16 16:52:03 by isemin           ###   ########.fr       */
+/*   Updated: 2024/07/18 12:20:49 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,4 +112,18 @@ char	**list_to_arr(t_token *start, t_token *stop)
 		current = current->next;
 	}
 	return (res);
+}
+
+void	print_ast(t_tree *node, int depth) //debug
+{
+	if (!node)
+		return;
+	for (int i = 0; i < depth; i++)
+		printf("  ");
+	if (node->cmd)
+		printf("Command: %s\n", node->cmd->name);
+	else if (node->token)
+		printf("Operator: %s\n", node->token->value);
+	print_ast(node->left, depth + 1);
+	print_ast(node->right, depth + 1);
 }
