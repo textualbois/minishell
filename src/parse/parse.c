@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 16:29:47 by mrusu             #+#    #+#             */
-/*   Updated: 2024/07/18 12:21:14 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/07/18 17:01:15 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,20 +29,20 @@ int	parse(t_shell *shell)
 		return (1);
 	}
 
-  // Build the AST
-    // if (shell->token_count > 0)
-    // {
-    //     shell->ast = get_nodes_and_or(&shell->tokens[0], &shell->tokens[shell->token_count - 1], NULL);
-    //     if (!shell->ast)
-    //     {
-    //         printf("Error: failed to build AST\n");
-    //         return (1);
-    //     }
-    // }
-    // else
-    // {
-    //     shell->ast = NULL;  // No tokens, no AST
-    // }
+//	Build the AST
+    if (shell->token_count > 0)
+    {
+        shell->ast = get_nodes_and_or(&shell->tokens[0], &shell->tokens[shell->token_count - 1], NULL);
+        if (!shell->ast)
+        {
+            printf("Error: failed to build AST\n");
+            return (1);
+        }
+    }
+    else
+    {
+        shell->ast = NULL;  // No tokens, no AST
+    }
 
 
 	// if (process_tokens(shell) != 0)
