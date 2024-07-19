@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 14:02:02 by isemin            #+#    #+#             */
-/*   Updated: 2024/07/18 12:20:23 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/07/19 09:25:23 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,24 +38,6 @@ int	shell_loop(t_shell *shell)
 			printf("Parsing failed\n");
 			free(shell->raw_input);
 			continue ;
-		}
-		printf("Tokenization result:\n"); //DEBUG
-		for (int i = 0; i < shell->token_count; i++) // DEBUG
-		{
-			printf("Token %d: Type = ", i);
-			if (shell->tokens[i].type == T_WORD)
-				printf("WORD");
-			else if (shell->tokens[i].type == T_PIPE)
-				printf("PIPE");
-			else if (shell->tokens[i].type == T_OR)
-				printf("OR");
-			else if (shell->tokens[i].type == T_AND)
-				printf("AND");
-			else if (shell->tokens[i].type == T_SPECIAL)
-				printf("SPECIAL");
-			else
-				printf("UNKNOWN");
-			printf(", Value = '%s'\n", shell->tokens[i].value);
 		}
 		free_tokens(shell);
 		free(shell->raw_input);

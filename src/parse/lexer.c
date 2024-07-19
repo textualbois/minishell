@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 15:34:33 by mrusu             #+#    #+#             */
-/*   Updated: 2024/07/18 10:05:50 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/07/19 09:40:43 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,12 @@
 */
 int	tokenize(t_shell *shell, char *input)
 {
-	int	i;
-	int	start;
+	int		i;
+	int		start;
+	char	*substr;
 
-	shell->tokens = NULL;
+	shell->head = NULL;
+	shell->tail = NULL;
 	shell->token_count = 0;
 	i = -1;
 	start = 0;
@@ -35,7 +37,9 @@ int	tokenize(t_shell *shell, char *input)
 		{
 			if (i > start)
 			{
-				add_token(shell, T_WORD, ft_substr(input, start, i - start));
+				substr = ft_substr(input, start, i - start);
+				add_token(shell, T_WORD, substr);
+				free(substr);
 			}
 			start = i + 1;
 		}
@@ -46,7 +50,9 @@ int	tokenize(t_shell *shell, char *input)
 	}
 	if (i > start)
 	{
-		add_token(shell, T_WORD, ft_substr(input, start, i - start));
+		substr = ft_substr(input, start, i - start);
+		add_token(shell, T_WORD, substr);
+		free(substr);
 	}
 	return (0);
 }
@@ -110,7 +116,6 @@ void	handle_special_chars(t_shell *shell, char *input, int *i, int *start)
 void	add_token(t_shell *shell, t_tokentype type, char *value)
 {
 	t_token	*new_tokens;
-	int		i;
 
 	new_tokens = malloc(sizeof(t_token) * (shell->token_count + 1));
 	if (!new_tokens)
@@ -118,20 +123,35 @@ void	add_token(t_shell *shell, t_tokentype type, char *value)
 		printf("Error: malloc failed in add_token\n");
 		return ;
 	}
-	i = -1;
-	while (++i < shell->token_count)
-	{
-		new_tokens[i] = shell->tokens[i];
-	}
-	new_tokens[i].type = type;
-	new_tokens[i].value = ft_strdup(value);
-	if (!new_tokens[i].value)
+	new_tokens->type = type;
+	new_tokens->value = ft_strdup(value);
+	if (!new_tokens->value)
 	{
 		printf("Error: ft_strdup failed in add_token\n");
 		free(new_tokens);
 		return ;
 	}
-	free(shell->tokens);
-	shell->tokens = new_tokens;
+	new_tokens->next = NULL;
+	new_tokens->prev = shell->tail;
+	if (shell->tail)
+		shell->tail->next = new_tokens;
+	else
+		shell->head = new_tokens;
+	shell->tail = new_tokens;
 	shell->token_count++;
+	//debug
+	printf("Added Token: Type = ");
+	if (type == T_WORD)
+		printf("WORD");
+	else if (type == T_PIPE)
+		printf("PIPE");
+	else if (type == T_OR)
+		printf("OR");
+	else if (type == T_AND)
+		printf("AND");
+	else if (type == T_SPECIAL)
+		printf("SPECIAL");
+	else
+		printf("UNKNOWN");
+	printf(", Value = '%s'\n", value);
 }

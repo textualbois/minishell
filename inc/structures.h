@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 15:32:24 by isemin            #+#    #+#             */
-/*   Updated: 2024/07/17 13:45:24 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/07/19 09:14:09 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,10 @@ typedef struct s_shell //todo
 	char		*pwd;
 	int			pipes;
 	int			*pid;
-	int			token_count; // the number of tokens in the current input
+	int			token_count;
 	int			command_count; // keep track of number of commands in current pipe
-	int			token_capacity; // the capacity of the tokens array
-	t_token		*tokens; // array of tokens
+	t_token		*head; // the head of the token linked list
+	t_token		*tail; // the tail of the token linked list
 	t_tree		*ast; // the abstract syntax tree
 	t_command	**commands;
 	t_pipex		**pipex;

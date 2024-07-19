@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 10:05:39 by mrusu             #+#    #+#             */
-/*   Updated: 2024/07/18 12:18:01 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/07/19 09:27:31 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,18 @@ t_tokentype	get_token_type(char *str)
 
 void	free_tokens(t_shell *shell)
 {
-	int	i;
+	t_token	*current;
+	t_token	*next;
 
-	i = -1;
-	while (++i < shell->token_count)
-		free(shell->tokens[i].value);
-	free(shell->tokens);
-	shell->tokens = NULL;
+	current = shell->head;
+	while (current)
+	{
+		next = current->next;
+		free(current->value);
+		free(current);
+		current = next;
+	}
+	shell->head = NULL;
+	shell->tail = NULL;
 	shell->token_count = 0;
 }

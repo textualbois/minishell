@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 13:17:13 by mrusu             #+#    #+#             */
-/*   Updated: 2024/07/18 12:15:10 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/07/19 09:33:32 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,6 @@ int			syntax_error(void);
 
 // ----------DIR-----prompts
 // -prompts.c
-void		display_prompt(void);
 void		print_welcome_msg(void);
 
 // ----------DIR-----parse
