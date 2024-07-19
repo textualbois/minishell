@@ -6,7 +6,7 @@
 #    By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/01 09:20:11 by mrusu             #+#    #+#              #
-#    Updated: 2024/07/18 10:12:50 by mrusu            ###   ########.fr        #
+#    Updated: 2024/07/19 13:49:56 by mrusu            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -90,6 +90,7 @@ SRC = $(SRC_DIR)/main.c \
 	$(SRC_DIR)/utils/utils0.c $(SRC_DIR)/utils/env.c \
 	$(SRC_DIR)/error/error.c \
 	$(SRC_DIR)/builtins/builtins0.c $(SRC_DIR)/builtins/env.c \
+	$(SRC_DIR)/signal/signals.c \
 
 # OBJ FILES
 OBJS = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC))

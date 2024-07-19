@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 13:17:13 by mrusu             #+#    #+#             */
-/*   Updated: 2024/07/19 09:33:32 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/07/19 17:01:56 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <errno.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <signal.h>
 
 // own lib's
 # include "../libft/libft.h"
@@ -99,7 +100,6 @@ int			syntax_error(void);
 void		print_welcome_msg(void);
 
 // ----------DIR-----parse
-
 // -ast_helper.c
 t_token		*get_input_file(t_command *cmd, t_token *start, t_token *stop);
 t_token		*get_heredoc(t_command *cmd, t_token *start, t_token *stop);
@@ -112,9 +112,6 @@ t_tree		*init_tree_node(t_token *token, t_tree *parent);
 t_tree		*get_nodes_pipes(t_token *start, t_token *stop, t_tree *parent);
 t_tree		*get_nodes_and_or(t_token *start, t_token *stop, t_tree *parent);
 
-// -execute.c
-int			execute_command(t_shell *shell);
-
 // -lexer.c
 int			tokenize(t_shell *shell, char *input);
 void		handle_quote_token(t_shell *shell, char *input, int *i, int *start);
@@ -124,10 +121,10 @@ void		add_token(t_shell *shell, t_tokentype type, char *value);
 
 // -parse.c
 int			parse(t_shell *shell);
-int			quotes_a_parentheses(t_shell *shell);
-int			process_tokens(t_shell *shell);
-t_command	*init_command(t_token *tokens, int start, int end);
-int			add_command(t_shell *shell, t_command *new_cmd);
+int			quotes_a_parentheses(char *input);
+int			syntax_check(char *input);
+int			invalid_syntax(char *input);
+
 
 // -utils.c
 t_tokentype	get_token_type(char *str);
@@ -136,5 +133,11 @@ void		free_tokens(t_shell *shell);
 // ----------DIR-----pipex_wrapper
 // -input_formatting.c
 int			package_pipex(t_shell *shell);
+
+// ----------DIR-----signals
+// -signals.c
+void		handle_sigint(int sig);
+void		handle_sigquit(int sig);
+void		signal_handler(void);
 
 #endif

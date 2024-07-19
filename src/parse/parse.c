@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 16:29:47 by mrusu             #+#    #+#             */
-/*   Updated: 2024/07/19 09:32:58 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/07/19 17:01:50 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,8 @@
 */
 int	parse(t_shell *shell)
 {
-	if (quotes_a_parentheses(shell) != 0)
+	if (syntax_check(shell->raw_input) != 0)
 	{
-		printf("Error: unmatched quotes or parentheses\n");
 		return (1);
 	}
 	if (tokenize(shell, shell->raw_input) != 0)
@@ -28,42 +27,52 @@ int	parse(t_shell *shell)
 		printf("Error: tokenization failed\n");
 		return (1);
 	}
+	if (shell->token_count > 0)
+	{
+		shell->ast = get_nodes_and_or(shell->head, NULL, NULL);
+		if (!shell->ast)
+		{
+			printf("Error: failed to build AST\n");
+			return (1);
+		}
+	}
+	else
+	{
+		shell->ast = NULL;
+	}
+	return (0);
+}
 
-//	Build the AST
-    if (shell->token_count > 0)
-    {
-        shell->ast = get_nodes_and_or(shell->head, NULL, NULL);
-        if (!shell->ast)
-        {
-            printf("Error: failed to build AST\n");
-            return (1);
-        }
-    }
-    else
-    {
-        shell->ast = NULL;  // No tokens, no AST
-    }
-
-
-	// if (process_tokens(shell) != 0)
-	// {
-	// 	printf("Error: command creation failed\n");
-	// 	return (1);
-	// }
+/*
+* @ brief: Checks for syntax errors in the input string.
+*/
+int	syntax_check(char *input)
+{
+	while (*input && ft_isspace(*input))
+		input++;
+	if (quotes_a_parentheses(input) != 0)
+	{
+		printf("Error: unmatched quotes or parentheses\n");
+		return (1);
+	}
+	if (invalid_syntax(input) != 0)
+	{
+		printf("Error: invalid syntax\n");
+		return (1);
+	}
+	// more syntax error?
 	return (0);
 }
 
 /*
 * @ brief: Checks if there are unmatched quotes in the input string.
 */
-int	quotes_a_parentheses(t_shell *shell)
+int	quotes_a_parentheses(char *input)
 {
-	char	*input;
 	int		single_quote;
 	int		double_quote;
 	int		open_parentheses;
 
-	input = shell->raw_input;
 	single_quote = 0;
 	double_quote = 0;
 	open_parentheses = 0;
@@ -85,91 +94,34 @@ int	quotes_a_parentheses(t_shell *shell)
 	return (0);
 }
 
-// /*
-// * @ brief: Creates a list of commands from the shell's token list.
-// */
-// int	process_tokens(t_shell *shell)
-// {
-// 	t_command	*new_cmd;
-// 	int			i;
-// 	int			start;
-
-// 	shell->commands = NULL;
-// 	shell->command_count = 0;
-// 	i = -1;
-// 	start = 0;
-// 	while (++i < shell->token_count)
-// 	{
-// 		if (shell->tokens[i].type == T_PIPE || i == shell->token_count - 1)
-// 		{
-// 			if (i == shell->token_count - 1)
-// 				i++;
-// 			printf("Creating command from tokens %d to %d\n", start, i - 1);
-// 			new_cmd = init_command(shell->tokens, start, i);
-// 			if (!new_cmd || add_command(shell, new_cmd) != 0)
-// 			{
-// 				printf("Error: failed to initialize or add command\n");
-// 				return (1);
-// 			}
-// 			start = i + 1;
-// 		}
-// 	}
-// 	return (0);
-// }
-
-// /*
-// * @ brief: Creates a new command structure and initializes it.
-// */
-// t_command	*init_command(t_token *tokens, int start, int end)
-// {
-// 	t_command	*new_cmd;
-// 	int			i;
-
-// 	i = start -1;
-// 	new_cmd = malloc(sizeof(t_command));
-// 	if (!new_cmd)
-// 		return (NULL);
-// 	new_cmd->args = NULL;
-// 	new_cmd->pipe_out = 0;
-// 	new_cmd->output_file = NULL;
-// 	new_cmd->input_file = NULL;
-// 	new_cmd->heredoc_delimiter = NULL;
-// 	new_cmd->append_output = 0;
-// 	while (++i < end)
-// 	{
-// 		handle_token(new_cmd, &tokens[i]);
-// 	}
-// 	return (new_cmd);
-// }
-
-// /*
-// * @brief: Adds a command to the shell's command list.
-// */
-// int	add_command(t_shell *shell, t_command *new_cmd)
-// {
-// 	t_command	**new_commands;
-// 	int			i;
-
-// 	i = -1;
-// 	new_commands = malloc(sizeof(t_command *) * (shell->command_count + 1));
-// 	if (!new_commands)
-// 	{
-// 		printf("Error: malloc failed in add_command\n");
-// 		return (1);
-// 	}
-// 	while (++i < shell->command_count)
-// 	{
-// 		new_commands[i] = shell->commands[i];
-// 	}
-// 	new_commands[i] = new_cmd;
-// 	free(shell->commands);
-// 	shell->commands = new_commands;
-// 	shell->command_count++;
-
-// 	printf("Command added: args = ");
-// 	for (int j = 0; new_cmd->args && new_cmd->args[j]; j++)
-// 	{
-// 		printf("'%s' \n", new_cmd->args[j]);
-// 	}
-// 	return (0);
-// }
+/*
+* @ brief: Checks if there are invalid pipes and ampersands.
+*/
+int	invalid_syntax(char *input)
+{
+	while (*input)
+	{
+		while (*input && ft_isspace(*input))
+			input++;
+		if (*input == '|' || *input == '&')
+			return (1);
+		if (*input == '|')
+		{
+			input++;
+			while (*input && ft_isspace(*input))
+				input++;
+			if (*input == '|' || *input == '\0')
+				return (1);
+		}
+		else if (*input == '&')
+		{
+			input++;
+			while (*input && ft_isspace(*input))
+				input++;
+			if (*input == '&' || *input == '\0')
+				return (1);
+		}
+		input++;
+	}
+	return (0);
+}

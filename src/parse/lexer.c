@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 15:34:33 by mrusu             #+#    #+#             */
-/*   Updated: 2024/07/19 09:40:43 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/07/19 15:22:39 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,9 +105,43 @@ void	handle_special_chars(t_shell *shell, char *input, int *i, int *start)
 			special[1] = input[*i];
 			(*i)++;
 		}
-		add_token(shell, type, special);
+		if (special[0] == '$')
+		{
+			add_token(shell, T_DOLLAR, special);
+			*start = *i + 1;
+		}
+		else
+		{
+			add_token(shell, type, special);
+			*start = *i + 1;
+		}
 	}
-	*start = *i + 1;
+}
+
+/*
+* @ brief: Creates a new token.
+*/
+t_token	*create_token(t_tokentype type, char *value)
+{
+	t_token	*new_token;
+
+	new_token = malloc(sizeof(t_token) * 1);
+	if (!new_token)
+	{
+		printf("Error: malloc failed in create_token\n");
+		return (NULL);
+	}
+	new_token->type = type;
+	new_token->value = ft_strdup(value);
+	if (!new_token->value)
+	{
+		printf("Error: ft_strdup failed in create_token\n");
+		free(new_token);
+		return (NULL);
+	}
+	new_token->next = NULL;
+	new_token->prev = NULL;
+	return (new_token);
 }
 
 /*
@@ -115,29 +149,22 @@ void	handle_special_chars(t_shell *shell, char *input, int *i, int *start)
 */
 void	add_token(t_shell *shell, t_tokentype type, char *value)
 {
-	t_token	*new_tokens;
+	t_token	*new_token;
 
-	new_tokens = malloc(sizeof(t_token) * (shell->token_count + 1));
-	if (!new_tokens)
-	{
-		printf("Error: malloc failed in add_token\n");
+	new_token = create_token(type, value);
+	if (!new_token)
 		return ;
-	}
-	new_tokens->type = type;
-	new_tokens->value = ft_strdup(value);
-	if (!new_tokens->value)
+	if (shell->head == NULL)
 	{
-		printf("Error: ft_strdup failed in add_token\n");
-		free(new_tokens);
-		return ;
+		shell->head = new_token;
+		shell->tail = new_token;
 	}
-	new_tokens->next = NULL;
-	new_tokens->prev = shell->tail;
-	if (shell->tail)
-		shell->tail->next = new_tokens;
 	else
-		shell->head = new_tokens;
-	shell->tail = new_tokens;
+	{
+		shell->tail->next = new_token;
+		new_token->prev = shell->tail;
+		shell->tail = new_token;
+	}
 	shell->token_count++;
 	//debug
 	printf("Added Token: Type = ");
@@ -151,6 +178,8 @@ void	add_token(t_shell *shell, t_tokentype type, char *value)
 		printf("AND");
 	else if (type == T_SPECIAL)
 		printf("SPECIAL");
+	else if (type == T_DOLLAR)
+		printf("DOLLAR");
 	else
 		printf("UNKNOWN");
 	printf(", Value = '%s'\n", value);

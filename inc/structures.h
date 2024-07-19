@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 15:32:24 by isemin            #+#    #+#             */
-/*   Updated: 2024/07/19 09:14:09 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/07/19 16:15:02 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,13 @@ typedef struct s_tree		t_tree;
 // code for tokentype
 typedef enum e_tokentype
 {
-	T_WORD, // word
-	T_SPECIAL, // special character ( >, <,)
-	T_PIPE, // |
-	T_OR, // ||
-	T_AND, // &&
-	T_QUOTE // ' or "
+	T_WORD,
+	T_SPECIAL,
+	T_PIPE,
+	T_OR,
+	T_AND,
+	T_QUOTE,
+	T_DOLLAR
 }	t_tokentype;
 
 // **********************====STRUCT====*********************
@@ -49,10 +50,10 @@ typedef struct s_shell //todo
 	int			pipes;
 	int			*pid;
 	int			token_count;
-	int			command_count; // keep track of number of commands in current pipe
-	t_token		*head; // the head of the token linked list
-	t_token		*tail; // the tail of the token linked list
-	t_tree		*ast; // the abstract syntax tree
+	int			command_count;
+	t_token		*head;
+	t_token		*tail;
+	t_tree		*ast;
 	t_command	**commands;
 	t_pipex		**pipex;
 }	t_shell;
@@ -75,15 +76,17 @@ typedef struct s_pipex
 	char	**flags;
 }	t_pipex;
 
-// Strucutre for storing tokens
-// value: the actual token value
-// type: the type of token (enum t_tokentype)
+/*
+* @brief: Structure for storing tokens.
+* @param value: the actual token value
+* @param type: the type of token (enum t_tokentype)
+*/
 typedef struct s_token
 {
 	char	*value;
 	int		type;
-	t_token	*next; // not sure if needed
-	t_token	*prev; // not sure if needed
+	t_token	*next;
+	t_token	*prev;
 }	t_token;
 
 typedef struct s_command
@@ -94,13 +97,13 @@ typedef struct s_command
 	char		*output_file;
 	char		*heredoc_delimiter;
 	int			append_output;
-	int			pipe_in; //store fd for in
-	int			pipe_out; // for out
+	int			pipe_in;
+	int			pipe_out;
 	t_command	*next;
 }	t_command;
 
 // Structure for the abstract syntax tree
-typedef struct	s_tree
+typedef struct s_tree
 {
 	t_command	*cmd;
 	t_tree		*left;
