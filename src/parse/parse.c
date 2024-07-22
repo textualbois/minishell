@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 16:29:47 by mrusu             #+#    #+#             */
-/*   Updated: 2024/07/19 17:01:50 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/07/22 14:50:55 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int	syntax_check(char *input)
 		printf("Error: invalid syntax\n");
 		return (1);
 	}
-	// more syntax error?
+	//more syntax error?
 	return (0);
 }
 
@@ -99,18 +99,18 @@ int	quotes_a_parentheses(char *input)
 */
 int	invalid_syntax(char *input)
 {
+	if (*input == '|' || *input == '&')
+		return (1);
 	while (*input)
 	{
 		while (*input && ft_isspace(*input))
 			input++;
-		if (*input == '|' || *input == '&')
-			return (1);
 		if (*input == '|')
 		{
 			input++;
 			while (*input && ft_isspace(*input))
 				input++;
-			if (*input == '|' || *input == '\0')
+			if (*input == '|' || *input == '\0' || *input == '&')
 				return (1);
 		}
 		else if (*input == '&')
@@ -118,7 +118,7 @@ int	invalid_syntax(char *input)
 			input++;
 			while (*input && ft_isspace(*input))
 				input++;
-			if (*input == '&' || *input == '\0')
+			if (*input == '|' || *input == '&' || *input == '\0')
 				return (1);
 		}
 		input++;
