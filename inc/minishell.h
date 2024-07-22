@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
+/*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 13:17:13 by mrusu             #+#    #+#             */
-/*   Updated: 2024/07/19 17:01:56 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/07/22 15:19:27 by isemin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,16 @@
 # include "../libft/libft.h"
 # include "../pipex/pipex.h"
 # include "structures.h"
+
+// ast_debug
+# define GET 0
+# define SET 1
+# define LEFT -1
+# define RIGHT 1
+# define DOWN 2
+# define UP -2
+# define CURRENT_WIDTH 3
+# define CURRENT_DEPTH -3
 
 // Colors
 # define RED "\033[1;31m"
@@ -84,11 +94,9 @@ int			ft_isspace(char c);
 int			ft_is_special_char(char c);
 int			ft_strcmp(const char *str1, const char *str2);
 
-// ----------DIR-----utile
-// -utiles0.c
-char		**ft_arrdup(char **arr);
-int			ft_isspace(char c);
-int			ft_is_special_char(char c);
+// ---wild_math.c
+int			my_max(int a, int b);
+int			my_min(int a, int b);
 
 // ----------DIR-----error
 // -error.c
@@ -100,6 +108,12 @@ int			syntax_error(void);
 void		print_welcome_msg(void);
 
 // ----------DIR-----parse
+// -ast_debug.c
+int			print_ast(t_shell *shell);
+void		print_ast_recursive(t_tree *node, int depth);
+int			depth_counter(int get_set, int direction, int val);
+
+
 // -ast_helper.c
 t_token		*get_input_file(t_command *cmd, t_token *start, t_token *stop);
 t_token		*get_heredoc(t_command *cmd, t_token *start, t_token *stop);
