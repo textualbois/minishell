@@ -6,13 +6,13 @@
 /*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 13:30:39 by isemin            #+#    #+#             */
-/*   Updated: 2024/07/09 16:04:42 by isemin           ###   ########.fr       */
+/*   Updated: 2024/07/23 15:26:13 by isemin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-void	init_shell(t_shell *shell, char **env) //should init the shell
+void	init_shell(t_shell *shell, char **env)
 {
 	if (getenv("USER") == NULL)
 	{
@@ -33,4 +33,5 @@ void	init_shell(t_shell *shell, char **env) //should init the shell
 	shell->terminal_prompt = NULL;
 	shell->stdio_fds[0] = dup(STDIN_FILENO);
 	shell->stdio_fds[1] = dup(STDOUT_FILENO);
+	form_prompt(shell, shell->user);
 }

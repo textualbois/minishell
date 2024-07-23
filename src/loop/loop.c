@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 14:02:02 by isemin            #+#    #+#             */
-/*   Updated: 2024/07/23 13:20:13 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/07/23 15:42:57 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	shell_loop(t_shell *shell)
 	setup_signals();
 	while (42)
 	{
-		form_prompt(shell);
+		form_prompt(shell, NULL);
 		if (ft_readline(shell) == NULL)
 		{
 			printf("Exiting shell.\n");
