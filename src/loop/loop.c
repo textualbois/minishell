@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   loop.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
+/*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 14:02:02 by isemin            #+#    #+#             */
-/*   Updated: 2024/07/19 13:44:53 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/07/23 15:23:34 by isemin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	shell_loop(t_shell *shell)
 	signal_handler();
 	while (42)
 	{
-		form_prompt(shell);
+		form_prompt(shell, NULL);
 		if (ft_readline(shell) == NULL)
 		{
 			printf("Exiting shell.\n");
