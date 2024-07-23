@@ -6,19 +6,22 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 14:48:23 by isemin            #+#    #+#             */
-/*   Updated: 2024/07/22 17:51:13 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/07/23 15:18:27 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
+/*
+* @ brief: Disables the control characters. 
+*/
 void	disable_ctrl_chars(void)
 {
 	struct termios	terminal;
 
-	tcgetattr(1, &terminal);
+	tcgetattr(STDIN_FILENO, &terminal);
 	terminal.c_lflag &= ~(ECHOCTL);
-	tcsetattr(1, TCSANOW, &terminal);
+	tcsetattr(STDIN_FILENO, TCSANOW, &terminal);
 }
 
 void	form_prompt(t_shell *shell)

@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 13:17:13 by mrusu             #+#    #+#             */
-/*   Updated: 2024/07/22 17:41:08 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/07/23 13:21:16 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,6 +153,8 @@ int			package_pipex(t_shell *shell);
 // -signals.c
 void		handle_sigint(int sig);
 void		handle_sigquit(int sig);
-void		signal_handler(void);
+void		handle_sigtstp(int sig);
+void		set_signal_flag(int in_child_process);
+void		setup_signals(void);
 
 #endif
