@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 16:29:47 by mrusu             #+#    #+#             */
-/*   Updated: 2024/07/22 14:50:55 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/07/24 15:08:17 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,19 +48,37 @@ int	parse(t_shell *shell)
 */
 int	syntax_check(char *input)
 {
-	while (*input && ft_isspace(*input))
-		input++;
-	if (quotes_a_parentheses(input) != 0)
-	{
-		printf("Error: unmatched quotes or parentheses\n");
+	if (check_start_end(input) != 0)
 		return (1);
-	}
-	if (invalid_syntax(input) != 0)
+	if (quotes_a_parentheses(input) != 0)
+		return (1);
+	if (check_consecutive_operators(input) != 0)
 	{
 		printf("Error: invalid syntax\n");
 		return (1);
 	}
-	//more syntax error?
+	return (0);
+}
+
+int	check_start_end(char *input)
+{
+	char	*end;
+
+	while (*input && ft_isspace(*input))
+		input++;
+	if (*input == '|' || *input == '&')
+	{
+		printf("Error: invalid syntax\n");
+		return (1);
+	}
+	end = input + ft_strlen(input) - 1;
+	while (end > input && ft_strlen(end))
+		end--;
+	if (*end == '|' || *end == '&')
+	{
+		printf("Error: invalid syntax\n");
+		return (1);
+	}
 	return (0);
 }
 
@@ -76,7 +94,7 @@ int	quotes_a_parentheses(char *input)
 	single_quote = 0;
 	double_quote = 0;
 	open_parentheses = 0;
-	while (*input++)
+	while (*input)
 	{
 		if (*input == '\'' && !double_quote)
 			single_quote = !single_quote;
@@ -88,6 +106,7 @@ int	quotes_a_parentheses(char *input)
 			open_parentheses--;
 		if (open_parentheses < 0)
 			return (1);
+		input++;
 	}
 	if (single_quote || double_quote || open_parentheses)
 		return (1);
@@ -97,31 +116,29 @@ int	quotes_a_parentheses(char *input)
 /*
 * @ brief: Checks if there are invalid pipes and ampersands.
 */
-int	invalid_syntax(char *input)
+int	check_consecutive_operators(char *input)
 {
-	if (*input == '|' || *input == '&')
-		return (1);
-	while (*input)
+	int		i;
+	int		operator_count;
+
+	i = 0;
+	operator_count = 0;
+	while (input[i])
 	{
-		while (*input && ft_isspace(*input))
-			input++;
-		if (*input == '|')
+		if (input[i] == '|' || input[i] == '&')
 		{
-			input++;
-			while (*input && ft_isspace(*input))
-				input++;
-			if (*input == '|' || *input == '\0' || *input == '&')
+			operator_count++;
+			if (operator_count > 2)
 				return (1);
+			if (operator_count == 2 && input[i] != input[i - 1])
+				return (1);
+			i++;
 		}
-		else if (*input == '&')
+		else if (!ft_isspace(input[i]))
 		{
-			input++;
-			while (*input && ft_isspace(*input))
-				input++;
-			if (*input == '|' || *input == '&' || *input == '\0')
-				return (1);
+			operator_count = 0;
 		}
-		input++;
+		i++;
 	}
 	return (0);
 }
