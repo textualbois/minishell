@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 10:05:39 by mrusu             #+#    #+#             */
-/*   Updated: 2024/07/24 15:06:41 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/07/24 17:09:34 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,9 @@ t_tokentype	get_token_type(char *str)
 		return (T_WORD);
 }
 
+/*
+* @ brief: clears the shell's token list.
+*/
 void	free_tokens(t_shell *shell)
 {
 	t_token	*current;

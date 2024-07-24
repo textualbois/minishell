@@ -6,12 +6,11 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 15:34:33 by mrusu             #+#    #+#             */
-/*   Updated: 2024/07/24 15:14:25 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/07/24 16:31:07 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
-
 
 /*
 * @ brief: Loops through the input string, creating tokens for each part.
@@ -28,15 +27,10 @@ int	tokenize_loop(t_shell *shell, char *input, int i, int start)
 				add_word_token(shell, input, start, i);
 			start = i + 1;
 		}
-		else if (input[i] == '$')
-		{
-			if (i > start)
-				add_word_token(shell, input, start, i);
-			add_token(shell, T_DOLLAR, "$");
-			start = i + 1;
-		}
 		else if (ft_is_special_char(input[i]))
+		{
 			handle_special_chars(shell, input, &i, &start);
+		}
 		i++;
 	}
 	if (i > start)
@@ -87,24 +81,15 @@ void	handle_special_chars(t_shell *shell, char *input, int *i, int *start)
 	if (*i > *start)
 		add_word_token(shell, input, *start, *i);
 	type = get_token_type(input + *i);
-	if (type != T_WORD)
-	{
-		if (input[*i + 1] == input[*i])
-		{
-			special[1] = input[*i];
-			(*i)++;
-		}
-		add_token(shell, type, special);
-		*start = *i + 1;
-	}
+	if (special[0] == '$')
+		add_token(shell, T_DOLLAR, special);
 	else
-	{
-		*start = *i;
-	}
+		add_token(shell, T_SPECIAL, special);
+	*start = *i + 1;
 }
 
 /*
-* @ brief: Creates a new token.
+* @ brief: Creates a new token with given type and value.
 */
 t_token	*create_token(t_tokentype type, char *value)
 {
