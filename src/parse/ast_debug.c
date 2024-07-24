@@ -6,7 +6,7 @@
 /*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 13:18:55 by isemin            #+#    #+#             */
-/*   Updated: 2024/07/22 15:20:02 by isemin           ###   ########.fr       */
+/*   Updated: 2024/07/24 15:11:21 by isemin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,19 @@ int	print_ast(t_shell *shell)
 		printf("No AST to print\n");
 		return (1);
 	}
-	printf("Printing AST\n");
+	printf("\
+|--------------|\n\
+|              |\n\
+| Printing AST |\n\
+|              |\n\
+| WORD       0 |\n\
+| SPECIAL    1 |\n\
+| PIPE       2 |\n\
+| OR         3 |\n\
+| AND        4 |\n\
+| QUOTE      5 |\n\
+| DOLLAR     6 |\n\
+|______________|\n");
 	print_ast_recursive(current, 0);
 	return (0);
 }
@@ -34,7 +46,7 @@ void	print_ast_recursive(t_tree *node, int depth)
 	i = 0;
 	while (i < depth)
 	{
-		printf("  ");
+		printf("    ");
 		i++;
 	}
 	printf("Token: %s, type: %d\n", node->token->value, node->token->type);
@@ -43,10 +55,12 @@ void	print_ast_recursive(t_tree *node, int depth)
 		i = 0;
 		while (i < depth)
 		{
-			printf("  ");
+			printf("l%dl%d", depth, depth);
+		//	printf("llll");
 			i++;
 		}
-		printf("Left:\n");
+		//printf("Left:\n");
+		printf(": \n");
 		print_ast_recursive(node->left, depth + 1);
 	}
 	if (node->right != NULL)
@@ -54,10 +68,13 @@ void	print_ast_recursive(t_tree *node, int depth)
 		i = 0;
 		while (i < depth)
 		{
-			printf("  ");
+
+			printf("r%dr%d", depth, depth);
+		//	printf("rrrr");
 			i++;
 		}
-		printf("Right:\n");
+		printf(": \n");
+	//	printf("Right:\n");
 		print_ast_recursive(node->right, depth + 1);
 	}
 }
@@ -115,3 +132,4 @@ int	depth_counter(int get_set, int direction, int val)
 	}
 	return (0);
 }
+

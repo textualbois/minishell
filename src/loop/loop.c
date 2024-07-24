@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   loop.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
+/*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 14:02:02 by isemin            #+#    #+#             */
-/*   Updated: 2024/07/23 15:42:57 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/07/24 14:51:48 by isemin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ int	shell_loop(t_shell *shell)
 			free(shell->raw_input);
 			continue ;
 		}
+		print_ast(shell);
 		free_tokens(shell);
 		free(shell->raw_input);
 	}
