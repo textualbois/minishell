@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 10:05:39 by mrusu             #+#    #+#             */
-/*   Updated: 2024/07/19 15:09:06 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/07/24 15:06:41 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,4 +54,37 @@ void	free_tokens(t_shell *shell)
 	shell->head = NULL;
 	shell->tail = NULL;
 	shell->token_count = 0;
+}
+
+/*
+* brief: adds only word tokens type to the shell's token list.
+*/
+void	add_word_token(t_shell *shell, char *input, int start, int end)
+{
+	char	*substr;
+
+	substr = ft_substr(input, start, end - start);
+	if (!substr)
+	{
+		printf("Error: ft_substr failed in add_word_token\n");
+		return ;
+	}
+	add_token(shell, T_WORD, substr);
+	free(substr);
+}
+
+/*
+* @ brief: initializes the shell's token list and token count.
+*/
+int	tokenize(t_shell *shell, char *input)
+{
+	shell->head = NULL;
+	shell->tail = NULL;
+	shell->token_count = 0;
+	if (tokenize_loop(shell, input, 0, 0) != 0)
+	{
+		printf("Error: tokenize_loop failed\n");
+		return (1);
+	}
+	return (0);
 }

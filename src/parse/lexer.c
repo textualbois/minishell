@@ -6,54 +6,41 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 15:34:33 by mrusu             #+#    #+#             */
-/*   Updated: 2024/07/19 15:22:39 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/07/24 15:14:25 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-/*
-* @ brief: Tokenizes the input string, creating tokens for each word,
-*	pipe, redirection, or heredoc operator.
-*/
-int	tokenize(t_shell *shell, char *input)
-{
-	int		i;
-	int		start;
-	char	*substr;
 
-	shell->head = NULL;
-	shell->tail = NULL;
-	shell->token_count = 0;
-	i = -1;
-	start = 0;
-	while (input[++i])
+/*
+* @ brief: Loops through the input string, creating tokens for each part.
+*/
+int	tokenize_loop(t_shell *shell, char *input, int i, int start)
+{
+	while (input[i])
 	{
 		if (input[i] == '\'' || input[i] == '"')
-		{
 			handle_quote_token(shell, input, &i, &start);
-		}
 		else if (ft_isspace(input[i]))
 		{
 			if (i > start)
-			{
-				substr = ft_substr(input, start, i - start);
-				add_token(shell, T_WORD, substr);
-				free(substr);
-			}
+				add_word_token(shell, input, start, i);
+			start = i + 1;
+		}
+		else if (input[i] == '$')
+		{
+			if (i > start)
+				add_word_token(shell, input, start, i);
+			add_token(shell, T_DOLLAR, "$");
 			start = i + 1;
 		}
 		else if (ft_is_special_char(input[i]))
-		{
 			handle_special_chars(shell, input, &i, &start);
-		}
+		i++;
 	}
 	if (i > start)
-	{
-		substr = ft_substr(input, start, i - start);
-		add_token(shell, T_WORD, substr);
-		free(substr);
-	}
+		add_word_token(shell, input, start, i);
 	return (0);
 }
 
@@ -65,6 +52,7 @@ void	handle_quote_token(t_shell *shell, char *input, int *i, int *start)
 {
 	char	quote_char;
 	int		j;
+	char	*substr;
 
 	quote_char = input[*i];
 	j = *i + 1;
@@ -73,7 +61,8 @@ void	handle_quote_token(t_shell *shell, char *input, int *i, int *start)
 	if (input[j] == quote_char)
 	{
 		j++;
-		add_token(shell, T_WORD, ft_substr(input, *i, j - *i));
+		substr = ft_substr(input, *i, j - *i);
+		add_token(shell, T_WORD, substr);
 		*i = j - 1;
 		*start = j;
 	}
@@ -96,7 +85,7 @@ void	handle_special_chars(t_shell *shell, char *input, int *i, int *start)
 	special[1] = '\0';
 	special[2] = '\0';
 	if (*i > *start)
-		add_token(shell, T_WORD, ft_substr(input, *start, *i - *start));
+		add_word_token(shell, input, *start, *i);
 	type = get_token_type(input + *i);
 	if (type != T_WORD)
 	{
@@ -105,16 +94,12 @@ void	handle_special_chars(t_shell *shell, char *input, int *i, int *start)
 			special[1] = input[*i];
 			(*i)++;
 		}
-		if (special[0] == '$')
-		{
-			add_token(shell, T_DOLLAR, special);
-			*start = *i + 1;
-		}
-		else
-		{
-			add_token(shell, type, special);
-			*start = *i + 1;
-		}
+		add_token(shell, type, special);
+		*start = *i + 1;
+	}
+	else
+	{
+		*start = *i;
 	}
 }
 
@@ -184,3 +169,5 @@ void	add_token(t_shell *shell, t_tokentype type, char *value)
 		printf("UNKNOWN");
 	printf(", Value = '%s'\n", value);
 }
+
+

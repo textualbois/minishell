@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 13:17:13 by mrusu             #+#    #+#             */
-/*   Updated: 2024/07/23 13:21:16 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/07/24 15:17:02 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ t_env		*init_env_node(char *key, char *value);
 
 // ----------DIR-----prompts
 // -terminal_prompt.c
-void		form_prompt(t_shell *shell);
+void		form_prompt(t_shell *shell, char *new_user_name);
 
 // ----------DIR-----utils
 // ---env.c
@@ -128,22 +128,26 @@ t_tree		*get_nodes_pipes(t_token *start, t_token *stop, t_tree *parent);
 t_tree		*get_nodes_and_or(t_token *start, t_token *stop, t_tree *parent);
 
 // -lexer.c
-int			tokenize(t_shell *shell, char *input);
+int			tokenize_loop(t_shell *shell, char *input, int i, int start);
 void		handle_quote_token(t_shell *shell, char *input, int *i, int *start);
 void		handle_special_chars(t_shell *shell, char *input,
 				int *i, int *start);
+t_token		*create_token(t_tokentype type, char *value);
 void		add_token(t_shell *shell, t_tokentype type, char *value);
 
 // -parse.c
 int			parse(t_shell *shell);
-int			quotes_a_parentheses(char *input);
 int			syntax_check(char *input);
-int			invalid_syntax(char *input);
-
+int			check_start_end(char *input);
+int			quotes_a_parentheses(char *input);
+int			check_consecutive_operators(char *input);
 
 // -utils.c
 t_tokentype	get_token_type(char *str);
 void		free_tokens(t_shell *shell);
+void		add_word_token(t_shell *shell, char *input, int start, int end);
+int			tokenize(t_shell *shell, char *input);
+
 
 // ----------DIR-----pipex_wrapper
 // -input_formatting.c
