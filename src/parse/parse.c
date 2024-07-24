@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 16:29:47 by mrusu             #+#    #+#             */
-/*   Updated: 2024/07/24 15:08:17 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/07/24 17:25:35 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 /*
 * @ brief: Parses the raw input string, tokenizes it 
-*	and creates a list of commands.
+*	and creates AST.
 */
 int	parse(t_shell *shell)
 {
@@ -60,6 +60,10 @@ int	syntax_check(char *input)
 	return (0);
 }
 
+/*
+* @ brief: Checks if the input string starts or ends with
+*	a pipe or ampersand.
+*/
 int	check_start_end(char *input)
 {
 	char	*end;
@@ -83,7 +87,8 @@ int	check_start_end(char *input)
 }
 
 /*
-* @ brief: Checks if there are unmatched quotes in the input string.
+* @ brief: Checks if there are unmatched quotes or 
+*	parentheses in the input string.
 */
 int	quotes_a_parentheses(char *input)
 {
@@ -132,7 +137,6 @@ int	check_consecutive_operators(char *input)
 				return (1);
 			if (operator_count == 2 && input[i] != input[i - 1])
 				return (1);
-			i++;
 		}
 		else if (!ft_isspace(input[i]))
 		{
