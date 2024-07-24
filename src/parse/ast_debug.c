@@ -6,7 +6,7 @@
 /*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 13:18:55 by isemin            #+#    #+#             */
-/*   Updated: 2024/07/24 15:11:21 by isemin           ###   ########.fr       */
+/*   Updated: 2024/07/24 15:25:42 by isemin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,12 +55,12 @@ void	print_ast_recursive(t_tree *node, int depth)
 		i = 0;
 		while (i < depth)
 		{
-			printf("l%dl%d", depth, depth);
-		//	printf("llll");
+			//printf("l%dl%d", depth, depth);
+			printf("    ");
 			i++;
 		}
-		//printf("Left:\n");
-		printf(": \n");
+		printf("%d Left:\n", depth);
+		//printf(": \n");
 		print_ast_recursive(node->left, depth + 1);
 	}
 	if (node->right != NULL)
@@ -69,12 +69,12 @@ void	print_ast_recursive(t_tree *node, int depth)
 		while (i < depth)
 		{
 
-			printf("r%dr%d", depth, depth);
-		//	printf("rrrr");
+		//	printf("r%dr%d", depth, depth);
+			printf("    ");
 			i++;
 		}
-		printf(": \n");
-	//	printf("Right:\n");
+	//	printf(": \n");
+		printf("%d Right:\n", depth);
 		print_ast_recursive(node->right, depth + 1);
 	}
 }
