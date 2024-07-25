@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 15:32:24 by isemin            #+#    #+#             */
-/*   Updated: 2024/07/25 17:42:07 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/07/25 18:15:23 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ typedef struct s_shell //todo
 	int			*pid;
 	int			token_count;
 	int			command_count;
+	bool		is_parent_process;
 	t_token		*head;
 	t_token		*tail;
 	t_tree		*ast;
