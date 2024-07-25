@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
+/*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 13:17:13 by mrusu             #+#    #+#             */
-/*   Updated: 2024/07/25 18:04:34 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/07/25 18:12:06 by isemin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,11 @@ int			my_min(int a, int b);
 // -error.c
 int			ft_error(t_shell *shell, int error_code);
 int			syntax_error(void);
+
+
+// ----------DIR-----exec
+// ---exec.c
+int			execute_ast(t_shell *shell, t_tree *node);
 
 // ----------DIR-----prompts
 // -prompts.c
