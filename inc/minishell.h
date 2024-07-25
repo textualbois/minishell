@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 13:17:13 by mrusu             #+#    #+#             */
-/*   Updated: 2024/07/25 15:35:59 by isemin           ###   ########.fr       */
+/*   Updated: 2024/07/25 18:04:34 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,6 @@ int			depth_counter(int get_set, int direction, int val);
 void		print_ast_recursive2(t_tree *tree);
 int			print_ast_recursive2main(t_tree *tree, int is_left, int offset, int depth, char s[20][255]);
 
-
 // -ast_helper.c
 t_token		*get_input_file(t_command *cmd, t_token *start, t_token *stop);
 t_token		*get_heredoc(t_command *cmd, t_token *start, t_token *stop);
@@ -149,7 +148,7 @@ t_tokentype	get_token_type(char *str);
 void		free_tokens(t_shell *shell);
 void		add_word_token(t_shell *shell, char *input, int start, int end);
 int			tokenize(t_shell *shell, char *input);
-
+void		add_special_token(t_shell *shell, char *special);
 
 // ----------DIR-----pipex_wrapper
 // -input_formatting.c

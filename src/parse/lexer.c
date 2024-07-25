@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 15:34:33 by mrusu             #+#    #+#             */
-/*   Updated: 2024/07/25 10:52:47 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/07/25 18:04:53 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,10 +87,7 @@ void	handle_special_chars(t_shell *shell, char *input, int *i, int *start)
 		special[1] = input[*i + 1];
 		(*i)++;
 	}
-	if (special[0] == '$')
-		add_token(shell, T_DOLLAR, special);
-	else
-		add_token(shell, T_SPECIAL, special);
+	add_special_token(shell, special);
 	*start = *i + 1;
 }
 
@@ -160,5 +157,3 @@ void	add_token(t_shell *shell, t_tokentype type, char *value)
 		printf("UNKNOWN");
 	printf(", Value = '%s'\n", value);
 }
-
-

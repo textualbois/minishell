@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 10:05:39 by mrusu             #+#    #+#             */
-/*   Updated: 2024/07/24 17:09:34 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/07/25 18:04:10 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,4 +90,28 @@ int	tokenize(t_shell *shell, char *input)
 		return (1);
 	}
 	return (0);
+}
+/*
+* @ brief: adds special tokens to the shell's token list.
+*/
+void	add_special_token(t_shell *shell, char *special)
+{
+	if (special[0] == '|')
+	{
+		if (special[1] == '|')
+			add_token(shell, T_OR, special);
+		else
+			add_token(shell, T_PIPE, special);
+	}
+	else if (special[0] == '&')
+	{
+		if (special[1] == '&')
+			add_token(shell, T_AND, special);
+		else
+			add_token(shell, T_WORD, special);
+	}
+	else if (special[0] == '$')
+		add_token(shell, T_DOLLAR, special);
+	else
+		add_token(shell, T_SPECIAL, special);
 }
