@@ -6,23 +6,24 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 13:22:29 by mrusu             #+#    #+#             */
-/*   Updated: 2024/07/23 15:34:13 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/07/25 18:48:00 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-// Used as a boolean to show if we are in child process or not
-// 0 -> for parent process, 1 -> for child process
-volatile sig_atomic_t	g_sig = 0;
-
 /*
 * @ brief: SIGINT (ctrl + c) -> clears the line and displays the prompt.
+* If in_parent_process is FALSE it sends a SIGQUIT signal.
 */
-void	handle_sigint(int sig)
+void	handle_sigint(int sig, siginfo_t *siginfo, void *context)
 {
+	t_shell	*shell;
+
 	(void)sig;
-	if (!g_sig)
+	(void)siginfo;
+	shell = (t_shell *)context;
+	if (shell->is_parent_process)
 	{
 		write(1, "\n", 1);
 		rl_on_new_line();
@@ -38,13 +39,17 @@ void	handle_sigint(int sig)
 }
 
 /*
-* @ brief: SIGQUIT (ctrl + \) -> clears the line and displays the prompt if g=0
-* otherwise it sends a SIGQUIT signal to the process and exits.
+* @ brief: SIGQUIT (ctrl + \) -> clears the line and displays the prompt if 
+*  in_parent_process is FALSE otherwise sends a SIGQUIT signal.
 */
-void	handle_sigquit(int sig)
+void	handle_sigquit(int sig, siginfo_t *siginfo, void *context)
 {
+	t_shell	*shell;
+
 	(void)sig;
-	if (g_sig)
+	(void)siginfo;
+	shell = (t_shell *)context;
+	if (!shell->is_parent_process)
 	{
 		write(2, "Process quit\n", 13);
 		signal(SIGQUIT, SIG_DFL);
@@ -53,13 +58,17 @@ void	handle_sigquit(int sig)
 }
 
 /*
-* @ brief: SIGQUIT (ctrl + z) -> clears the line and displays the prompt if g=1
-* otherwise nothing happens.
+* @ brief: SIGQUIT (ctrl + z) -> clears the line and displays the prompt if
+*  in_parent_process is FALSE otherwise nothing happens.
 */
-void	handle_sigtstp(int sig)
+void	handle_sigtstp(int sig, siginfo_t *siginfo, void *context)
 {
+	t_shell	*shell;
+
 	(void)sig;
-	if (g_sig)
+	(void)siginfo;
+	shell = (t_shell *)context;
+	if (!shell->is_parent_process)
 	{
 		write(2, "Process stopped\n", 16);
 		signal(SIGTSTP, SIG_DFL);
@@ -68,28 +77,19 @@ void	handle_sigtstp(int sig)
 }
 
 /*
-* @ brief: Sets up the signal handlers for SIGINT and SIGQUIT.
-* can use only 1 sa struct for both signals and just change handler.
+* @ brief: Sets up the signal handlers for SIGINT, SIGQUIT and SIGTSTP.
 */
-void	setup_signals(void)
+void	setup_signals(t_shell *shell)
 {
 	struct sigaction	sa;
 
-	set_signal_flag(0);
-	sa.sa_handler = handle_sigint;
-	sa.sa_flags = 0;
+	shell->is_parent_process = true;
+	sa.sa_sigaction = handle_sigint;
+	sa.sa_flags = SA_SIGINFO;
 	sigemptyset(&sa.sa_mask);
 	sigaction(SIGINT, &sa, NULL);
-	sa.sa_handler = handle_sigquit;
+	sa.sa_sigaction = handle_sigquit;
 	sigaction(SIGQUIT, &sa, NULL);
-	sa.sa_handler = handle_sigtstp;
+	sa.sa_sigaction = handle_sigtstp;
 	sigaction(SIGTSTP, &sa, NULL);
-}
-
-// set the bool flag to 0 or 1
-// its set to 0 in setupsignals for default and need to be set to 1
-// before the child process and after the execution back to 0
-void	set_signal_flag(int in_child_process)
-{
-	g_sig = in_child_process;
 }
