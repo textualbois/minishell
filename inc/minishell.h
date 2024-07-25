@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
+/*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 13:17:13 by mrusu             #+#    #+#             */
-/*   Updated: 2024/07/24 15:17:02 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/07/25 15:35:59 by isemin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,8 +111,10 @@ void		print_welcome_msg(void);
 // ----------DIR-----parse
 // -ast_debug.c
 int			print_ast(t_shell *shell);
-void		print_ast_recursive(t_tree *node, int depth);
+void		print_ast_recursive1(t_tree *node, int depth);
 int			depth_counter(int get_set, int direction, int val);
+void		print_ast_recursive2(t_tree *tree);
+int			print_ast_recursive2main(t_tree *tree, int is_left, int offset, int depth, char s[20][255]);
 
 
 // -ast_helper.c
