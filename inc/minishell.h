@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 13:17:13 by mrusu             #+#    #+#             */
-/*   Updated: 2024/07/25 19:36:19 by isemin           ###   ########.fr       */
+/*   Updated: 2024/07/26 13:24:28 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,17 +55,17 @@
 // main.c
 
 // ----------DIR-----builtins
-// ---builtins0.c
+// ---cmds.c
 void		builtin_echo(char **args);
-void		builtin_cd(char **args);
+void		builtin_cd(t_shell *shell, char **args);
 void		builtin_pwd(void);
 void		builtin_export(t_shell *shell, char **args);
 void		builtin_exit(void);
 
 // ---env.c
-void		print_env(t_shell *shell);
-int			ft_set_env_node(t_env *env_list, char *key, char *value);
-t_env		*ft_unset_env_node(t_env *env_list, char *key);
+void		builtin_env(t_shell *shell);
+int			builtin_unset(t_env **env_list, char *key);
+char		*ft_get_env_value(t_env *env_list, char *key);
 
 // ----------DIR-----loop
 // -loop.c

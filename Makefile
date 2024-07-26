@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: isemin <isemin@student.42.fr>              +#+  +:+       +#+         #
+#    By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/01 09:20:11 by mrusu             #+#    #+#              #
-#    Updated: 2024/07/22 15:17:23 by isemin           ###   ########.fr        #
+#    Updated: 2024/07/26 13:11:37 by mrusu            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -89,7 +89,7 @@ SRC = $(SRC_DIR)/main.c \
 	$(SRC_DIR)/setup/env.c $(SRC_DIR)/setup/init_shell.c \
 	$(SRC_DIR)/utils/utils0.c $(SRC_DIR)/utils/env.c $(SRC_DIR)/utils/wild_math.c \
 	$(SRC_DIR)/error/error.c \
-	$(SRC_DIR)/builtins/builtins0.c $(SRC_DIR)/builtins/env.c \
+	$(SRC_DIR)/builtins/cmds.c $(SRC_DIR)/builtins/env.c \
 	$(SRC_DIR)/signal/signals.c \
 
 # OBJ FILES

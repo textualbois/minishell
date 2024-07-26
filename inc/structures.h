@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 15:32:24 by isemin            #+#    #+#             */
-/*   Updated: 2024/07/25 18:15:23 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/07/26 10:13:41 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ typedef struct s_tree		t_tree;
 // code for tokentype
 typedef enum e_tokentype
 {
-	T_WORD, 
+	T_WORD,
 	T_SPECIAL,
 	T_PIPE,
 	T_OR,

@@ -3,67 +3,70 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 14:19:18 by isemin            #+#    #+#             */
-/*   Updated: 2024/07/15 16:53:04 by isemin           ###   ########.fr       */
+/*   Updated: 2024/07/26 13:25:28 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
 // todo check how unset works
-void	print_env(t_shell *shell)
+void	builtin_env(t_shell *shell)
 {
 	t_env	*env_node;
 
 	env_node = shell->env_list;
 	while (env_node)
 	{
-		if (env_node->value[0] == ' ' && ft_strlen(env_node->value))
-		printf("%s=%s\n", env_node->key, env_node->value);
+		if (env_node->value && *env_node->value)
+			printf("%s=%s\n", env_node->key, env_node->value);
 		env_node = env_node->next;
 	}
 }
-// todo check if it should be env_list or shell->env_list
-int	ft_set_env_node(t_env *env_list, char *key, char *value)
+/*
+* @brief: unset a variable from the environment list.
+* traverse the list and remove the node with matching key.
+*/
+int	builtin_unset(t_env **env_list, char *key)
 {
 	t_env	*last_node;
+	t_env	*current_env;
 
-	if (key == NULL)
-		return (1);
-	last_node = ft_unset_env_node(env_list, key);
-	if (last_node == NULL)
+	last_node = NULL;
+	current_env = *env_list;
+	while (current_env)
 	{
-		last_node = get_tail(env_list);
-		last_node->next = init_env_node(key, value);
-		if (last_node->next == NULL)
-			return (1);
+		if (ft_strcmp(current_env->key, key) == 0)
+		{
+			if (last_node)
+				last_node->next = current_env->next;
+			else
+				*env_list = current_env->next;
+			free(current_env->key);
+			free(current_env->value);
+			free(current_env);
+			return (0);
+		}
+		last_node = current_env;
+		current_env = current_env->next;
 	}
-	else
-	{
-		last_node->value = ft_strdup(value);
-		if (last_node->value == NULL)
-			return (1);
-	}
-	return (0);
+	return (1);
 }
-
-// todo check that it should be set to null and not ' '
-// (see in bash maybe)
-t_env	*ft_unset_env_node(t_env *env_list, char *key)
+/*
+* @brief: get a variable from environment list.
+*/
+char	*ft_get_env_value(t_env *env_list, char *key)
 {
 	t_env	*current_env;
 
 	current_env = env_list;
-	if (key != NULL)
-		current_env = get_key_node(env_list, key);
-	if (current_env == NULL)
-		return (NULL);
-	if (current_env->value != NULL)
+	while (current_env)
 	{
-		free(current_env->value);
-		current_env->value = NULL;
+		if (ft_strcmp(current_env->key, key) == 0)
+			return (current_env->value);
+		current_env = current_env->next;
 	}
-	return (current_env);
+	return (NULL);
 }
