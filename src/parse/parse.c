@@ -6,12 +6,13 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 16:29:47 by mrusu             #+#    #+#             */
-/*   Updated: 2024/07/24 17:25:35 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/07/26 17:34:08 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
+int	here_doc_syntax(char *input);
 /*
 * @ brief: Parses the raw input string, tokenizes it 
 *	and creates AST.
@@ -56,6 +57,31 @@ int	syntax_check(char *input)
 	{
 		printf("Error: invalid syntax\n");
 		return (1);
+	}
+	// if (here_doc_syntax(input) != 0)
+	// {
+	// 	printf("Error: invalid syntax\n");
+	// 	return (1);
+	// }
+	return (0);
+}
+
+int	here_doc_syntax(char *input)
+{
+	int		i;
+
+	i = 0;
+	while (input[i])
+	{
+		if (input[i] == '<' && input[i + 1] == '<')
+		{
+			i += 2;
+			while (input[i] && ft_isspace(input[i]))
+				i++;
+			if (!input[i] || ft_is_special_char(input[i]))
+				return (1);
+		}
+		i++;
 	}
 	return (0);
 }

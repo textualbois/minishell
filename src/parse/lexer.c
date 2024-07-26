@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 15:34:33 by mrusu             #+#    #+#             */
-/*   Updated: 2024/07/25 18:04:53 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/07/26 17:23:49 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,9 @@ void	handle_special_chars(t_shell *shell, char *input, int *i, int *start)
 		add_word_token(shell, input, *start, *i);
 	type = get_token_type(input + *i);
 	if ((special[0] == '|' && input[*i + 1] == '|')
-		|| (special[0] == '&' && input[*i + 1] == '&'))
+		|| (special[0] == '&' && input[*i + 1] == '&')
+		|| (special[0] == '>' && input[*i + 1] == '>')
+		|| (special[0] == '<' && input[*i + 1] == '<'))
 	{
 		special[1] = input[*i + 1];
 		(*i)++;

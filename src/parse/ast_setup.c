@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 15:58:09 by isemin            #+#    #+#             */
-/*   Updated: 2024/07/19 10:04:55 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/07/26 17:32:16 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,11 @@ t_tree	*get_nodes_pipes(t_token *start, t_token *stop, t_tree *parent)
 	{
 		res = init_tree_node(pipe_token, parent);
 		res->left = init_cmd_node(start, pipe_token, res);  // Assuming init_cmd can take a list up to a point
+		if (res->left == NULL)
+		{
+			perror("Error: Failed to create left node of pipe\n");
+			return (NULL);
+		}
 		res->right = get_nodes_pipes(pipe_token->next, stop, res);
 		return (res);
 	}
