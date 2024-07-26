@@ -6,13 +6,15 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 14:19:18 by isemin            #+#    #+#             */
-/*   Updated: 2024/07/26 13:25:28 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/07/26 16:03:16 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-// todo check how unset works
+/*
+* @brief: print the environment list.
+*/
 void	builtin_env(t_shell *shell)
 {
 	t_env	*env_node;
@@ -25,6 +27,7 @@ void	builtin_env(t_shell *shell)
 		env_node = env_node->next;
 	}
 }
+
 /*
 * @brief: unset a variable from the environment list.
 * traverse the list and remove the node with matching key.
@@ -54,10 +57,11 @@ int	builtin_unset(t_env **env_list, char *key)
 	}
 	return (1);
 }
+
 /*
 * @brief: get a variable from environment list.
 */
-char	*ft_get_env_value(t_env *env_list, char *key)
+char	*get_env_value(t_env *env_list, char *key)
 {
 	t_env	*current_env;
 

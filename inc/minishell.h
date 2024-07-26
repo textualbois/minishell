@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 13:17:13 by mrusu             #+#    #+#             */
-/*   Updated: 2024/07/26 13:24:28 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/07/26 17:13:16 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,13 +59,17 @@
 void		builtin_echo(char **args);
 void		builtin_cd(t_shell *shell, char **args);
 void		builtin_pwd(void);
-void		builtin_export(t_shell *shell, char **args);
 void		builtin_exit(void);
 
 // ---env.c
 void		builtin_env(t_shell *shell);
 int			builtin_unset(t_env **env_list, char *key);
-char		*ft_get_env_value(t_env *env_list, char *key);
+char		*get_env_value(t_env *env_list, char *key);
+
+// ---export.c
+void		builtin_export(t_shell *shell, char **args);
+void		print_env_list(t_env *env_list);
+void		update_env_node(t_env *env_list, char *key, char *value);
 
 // ----------DIR-----loop
 // -loop.c

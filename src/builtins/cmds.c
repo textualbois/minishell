@@ -6,12 +6,15 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 12:30:36 by mrusu             #+#    #+#             */
-/*   Updated: 2024/07/26 13:26:26 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/07/26 16:03:23 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/*
+* @brief: print arguments, -n no newline.
+*/
 void	builtin_echo(char **args)
 {
 	int	i;
@@ -35,13 +38,16 @@ void	builtin_echo(char **args)
 		printf("\n");
 }
 
+/*
+* @brief: change directory.
+*/
 void	builtin_cd(t_shell *shell, char **args)
 {
 	char	*home;
 
 	if (args[1] == NULL || ft_strcmp(args[1], "~") == 0)
 	{
-		home = ft_get_env_value(shell->env_list, "HOME");
+		home = get_env_value(shell->env_list, "HOME");
 		if (home == NULL)
 		{
 			perror("cd: HOME not set\n");
@@ -54,6 +60,9 @@ void	builtin_cd(t_shell *shell, char **args)
 		perror("cd failed");
 }
 
+/*
+* @brief: print the current working directory.
+*/
 void	builtin_pwd(void)
 {
 	char	cwd[1024];
@@ -64,25 +73,9 @@ void	builtin_pwd(void)
 		perror("pwd failed");
 }
 
-// void	builtin_export(t_shell *shell, char **args) //todo check that smth like arg=new_var=with_equals works as in bash
-// {
-// 	char	**kv_pair;
-
-// 	if (args[1] == NULL)
-// 	{
-// 		perror("export: no arguments\n");
-// 		return ;
-// 	}
-// 	kv_pair = ft_split(args[1], '=');
-// 	if (kv_pair && kv_pair[0] && kv_pair[1])
-// 		ft_set_env_node(shell->env_list, kv_pair[0], kv_pair[1]);
-// 	else
-// 	{
-// 		perror("export: invalid assigment\n");
-// 		return ;
-// 	}
-// }
-
+/*
+* @brief: exit minishell.
+*/
 void	builtin_exit(void)
 {
 	exit(0);
