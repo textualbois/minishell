@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 14:19:26 by mrusu             #+#    #+#             */
-/*   Updated: 2024/07/26 17:09:50 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/07/27 16:06:36 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,14 @@
 /*
 * @brief: print the environment list, add/update new var to list.
 */
-void	builtin_export(t_shell *shell, char **args)
+int	builtin_export(t_shell *shell, char **args)
 {
 	char	**kv_pair;
 
 	if (args[1] == NULL)
 	{
 		print_env_list(shell->env_list);
-		return ;
+		return (0);
 	}
 	args++;
 	while (*args != NULL)
@@ -41,12 +41,13 @@ void	builtin_export(t_shell *shell, char **args)
 		free(kv_pair);
 		args++;
 	}
+	return (0);
 }
 
 /*
 * @brief: sort and print the environment list.
 */
-void	print_env_list(t_env *env_list)
+int	print_env_list(t_env *env_list)
 {
 	t_env	*current_env;
 
@@ -56,12 +57,13 @@ void	print_env_list(t_env *env_list)
 		printf("%s=%s\n", current_env->key, current_env->value);
 		current_env = current_env->next;
 	}
+	return (0);
 }
 
 /*
 * @brief: update the value of an existing node.
 */
-void	update_env_node(t_env *env_list, char *key, char *value)
+int	update_env_node(t_env *env_list, char *key, char *value)
 {
 	t_env	*current_env;
 
@@ -72,16 +74,17 @@ void	update_env_node(t_env *env_list, char *key, char *value)
 		{
 			free(current_env->value);
 			current_env->value = ft_strdup(value);
-			return ;
+			return (0);
 		}
 		current_env = current_env->next;
 	}
+	return (1);
 }
 
 /*
 * @brief: create a new node and add sorted value to the list.
 */
-void	add_env_node(t_env **env_list, char *key, char *value)
+int	add_env_node(t_env **env_list, char *key, char *value)
 {
 	t_env	*new;
 	t_env	*current;
@@ -90,7 +93,7 @@ void	add_env_node(t_env **env_list, char *key, char *value)
 	if (new == NULL)
 	{
 		perror("malloc failed");
-		exit(1);
+		return (1);
 	}
 	new->key = ft_strdup(key);
 	new->value = ft_strdup(value);
@@ -98,10 +101,11 @@ void	add_env_node(t_env **env_list, char *key, char *value)
 	if (*env_list == NULL)
 	{
 		*env_list = new;
-		return ;
+		return (0);
 	}
 	current = *env_list;
 	while (current != NULL)
 		current = current->next;
 	current->next = new;
+	return (0);
 }

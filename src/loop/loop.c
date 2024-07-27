@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   loop.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 14:02:02 by isemin            #+#    #+#             */
-/*   Updated: 2024/07/26 17:07:57 by isemin           ###   ########.fr       */
+/*   Updated: 2024/07/27 15:15:17 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	shell_loop(t_shell *shell)
 			continue ;
 		}
 		print_ast(shell);
-		shell->exit_code = execute_ast(shell, shell->ast);
+		shell->exit_code = execute_ast(shell, shell->ast, shell->exit_code);
 		free_tokens(shell);
 		free(shell->raw_input);
 	}

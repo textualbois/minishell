@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 13:17:13 by mrusu             #+#    #+#             */
-/*   Updated: 2024/07/26 17:13:16 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/07/27 16:08:14 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,20 +56,20 @@
 
 // ----------DIR-----builtins
 // ---cmds.c
-void		builtin_echo(char **args);
-void		builtin_cd(t_shell *shell, char **args);
-void		builtin_pwd(void);
-void		builtin_exit(void);
+int			builtin_echo(char **args);
+int			builtin_cd(t_shell *shell, char **args);
+int			builtin_pwd(void);
+int			builtin_exit(void);
 
 // ---env.c
-void		builtin_env(t_shell *shell);
+int			builtin_env(t_shell *shell);
 int			builtin_unset(t_env **env_list, char *key);
 char		*get_env_value(t_env *env_list, char *key);
 
 // ---export.c
-void		builtin_export(t_shell *shell, char **args);
-void		print_env_list(t_env *env_list);
-void		update_env_node(t_env *env_list, char *key, char *value);
+int			builtin_export(t_shell *shell, char **args);
+int			print_env_list(t_env *env_list);
+int			update_env_node(t_env *env_list, char *key, char *value);
 
 // ----------DIR-----loop
 // -loop.c
@@ -111,7 +111,9 @@ int			syntax_error(void);
 
 // ----------DIR-----exec
 // ---exec.c
-int			execute_ast(t_shell *shell, t_tree *node);
+int			execute_ast(t_shell *shell, t_tree *node, int exit_code);
+int			execute_builtin(t_shell *shell, t_command *cmd);
+int			execute_command(t_shell *shell, t_command *cmd);
 
 // ----------DIR-----prompts
 // -prompts.c
@@ -169,6 +171,5 @@ void		handle_sigint(int sig, siginfo_t *siginfo, void *context);
 void		handle_sigquit(int sig, siginfo_t *siginfo, void *context);
 void		handle_sigtstp(int sig, siginfo_t *siginfo, void *context);
 void		setup_signals(t_shell *shell);
-void		set_signal_flag(t_shell	*shell, bool is_parent_process);
 
 #endif
