@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 14:19:26 by mrusu             #+#    #+#             */
-/*   Updated: 2024/07/26 17:09:50 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/07/29 18:57:09 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,47 +15,47 @@
 /*
 * @brief: print the environment list, add/update new var to list.
 */
-void	builtin_export(t_shell *shell, char **args)
+int	builtin_export(t_shell *shell, char **args)
 {
 	char	**kv_pair;
 
 	if (args[1] == NULL)
 	{
 		print_env_list(shell->env_list);
-		return ;
+		return (0);
 	}
 	args++;
 	while (*args != NULL)
 	{
 		kv_pair = ft_split(*args, '=');
 		if (kv_pair[1] == NULL)
-		{
-			free(kv_pair);
-			args++;
-			continue ;
-		}
-		if (ft_get_env_value(shell->env_list, kv_pair[0]) == NULL)
+			kv_pair[1] = ft_strdup("");
+		if (get_env_value(shell->env_list, kv_pair[0]) == NULL)
 			add_env_node(&shell->env_list, kv_pair[0], kv_pair[1]);
 		else
 			update_env_node(shell->env_list, kv_pair[0], kv_pair[1]);
+		free(kv_pair[0]);
+		free(kv_pair[1]);
 		free(kv_pair);
 		args++;
 	}
+	return (0);
 }
 
 /*
-* @brief: sort and print the environment list.
+* @brief: print the environment list.
 */
-void	print_env_list(t_env *env_list)
+int	print_env_list(t_env *env_list)
 {
 	t_env	*current_env;
 
 	current_env = env_list;
 	while (current_env)
 	{
-		printf("%s=%s\n", current_env->key, current_env->value);
+		printf("declare -x %s=%s\n", current_env->key, current_env->value);
 		current_env = current_env->next;
 	}
+	return (0);
 }
 
 /*
@@ -76,32 +76,4 @@ void	update_env_node(t_env *env_list, char *key, char *value)
 		}
 		current_env = current_env->next;
 	}
-}
-
-/*
-* @brief: create a new node and add sorted value to the list.
-*/
-void	add_env_node(t_env **env_list, char *key, char *value)
-{
-	t_env	*new;
-	t_env	*current;
-
-	new = malloc(sizeof(t_env));
-	if (new == NULL)
-	{
-		perror("malloc failed");
-		exit(1);
-	}
-	new->key = ft_strdup(key);
-	new->value = ft_strdup(value);
-	new->next = NULL;
-	if (*env_list == NULL)
-	{
-		*env_list = new;
-		return ;
-	}
-	current = *env_list;
-	while (current != NULL)
-		current = current->next;
-	current->next = new;
 }

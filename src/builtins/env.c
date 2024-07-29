@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 14:19:18 by isemin            #+#    #+#             */
-/*   Updated: 2024/07/26 16:03:16 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/07/29 18:56:55 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 /*
 * @brief: print the environment list.
 */
-void	builtin_env(t_shell *shell)
+int	builtin_env(t_shell *shell)
 {
 	t_env	*env_node;
 
@@ -23,9 +23,12 @@ void	builtin_env(t_shell *shell)
 	while (env_node)
 	{
 		if (env_node->value && *env_node->value)
+		{
 			printf("%s=%s\n", env_node->key, env_node->value);
+		}
 		env_node = env_node->next;
 	}
+	return (0);
 }
 
 /*

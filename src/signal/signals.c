@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 13:22:29 by mrusu             #+#    #+#             */
-/*   Updated: 2024/07/25 18:48:00 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/07/29 19:18:07 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,15 @@ void	handle_sigint(int sig, siginfo_t *siginfo, void *context)
 	(void)sig;
 	(void)siginfo;
 	shell = (t_shell *)context;
-	if (shell->is_parent_process)
+    printf("SIGINT received, is_parent_process = %d\n", shell->is_parent_process);
+	if (shell->is_parent_process == true)
 	{
 		write(1, "\n", 1);
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();
 	}
-	else
+	else if (shell->is_parent_process == false)
 	{
 		write(1, "\n", 1);
 		signal(SIGQUIT, SIG_DFL);
@@ -48,8 +49,10 @@ void	handle_sigquit(int sig, siginfo_t *siginfo, void *context)
 
 	(void)sig;
 	(void)siginfo;
+
 	shell = (t_shell *)context;
-	if (!shell->is_parent_process)
+    printf("SIGINT received, is_parent_process = %d\n", shell->is_parent_process);
+	if (shell->is_parent_process == false)
 	{
 		write(2, "Process quit\n", 13);
 		signal(SIGQUIT, SIG_DFL);
@@ -67,8 +70,10 @@ void	handle_sigtstp(int sig, siginfo_t *siginfo, void *context)
 
 	(void)sig;
 	(void)siginfo;
+
 	shell = (t_shell *)context;
-	if (!shell->is_parent_process)
+    printf("SIGSTP received, is_parent_process = %d\n", shell->is_parent_process);
+	if (shell->is_parent_process == true)
 	{
 		write(2, "Process stopped\n", 16);
 		signal(SIGTSTP, SIG_DFL);
@@ -83,7 +88,7 @@ void	setup_signals(t_shell *shell)
 {
 	struct sigaction	sa;
 
-	shell->is_parent_process = true;
+	(void)shell;
 	sa.sa_sigaction = handle_sigint;
 	sa.sa_flags = SA_SIGINFO;
 	sigemptyset(&sa.sa_mask);

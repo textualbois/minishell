@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_shell.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 13:30:39 by isemin            #+#    #+#             */
-/*   Updated: 2024/07/23 15:26:13 by isemin           ###   ########.fr       */
+/*   Updated: 2024/07/29 18:58:32 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
 
 void	init_shell(t_shell *shell, char **env)
 {
+	setup_signals(shell);
+	init_env_list(&shell->env_list, env);
+    printf("Initializing shell: is_parent_process = %d\n", shell->is_parent_process); // Debug print
 	if (getenv("USER") == NULL)
 	{
 		printf("TODO we should get user data on our own in this case\n");

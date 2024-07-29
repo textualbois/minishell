@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 12:30:36 by mrusu             #+#    #+#             */
-/*   Updated: 2024/07/26 16:03:23 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/07/29 19:19:59 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 /*
 * @brief: print arguments, -n no newline.
 */
-void	builtin_echo(char **args)
+int	builtin_echo(char **args)
 {
 	int	i;
 	int	n_flag;
@@ -36,12 +36,13 @@ void	builtin_echo(char **args)
 	}
 	if (n_flag == 1)
 		printf("\n");
+	return (0);
 }
 
 /*
 * @brief: change directory.
 */
-void	builtin_cd(t_shell *shell, char **args)
+int	builtin_cd(t_shell *shell, char **args)
 {
 	char	*home;
 
@@ -51,32 +52,46 @@ void	builtin_cd(t_shell *shell, char **args)
 		if (home == NULL)
 		{
 			perror("cd: HOME not set\n");
-			return ;
+			return (1);
 		}
 		if (chdir(home) != 0)
+		{
 			perror("cd failed");
+			return (1);
+		}
 	}
 	else if (chdir(args[1]) != 0)
+	{
 		perror("cd failed");
+		return (1);
+	}
+	return (0);
 }
 
 /*
 * @brief: print the current working directory.
 */
-void	builtin_pwd(void)
+int	builtin_pwd(void)
 {
 	char	cwd[1024];
 
 	if (getcwd(cwd, sizeof(cwd)) != NULL)
+	{
 		printf("%s\n", cwd);
+		return (0);
+	}
 	else
+	{
 		perror("pwd failed");
+		return (1);
+	}
 }
 
 /*
 * @brief: exit minishell.
 */
-void	builtin_exit(void)
+int	builtin_exit(void)
 {
 	exit(0);
+	return (0);
 }
