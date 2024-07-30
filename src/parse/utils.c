@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 10:05:39 by mrusu             #+#    #+#             */
-/*   Updated: 2024/07/30 13:11:34 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/07/30 18:27:36 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ int	tokenize(t_shell *shell, char *input)
 	}
 	return (0);
 }
+
 /*
 * @ brief: adds special tokens to the shell's token list.
 */

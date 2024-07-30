@@ -6,14 +6,16 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 10:57:00 by mrusu             #+#    #+#             */
-/*   Updated: 2024/07/30 13:24:35 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/07/30 18:58:04 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
 /*
-* @ brief: Adds a DOLLAR token to the shell's token list.
+* @ brief: Check the following character after the $, if it's
+*	'?' add a T_EXCODE token, otherwise, get the variable name 
+*	that is after and add a T_DOLLAR token.
 */
 void	handle_dollar_char(t_shell *shell, char *input, int *i, int *start)
 {
@@ -43,6 +45,8 @@ void	handle_dollar_char(t_shell *shell, char *input, int *i, int *start)
 
 /*
 * @ brief: Expands DOLLAR tokens to their corresponding values.
+*	or to an empty string if the variable is not found.
+*	if it's a $?, expand and print to the exit code.
 */
 void	expand_dollar_tokens(t_shell *shell)
 {
@@ -67,6 +71,41 @@ void	expand_dollar_tokens(t_shell *shell)
 			free(current->value);
 			current->value = value;
 			printf("%d\n", shell->exit_code);
+		}
+		current = current->next;
+	}
+}
+
+/*
+* @ Brief: go through the token list, if the token is a wildcard,
+*	open the current directory and go through each entry, if the entry
+*	matches the wildcard pattern, add a WORD token with the entry name.
+*	close the directory and free the wildcard token. move to the next token.
+*/
+void	expand_wildcard_tokens(t_shell *shell)
+{
+	t_token			*current;
+	DIR				*dir;
+	struct dirent	*entry;
+
+	current = shell->head;
+	while (current)
+	{
+		if (current->type == T_WILDCARD)
+		{
+			dir = opendir(".");
+			if (dir)
+			{
+				while (entry != NULL)
+				{
+					if (match(current->value, entry->d_name))
+						add_token(shell, T_WORD, ft_strdup(entry->d_name));
+					entry = readdir(dir);
+				}
+				closedir(dir);
+			}
+			free(current->value);
+			current->value = NULL;
 		}
 		current = current->next;
 	}

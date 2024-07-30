@@ -6,7 +6,7 @@
 #    By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/01 09:20:11 by mrusu             #+#    #+#              #
-#    Updated: 2024/07/30 11:03:18 by mrusu            ###   ########.fr        #
+#    Updated: 2024/07/30 19:06:55 by mrusu            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -85,7 +85,7 @@ SRC = $(SRC_DIR)/main.c \
 	$(SRC_DIR)/exec/exec0.c $(SRC_DIR)/exec/pipex_wrapper.c \
 	$(SRC_DIR)/parse/ast_helper.c $(SRC_DIR)/parse/ast_setup.c $(SRC_DIR)/parse/ast_debug.c \
 	$(SRC_DIR)/parse/parse.c $(SRC_DIR)/parse/lexer.c \
-	$(SRC_DIR)/parse/utils.c $(SRC_DIR)/parse/expand.c \
+	$(SRC_DIR)/parse/utils.c $(SRC_DIR)/parse/expand.c $(SRC_DIR)/parse/wildcard.c \
 	$(SRC_DIR)/prompts/terminal_prompt.c \
 	$(SRC_DIR)/setup/env.c $(SRC_DIR)/setup/init_shell.c \
 	$(SRC_DIR)/utils/utils0.c $(SRC_DIR)/utils/env.c $(SRC_DIR)/utils/wild_math.c \

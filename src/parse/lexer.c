@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 15:34:33 by mrusu             #+#    #+#             */
-/*   Updated: 2024/07/30 13:25:49 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/07/30 18:42:25 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,11 @@ int	tokenize_loop(t_shell *shell, char *input, int i, int start)
 			start = i + 1;
 		}
 		else if (ft_is_special_char(input[i]))
-		{
 			handle_special_chars(shell, input, &i, &start);
-		}
 		else if (input[i] == '$')
-		{
 			handle_dollar_char(shell, input, &i, &start);
-		}
+		else if (input[i] == '*')
+			handle_wildcard_char(shell, input, &i, &start);
 		i++;
 	}
 	if (i > start)
@@ -103,33 +101,9 @@ void	handle_special_chars(t_shell *shell, char *input, int *i, int *start)
 }
 
 /*
-* @ brief: Creates a new token with given type and value.
-*/
-t_token	*create_token(t_tokentype type, char *value)
-{
-	t_token	*new_token;
-
-	new_token = malloc(sizeof(t_token) * 1);
-	if (!new_token)
-	{
-		printf("Error: malloc failed in create_token\n");
-		return (NULL);
-	}
-	new_token->type = type;
-	new_token->value = ft_strdup(value);
-	if (!new_token->value)
-	{
-		printf("Error: ft_strdup failed in create_token\n");
-		free(new_token);
-		return (NULL);
-	}
-	new_token->next = NULL;
-	new_token->prev = NULL;
-	return (new_token);
-}
-
-/*
 * @ brief: Adds a new token to the shell's token list.
+*	call create_token and pass the type and value to it
+*	then add the token to the end of the shell's token list
 */
 void	add_token(t_shell *shell, t_tokentype type, char *value)
 {
@@ -166,7 +140,36 @@ void	add_token(t_shell *shell, t_tokentype type, char *value)
 		printf("DOLLAR");
 	else if (type == T_EXCODE)
 		printf("$?");
+	else if (type == T_WILDCARD)
+		printf("WILDCARD");
 	else
 		printf("UNKNOWN");
 	printf(", Value = '%s'\n", value);
+}
+
+/*
+* @ brief: Creates a new token with given type and value.
+*	and puts it at the end of the shell's token list.
+*/
+t_token	*create_token(t_tokentype type, char *value)
+{
+	t_token	*new_token;
+
+	new_token = malloc(sizeof(t_token) * 1);
+	if (!new_token)
+	{
+		printf("Error: malloc failed in create_token\n");
+		return (NULL);
+	}
+	new_token->type = type;
+	new_token->value = ft_strdup(value);
+	if (!new_token->value)
+	{
+		printf("Error: ft_strdup failed in create_token\n");
+		free(new_token);
+		return (NULL);
+	}
+	new_token->next = NULL;
+	new_token->prev = NULL;
+	return (new_token);
 }

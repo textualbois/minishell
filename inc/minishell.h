@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 13:17:13 by mrusu             #+#    #+#             */
-/*   Updated: 2024/07/30 10:58:30 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/07/30 19:08:51 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # include <readline/history.h>
 # include <signal.h>
 # include <termios.h>
+# include <dirent.h>
 
 // own lib's
 # include "../libft/libft.h"
@@ -188,16 +189,24 @@ int			check_start_end(char *input);
 int			quotes_a_parentheses(char *input);
 int			check_consecutive_operators(char *input);
 
+// -expand.c
+void		expand_wildcard_tokens(t_shell *shell);
+void		expand_dollar_tokens(t_shell *shell);
+void		handle_dollar_char(t_shell *shell, char *input, int *i, int *start);
+
+// -wildcard.c
+void		handle_wildcard_char(t_shell *shell, char *input,
+				int *i, int *start);
+bool		match(const char *pattern, const char *string);
+bool		match_re(const char *pattern, const char *string,
+				const char **laststar_pat, const char **laststar_str);
+
 // -utils.c
 t_tokentype	get_token_type(char *str);
 void		free_tokens(t_shell *shell);
 void		add_word_token(t_shell *shell, char *input, int start, int end);
 int			tokenize(t_shell *shell, char *input);
 void		add_special_token(t_shell *shell, char *special);
-
-// -expand.c
-void		expand_dollar_tokens(t_shell *shell);
-void		handle_dollar_char(t_shell *shell, char *input, int *i, int *start);
 
 // ----------DIR-----pipex_wrapper
 // -input_formatting.c
