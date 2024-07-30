@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec0.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
+/*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 13:20:20 by mrusu             #+#    #+#             */
-/*   Updated: 2024/07/30 18:02:12 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/07/30 18:09:38 by isemin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	execute_ast(t_shell *shell, t_tree *node, int exit_code)
 		return (1);
 	if (node->cmd)
 	{
-		exit_code = execute_command(shell, node->cmd);
+		exit_code = pipex_wrapper(shell, node->cmd);
 	}
 	else if (node->token->type == T_PIPE)
 	{
