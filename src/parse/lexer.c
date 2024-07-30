@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 15:34:33 by mrusu             #+#    #+#             */
-/*   Updated: 2024/07/30 10:57:20 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/07/30 13:25:49 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,12 @@ void	handle_special_chars(t_shell *shell, char *input, int *i, int *start)
 	if (*i > *start)
 		add_word_token(shell, input, *start, *i);
 	type = get_token_type(input + *i);
-	if ((special[0] == '|' && input[*i + 1] == '|')
+	if (special[0] == '$' && input[*i + 1] == '?')
+	{
+		add_token(shell, T_EXCODE, ft_strdup("$?"));
+		(*i)++;
+	}
+	else if ((special[0] == '|' && input[*i + 1] == '|')
 		|| (special[0] == '&' && input[*i + 1] == '&')
 		|| (special[0] == '>' && input[*i + 1] == '>')
 		|| (special[0] == '<' && input[*i + 1] == '<'))
@@ -159,6 +164,8 @@ void	add_token(t_shell *shell, t_tokentype type, char *value)
 		printf("SPECIAL");
 	else if (type == T_DOLLAR)
 		printf("DOLLAR");
+	else if (type == T_EXCODE)
+		printf("$?");
 	else
 		printf("UNKNOWN");
 	printf(", Value = '%s'\n", value);

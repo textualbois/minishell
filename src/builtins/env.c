@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 14:19:18 by isemin            #+#    #+#             */
-/*   Updated: 2024/07/29 18:56:55 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/07/30 12:48:14 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,10 @@ int	builtin_env(t_shell *shell)
 {
 	t_env	*env_node;
 
+	if (shell->env && *(shell->env) != NULL)
+	{
+		return (127);
+	}
 	env_node = shell->env_list;
 	while (env_node)
 	{

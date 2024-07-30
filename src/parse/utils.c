@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 10:05:39 by mrusu             #+#    #+#             */
-/*   Updated: 2024/07/25 18:04:10 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/07/30 13:11:34 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ t_tokentype	get_token_type(char *str)
 		return (T_SPECIAL);
 	else if (*str == '"' || *str == '\'')
 		return (T_QUOTE);
+	else if (*str == '$' && *(str + 1) == '?')
+		return (T_EXCODE);
 	else if (*str == '$')
 		return (T_DOLLAR);
 	else

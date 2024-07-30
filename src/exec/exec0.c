@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 13:20:20 by mrusu             #+#    #+#             */
-/*   Updated: 2024/07/30 10:32:07 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/07/30 12:32:45 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,9 @@ int	execute_builtin(t_shell *shell, t_command *cmd)
 		return (builtin_pwd());
 	if (ft_strcmp(cmd->name, "export") == 0)
 		return (builtin_export(shell, cmd->args));
-	if (ft_strcmp(cmd->name, "unset") == 0) // empty arg chars the shell , fix this
+	if (ft_strcmp(cmd->name, "unset") == 0)
 		return (builtin_unset(&shell->env_list, cmd->args[1]));
-	if (ft_strcmp(cmd->name, "env") == 0) // eror if it hase args
+	if (ft_strcmp(cmd->name, "env") == 0)
 		return (builtin_env(shell));
 	if (ft_strcmp(cmd->name, "exit") == 0)
 		return (builtin_exit());
