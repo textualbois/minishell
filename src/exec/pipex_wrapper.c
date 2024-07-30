@@ -6,7 +6,7 @@
 /*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 22:14:48 by isemin            #+#    #+#             */
-/*   Updated: 2024/07/30 00:07:19 by isemin           ###   ########.fr       */
+/*   Updated: 2024/07/30 11:17:19 by isemin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static int	parent_await(int last_pid, int fd_array[3][2])
 
 	pid = waitpid(last_pid, &status, 0);
 	close_all(fd_array);
-	close(STDIN_FILENO);
+	//close(STDIN_FILENO);
 	while (pid != -1)
 		pid = wait(NULL);
 	if (WIFEXITED(status))
