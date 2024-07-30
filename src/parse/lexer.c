@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 15:34:33 by mrusu             #+#    #+#             */
-/*   Updated: 2024/07/26 17:23:49 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/07/30 10:57:20 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,10 @@ int	tokenize_loop(t_shell *shell, char *input, int i, int start)
 		else if (ft_is_special_char(input[i]))
 		{
 			handle_special_chars(shell, input, &i, &start);
+		}
+		else if (input[i] == '$')
+		{
+			handle_dollar_char(shell, input, &i, &start);
 		}
 		i++;
 	}

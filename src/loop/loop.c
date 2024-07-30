@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 14:02:02 by isemin            #+#    #+#             */
-/*   Updated: 2024/07/30 10:04:48 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/07/30 11:01:58 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ int	shell_loop(t_shell *shell)
 		}
 		else
 		{
+			expand_dollar_tokens(shell); //call before print_ast
 			print_ast(shell);
 			shell->exit_code = execute_ast(shell, shell->ast, EXIT_SUCCESS);
 			free_tokens(shell);

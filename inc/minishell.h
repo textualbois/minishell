@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 13:17:13 by mrusu             #+#    #+#             */
-/*   Updated: 2024/07/30 10:04:23 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/07/30 10:58:30 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,6 +194,10 @@ void		free_tokens(t_shell *shell);
 void		add_word_token(t_shell *shell, char *input, int start, int end);
 int			tokenize(t_shell *shell, char *input);
 void		add_special_token(t_shell *shell, char *special);
+
+// -expand.c
+void		expand_dollar_tokens(t_shell *shell);
+void		handle_dollar_char(t_shell *shell, char *input, int *i, int *start);
 
 // ----------DIR-----pipex_wrapper
 // -input_formatting.c

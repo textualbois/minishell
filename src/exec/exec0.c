@@ -6,16 +6,12 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 13:20:20 by mrusu             #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2024/07/29 19:23:26 by mrusu            ###   ########.fr       */
-=======
-/*   Updated: 2024/07/29 23:35:32 by isemin           ###   ########.fr       */
->>>>>>> pipex_api
+/*   Updated: 2024/07/30 10:32:07 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
-
+int	execute_command(t_shell *shell, t_command *cmd);
 int	execute_ast(t_shell *shell, t_tree *node, int exit_code)
 {
 	(void)shell;
@@ -23,7 +19,7 @@ int	execute_ast(t_shell *shell, t_tree *node, int exit_code)
 		return (1);
 	if (node->cmd)
 	{
-		exit_code = pipex_wrapper(shell, node->cmd);
+		exit_code = execute_command(shell, node->cmd);
 	}
 	else if (node->token->type == T_PIPE)
 	{
@@ -54,16 +50,16 @@ int	execute_builtin(t_shell *shell, t_command *cmd)
 		return (builtin_pwd());
 	if (ft_strcmp(cmd->name, "export") == 0)
 		return (builtin_export(shell, cmd->args));
-	if (ft_strcmp(cmd->name, "unset") == 0)
+	if (ft_strcmp(cmd->name, "unset") == 0) // empty arg chars the shell , fix this
 		return (builtin_unset(&shell->env_list, cmd->args[1]));
-	if (ft_strcmp(cmd->name, "env") == 0)
+	if (ft_strcmp(cmd->name, "env") == 0) // eror if it hase args
 		return (builtin_env(shell));
 	if (ft_strcmp(cmd->name, "exit") == 0)
 		return (builtin_exit());
 	return (1);
 }
 
-int	execute_command(t_shell *shell, t_command *cmd) // i am a mockup just to test builtins, Ivan will wrtie me, better!
+int	execute_command(t_shell *shell, t_command *cmd)
 {
 	if (execute_builtin(shell, cmd) == 0)
 		return (0);
