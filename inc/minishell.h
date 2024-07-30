@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 13:17:13 by mrusu             #+#    #+#             */
-/*   Updated: 2024/07/29 18:56:08 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/07/30 10:04:23 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,23 @@
 # include "../libft/libft.h"
 # include "../pipex/pipex.h"
 # include "structures.h"
+
+// pipex stuff
+# ifndef READ_END
+#  define READ_END 0
+# endif
+# ifndef WRITE_END
+#  define WRITE_END 1
+# endif
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 100
+# endif
+# ifndef CHILD
+#  define CHILD 0
+# endif
+# ifndef ANY_CHILD
+#  define ANY_CHILD -1
+# endif
 
 // ast_debug
 # define GET 0
@@ -111,11 +128,26 @@ int			syntax_error(void);
 
 
 // ----------DIR-----exec
-// ---exec.c
-int			execute_ast(t_shell *shell, t_tree *node, int exit_code);
-int			execute_builtin(t_shell *shell, t_command *cmd);
-int			execute_command(t_shell *shell, t_command *cmd);
+// ----sub_DIR----pipex_api
+// ---heredoc.c
+int			here_doc4shell(int fd_array[][2], t_command *cmd, char *delimiter);
 
+// ---manage_fd.c
+int			set_fds_pipe4shell(int fd_array[][2], int cmd_num, t_command *cmd);
+void		close_fds_parent4shell(int fd_array[][2], int cmd_num, t_command *cmd);
+
+// ---manage_fd_helpers.c
+int			setup_infile_read_fd(int fd_array[][2], char *input_file);
+int			setup_outfile(int fd_array[][2], char *output_file);
+int			setup_append_outfile(int fd_array[][2], char *output_file);
+int			redirect_out_between_pipes(int fd_array[][2], int cmd_num, t_command *cmd);
+int			redirect_input_between_pipes(int fd_array[][2], int cmd_num);
+
+// ---exec0.c
+int			execute_ast(t_shell *shell, t_tree *node, int exit_code);
+
+// ---pipex_wrapper.c
+int			pipex_wrapper(t_shell *shell, t_command *cmd);
 
 // ----------DIR-----prompts
 // -prompts.c

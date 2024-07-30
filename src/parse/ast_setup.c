@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast_setup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
+/*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 15:58:09 by isemin            #+#    #+#             */
-/*   Updated: 2024/07/26 17:32:16 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/07/27 22:35:21 by isemin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ t_tree	*get_nodes_pipes(t_token *start, t_token *stop, t_tree *parent)
 			return (NULL);
 		}
 		res->right = get_nodes_pipes(pipe_token->next, stop, res);
+		res->left->cmd->next = res->right->cmd;
 		return (res);
 	}
 	else
@@ -110,7 +111,7 @@ t_tree	*init_cmd_node(t_token *start, t_token *stop, t_tree *parent)
 	cmd = ft_calloc(sizeof(t_command), 1);
 	// if cmd not null
 	start = get_input_file(cmd, start, stop);
-	stop = get_heredoc(cmd, start, stop); 
+	stop = get_heredoc(cmd, start, stop);
 	stop = get_output_file(cmd, start, stop);
 	current = start;
 	res = init_tree_node(current, parent);
