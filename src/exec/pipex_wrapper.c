@@ -6,7 +6,7 @@
 /*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 22:14:48 by isemin            #+#    #+#             */
-/*   Updated: 2024/07/30 11:17:19 by isemin           ###   ########.fr       */
+/*   Updated: 2024/07/30 17:48:30 by isemin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,15 @@ static void	try_execution(char *cmd, char **args, char **env_paths, char **envp)
 
 int	pipex_wrapper(t_shell *shell, t_command *cmd)
 {
-	int			fd[3][2];
+	int			fd[4][2];
 	int			pid;
 	int			i;
 
 	i = 2;
+	fd[3][READ_END] = dup(STDIN_FILENO); // save the current stdin
+	fd[3][WRITE_END] = dup(STDOUT_FILENO); // save the current stdout
+	if (fd[3][READ_END] == -1 || fd[3][WRITE_END] == -1)
+		return (perror_return(EXIT_FAILURE, "dup error"));
 	while (cmd != NULL)
 	{
 		//pre-route dependiong on infile/outfile/append/here_doc?
@@ -37,13 +41,17 @@ int	pipex_wrapper(t_shell *shell, t_command *cmd)
 				werror_exit(EXIT_FAILURE, "fork_failed", 2);
 			else if (pid == CHILD)
 			{
+				// ft_putstr_fd("closing fd[", 2);
+				// ft_putnbr_fd(((i - 1) % 2) + 1, 2);
+				// ft_putstr_fd("][READ_END]\n", 2);
 				close(fd[((i - 1) % 2) + 1][READ_END]); // do we close correctly?
 				try_execution(cmd->name, cmd->args, shell->path, shell->env);
 			}
 		}
-		close_fds_parent4shell(fd, i, cmd);
+		close_fds_parent4shell(fd, i - 1, cmd);
 		i++;
 		cmd = cmd->next;
+
 	}
 	return (parent_await(pid, fd));
 }
@@ -55,7 +63,11 @@ static int	parent_await(int last_pid, int fd_array[3][2])
 
 	pid = waitpid(last_pid, &status, 0);
 	close_all(fd_array);
-	//close(STDIN_FILENO);
+	// ft_putstr_fd("closing STDIN_FILENO specifically\n", 2);
+	close(STDIN_FILENO);
+	// ft_putstr_fd("duping back to original stdin and stdout\n", 2);
+	dup2(fd_array[3][READ_END], STDIN_FILENO); // restore the original stdin
+	dup2(fd_array[3][WRITE_END], STDOUT_FILENO); // restore the original stdout
 	while (pid != -1)
 		pid = wait(NULL);
 	if (WIFEXITED(status))
