@@ -6,7 +6,7 @@
 /*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 13:18:55 by isemin            #+#    #+#             */
-/*   Updated: 2024/07/25 15:44:44 by isemin           ###   ########.fr       */
+/*   Updated: 2024/07/31 15:39:16 by isemin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,10 @@ void	print_ast_recursive1(t_tree *node, int depth)
 		printf("    ");
 		i++;
 	}
-	printf("Token: %s, type: %d\n", node->token->value, node->token->type);
+	// if (node->token)
+	// 	printf("Token: %s, type: %d\n", node->token->value, node->token->type);
+	// else
+	// 	printf("node has no token\n");
 	if (node->left != NULL)
 	{
 		i = 0;

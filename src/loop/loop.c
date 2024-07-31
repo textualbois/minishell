@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   loop.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
+/*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 14:02:02 by isemin            #+#    #+#             */
-/*   Updated: 2024/07/30 19:08:02 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/07/31 10:16:45 by isemin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	shell_loop(t_shell *shell)
 		}
 		else
 		{
-			expand_wildcard_tokens(shell); // call before expand_dollar_tokens
+			//expand_wildcard_tokens(shell); // call before expand_dollar_tokens
 			expand_dollar_tokens(shell); //call before print_ast
 			print_ast(shell);
 			shell->exit_code = execute_ast(shell, shell->ast, EXIT_SUCCESS);

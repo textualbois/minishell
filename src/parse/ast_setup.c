@@ -6,7 +6,7 @@
 /*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 15:58:09 by isemin            #+#    #+#             */
-/*   Updated: 2024/07/27 22:35:21 by isemin           ###   ########.fr       */
+/*   Updated: 2024/07/31 15:40:03 by isemin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,10 @@ t_tree	*get_nodes_pipes(t_token *start, t_token *stop, t_tree *parent)
 			return (NULL);
 		}
 		res->right = get_nodes_pipes(pipe_token->next, stop, res);
-		res->left->cmd->next = res->right->cmd;
+		if (res->right->token && res->right->token->type == T_PIPE)
+			res->left->cmd->next = res->right->left->cmd;
+		else
+			res->left->cmd->next = res->right->cmd;
 		return (res);
 	}
 	else
@@ -107,21 +110,23 @@ t_tree	*init_cmd_node(t_token *start, t_token *stop, t_tree *parent)
 
 	//if res not null
 
-	printf("Entering init_cmd_node\n"); //debug
+	// printf("Entering init_cmd_node with start = %s and stop = %s\n", start->value, stop ? stop->value : "NLUL"); //debug
 	cmd = ft_calloc(sizeof(t_command), 1);
-	// if cmd not null
 	start = get_input_file(cmd, start, stop);
 	stop = get_heredoc(cmd, start, stop);
 	stop = get_output_file(cmd, start, stop);
 	current = start;
+	cmd->args = list_to_arr(current, stop);
+	if (current == stop)
+		current = NULL;
 	res = init_tree_node(current, parent);
 	res->cmd = cmd;
-	cmd->name = current->value;
-	cmd->args = list_to_arr(current, stop);
+	if (current != NULL)
+		cmd->name = current->value;
 
-	printf("Command node created successfully\n");
-	printf("Command: %s\n", cmd->name);
-	printf("Arguments: ");
+	// printf("Command node created successfully\n");
+	// printf("Command: %s\n", cmd->name);
+	// printf("Arguments: ");
 	for (int j = 0; cmd->args[j]; j++)
 	{
 		printf("%s ", cmd->args[j]);
@@ -134,19 +139,19 @@ t_tree	*init_tree_node(t_token *token, t_tree *parent)
 {
 	t_tree	*new_node;
 
-	printf("Entering init_tree_node\n");
+	// printf("Entering init_tree_node\n");
 	new_node = ft_calloc(1, sizeof(t_tree));
 	if (!new_node)
 	{
-		printf("Error: Failed to allocate memory for tree node\n");
-		return NULL;
+		perror("Error: Failed to allocate memory for tree node\n");
+		return (NULL);
 	}
 	new_node->cmd = NULL;
 	new_node->left = NULL;
 	new_node->right = NULL;
 	new_node->parent = parent;
 	new_node->token = token;
-	printf("Tree node created successfully\n");
+	// printf("Tree node created successfully\n");
 	return (new_node);
 }
 

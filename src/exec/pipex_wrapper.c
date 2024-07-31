@@ -6,7 +6,7 @@
 /*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 22:14:48 by isemin            #+#    #+#             */
-/*   Updated: 2024/07/31 08:34:00 by isemin           ###   ########.fr       */
+/*   Updated: 2024/07/31 15:39:03 by isemin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,15 @@ int	pipex_wrapper(t_shell *shell, t_command *cmd)
 	int			fd[4][2];
 	int			pid;
 	int			i;
+	t_command *temp = cmd;
 
+	// while(temp)
+	// {
+	// 	printf("cmd->name: %s\n", temp->name);
+	// 	temp = temp->next;
+	// }
+	// printf("pipex_wrapper\n");
+	// printf("cmd->name: %s\n", cmd->name);
 	i = 2;
 	fd[3][READ_END] = dup(STDIN_FILENO); // save the current stdin
 	fd[3][WRITE_END] = dup(STDOUT_FILENO); // save the current stdout
@@ -32,6 +40,9 @@ int	pipex_wrapper(t_shell *shell, t_command *cmd)
 		return (perror_return(EXIT_FAILURE, "dup error"));
 	while (cmd != NULL)
 	{
+		// ft_putstr_fd("cmd #", 2);
+		// ft_putnbr_fd(i - 1, 2);
+		// ft_putstr_fd("\n", 2);
 		//pre-route dependiong on infile/outfile/append/here_doc?
 		if (set_fds_pipe4shell(fd, i - 1, cmd) != -1)
 		{
@@ -42,15 +53,24 @@ int	pipex_wrapper(t_shell *shell, t_command *cmd)
 			else if (pid == CHILD)
 			{
 				close(fd[((i - 1) % 2) + 1][READ_END]); // do we close correctly?
-				if (is_builtin(cmd))
+				if (cmd->name == NULL)
+				{
+					// ft_putstr_fd("no command name - ", 2);
+					// ft_putstr_fd("which means no command\n", 2);
+					exit(EXIT_SUCCESS);
+				}
+				else if (is_builtin(cmd))
 					exit(execute_builtin(shell, cmd));
-				try_execution(cmd->name, cmd->args, shell->path, shell->env);
+				else
+					try_execution(cmd->name, cmd->args, shell->path, shell->env);
 			}
 		}
 		close_fds_parent4shell(fd, i - 1, cmd);
-		i++;
 		cmd = cmd->next;
-
+		// ft_putstr_fd("cmd #" , 2);
+		// ft_putnbr_fd(i - 1, 2);
+		// ft_putstr_fd(" done\n", 2);
+		i++;
 	}
 	return (parent_await(pid, fd));
 }

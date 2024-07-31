@@ -6,7 +6,7 @@
 /*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 15:58:09 by isemin            #+#    #+#             */
-/*   Updated: 2024/07/30 17:33:54 by isemin           ###   ########.fr       */
+/*   Updated: 2024/07/31 15:39:28 by isemin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ t_token *get_input_file(t_command *cmd, t_token *start, t_token *stop)
 	{
 		if (current->type == T_SPECIAL && current->value[0] == '<')
 		{
-			printf("found input file redirect sign\n");
+			// printf("found input file redirect sign\n");
 			if (current->next->type == T_WORD)
 			{
 				cmd->input_file = current->next->value;

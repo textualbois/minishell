@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
+/*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 16:29:47 by mrusu             #+#    #+#             */
-/*   Updated: 2024/07/26 17:34:08 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/07/31 15:40:16 by isemin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	here_doc_syntax(char *input);
 /*
-* @ brief: Parses the raw input string, tokenizes it 
+* @ brief: Parses the raw input string, tokenizes it
 *	and creates AST.
 */
 int	parse(t_shell *shell)
@@ -33,9 +33,13 @@ int	parse(t_shell *shell)
 		shell->ast = get_nodes_and_or(shell->head, NULL, NULL);
 		if (!shell->ast)
 		{
-			printf("Error: failed to build AST\n");
+			perror("Error: failed to build AST\n");
 			return (1);
 		}
+		// else
+		// {
+		// 	printf("got an ast- all ok)\n");
+		// }
 	}
 	else
 	{
@@ -113,7 +117,7 @@ int	check_start_end(char *input)
 }
 
 /*
-* @ brief: Checks if there are unmatched quotes or 
+* @ brief: Checks if there are unmatched quotes or
 *	parentheses in the input string.
 */
 int	quotes_a_parentheses(char *input)
