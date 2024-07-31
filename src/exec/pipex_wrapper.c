@@ -6,7 +6,7 @@
 /*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 22:14:48 by isemin            #+#    #+#             */
-/*   Updated: 2024/07/31 15:39:03 by isemin           ###   ########.fr       */
+/*   Updated: 2024/07/31 15:47:16 by isemin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	pipex_wrapper(t_shell *shell, t_command *cmd)
 	int			fd[4][2];
 	int			pid;
 	int			i;
-	t_command *temp = cmd;
+	// t_command *temp = cmd;
 
 	// while(temp)
 	// {
