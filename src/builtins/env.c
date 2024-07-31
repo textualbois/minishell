@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
+/*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 14:19:18 by isemin            #+#    #+#             */
-/*   Updated: 2024/07/30 12:48:14 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/07/31 15:36:36 by isemin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	builtin_env(t_shell *shell)
 {
 	t_env	*env_node;
 
-	if (shell->env && *(shell->env) != NULL)
+	if (!shell->env_list)
 	{
 		return (127);
 	}
