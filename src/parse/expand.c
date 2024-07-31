@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
+/*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 10:57:00 by mrusu             #+#    #+#             */
-/*   Updated: 2024/07/30 18:58:04 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/07/31 16:27:58 by isemin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 /*
 * @ brief: Check the following character after the $, if it's
-*	'?' add a T_EXCODE token, otherwise, get the variable name 
+*	'?' add a T_EXCODE token, otherwise, get the variable name
 *	that is after and add a T_DOLLAR token.
 */
 void	handle_dollar_char(t_shell *shell, char *input, int *i, int *start)
@@ -64,13 +64,15 @@ void	expand_dollar_tokens(t_shell *shell)
 				current->value = ft_strdup(value);
 			else
 				current->value = ft_strdup("");
+			current->type = T_WORD;
 		}
 		else if (current->type == T_EXCODE)
 		{
 			value = ft_itoa(shell->exit_code);
 			free(current->value);
 			current->value = value;
-			printf("%d\n", shell->exit_code);
+			// printf("%d\n", shell->exit_code);
+			current->type = T_WORD;
 		}
 		current = current->next;
 	}

@@ -6,7 +6,7 @@
 /*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 16:29:47 by mrusu             #+#    #+#             */
-/*   Updated: 2024/07/31 15:40:16 by isemin           ###   ########.fr       */
+/*   Updated: 2024/07/31 16:24:36 by isemin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ int	parse(t_shell *shell)
 	}
 	if (shell->token_count > 0)
 	{
+		expand_dollar_tokens(shell);
 		shell->ast = get_nodes_and_or(shell->head, NULL, NULL);
 		if (!shell->ast)
 		{
