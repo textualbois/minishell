@@ -6,13 +6,11 @@
 /*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 13:20:20 by mrusu             #+#    #+#             */
-/*   Updated: 2024/07/30 19:25:01 by isemin           ###   ########.fr       */
+/*   Updated: 2024/07/31 08:33:25 by isemin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
-static int	execute_builtin(t_shell *shell, t_command *cmd);
-static int	is_builtin(t_command *cmd);
 
 int	execute_ast(t_shell *shell, t_tree *node, int exit_code)
 {
@@ -44,7 +42,7 @@ int	execute_ast(t_shell *shell, t_tree *node, int exit_code)
 	return (exit_code);
 }
 
-static int	execute_builtin(t_shell *shell, t_command *cmd)
+int	execute_builtin(t_shell *shell, t_command *cmd)
 {
 	if (ft_strcmp(cmd->name, "echo") == 0)
 		return (builtin_echo(cmd->args));
@@ -63,7 +61,7 @@ static int	execute_builtin(t_shell *shell, t_command *cmd)
 	return (1);
 }
 
-static int	is_builtin(t_command *cmd)
+int	is_builtin(t_command *cmd)
 {
 	if (ft_strcmp(cmd->name, "echo") == 0)
 		return (true);

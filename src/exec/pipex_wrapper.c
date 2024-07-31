@@ -6,7 +6,7 @@
 /*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 22:14:48 by isemin            #+#    #+#             */
-/*   Updated: 2024/07/30 17:48:30 by isemin           ###   ########.fr       */
+/*   Updated: 2024/07/31 08:34:00 by isemin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,9 @@ int	pipex_wrapper(t_shell *shell, t_command *cmd)
 				werror_exit(EXIT_FAILURE, "fork_failed", 2);
 			else if (pid == CHILD)
 			{
-				// ft_putstr_fd("closing fd[", 2);
-				// ft_putnbr_fd(((i - 1) % 2) + 1, 2);
-				// ft_putstr_fd("][READ_END]\n", 2);
 				close(fd[((i - 1) % 2) + 1][READ_END]); // do we close correctly?
+				if (is_builtin(cmd))
+					exit(execute_builtin(shell, cmd));
 				try_execution(cmd->name, cmd->args, shell->path, shell->env);
 			}
 		}
