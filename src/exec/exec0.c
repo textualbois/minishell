@@ -6,12 +6,14 @@
 /*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 13:20:20 by mrusu             #+#    #+#             */
-/*   Updated: 2024/07/30 18:09:38 by isemin           ###   ########.fr       */
+/*   Updated: 2024/07/30 19:25:01 by isemin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
-int	execute_command(t_shell *shell, t_command *cmd);
+static int	execute_builtin(t_shell *shell, t_command *cmd);
+static int	is_builtin(t_command *cmd);
+
 int	execute_ast(t_shell *shell, t_tree *node, int exit_code)
 {
 	(void)shell;
@@ -19,6 +21,8 @@ int	execute_ast(t_shell *shell, t_tree *node, int exit_code)
 		return (1);
 	if (node->cmd)
 	{
+		if (is_builtin(node->cmd))
+			return (execute_builtin(shell, node->cmd));
 		exit_code = pipex_wrapper(shell, node->cmd);
 	}
 	else if (node->token->type == T_PIPE)
@@ -40,7 +44,7 @@ int	execute_ast(t_shell *shell, t_tree *node, int exit_code)
 	return (exit_code);
 }
 
-int	execute_builtin(t_shell *shell, t_command *cmd)
+static int	execute_builtin(t_shell *shell, t_command *cmd)
 {
 	if (ft_strcmp(cmd->name, "echo") == 0)
 		return (builtin_echo(cmd->args));
@@ -59,9 +63,21 @@ int	execute_builtin(t_shell *shell, t_command *cmd)
 	return (1);
 }
 
-int	execute_command(t_shell *shell, t_command *cmd)
+static int	is_builtin(t_command *cmd)
 {
-	if (execute_builtin(shell, cmd) == 0)
-		return (0);
-	return (1);
+	if (ft_strcmp(cmd->name, "echo") == 0)
+		return (true);
+	if (ft_strcmp(cmd->name, "cd") == 0)
+		return (true);
+	if (ft_strcmp(cmd->name, "pwd") == 0)
+		return (true);
+	if (ft_strcmp(cmd->name, "export") == 0)
+		return (true);
+	if (ft_strcmp(cmd->name, "unset") == 0)
+		return (true);
+	if (ft_strcmp(cmd->name, "env") == 0)
+		return (true);
+	if (ft_strcmp(cmd->name, "exit") == 0)
+		return (true);
+	return (false);
 }
