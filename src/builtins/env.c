@@ -6,7 +6,7 @@
 /*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 14:19:18 by isemin            #+#    #+#             */
-/*   Updated: 2024/07/31 15:36:36 by isemin           ###   ########.fr       */
+/*   Updated: 2024/08/02 17:05:32 by isemin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,8 @@ int	builtin_unset(t_env **env_list, char *key)
 			free(current_env->key);
 			free(current_env->value);
 			free(current_env);
+			if (ft_strcmp(key, "USER") == 0)
+				form_prompt(NULL, "");
 			return (0);
 		}
 		last_node = current_env;
