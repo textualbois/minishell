@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmds.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
+/*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 12:30:36 by mrusu             #+#    #+#             */
-/*   Updated: 2024/07/29 19:19:59 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/08/02 19:27:04 by isemin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,34 +39,87 @@ int	builtin_echo(char **args)
 	return (0);
 }
 
-/*
-* @brief: change directory.
-*/
-int	builtin_cd(t_shell *shell, char **args)
-{
-	char	*home;
+// /*
+// * @brief: change directory.
+// */
+// int	builtin_cd(t_shell *shell, char **args)
+// {
+// 	char	*dir;
+// 	char	*oldpwd;
+// 	char	*temp;
 
-	if (args[1] == NULL || ft_strcmp(args[1], "~") == 0)
-	{
-		home = get_env_value(shell->env_list, "HOME");
-		if (home == NULL)
-		{
-			perror("cd: HOME not set\n");
-			return (1);
-		}
-		if (chdir(home) != 0)
-		{
-			perror("cd failed");
-			return (1);
-		}
-	}
-	else if (chdir(args[1]) != 0)
-	{
-		perror("cd failed");
-		return (1);
-	}
-	return (0);
-}
+// 	oldpwd = get_env_value(shell->env_list, "PWD");
+// 	if (args[1] == NULL || ft_strcmp(args[1], "~") == 0)
+// 	{
+// 		dir = get_env_value(shell->env_list, "HOME");
+// 		if (dir == NULL)
+// 		{
+// 			perror("cd: HOME not set\n");
+// 			return (1);
+// 		}
+// 		else if (chdir(dir) != 0)
+// 		{
+// 			perror("cd failed");
+// 			return (1);
+// 		}
+// 		else
+// 		{
+// 			oldpwd = ft_strjoin("OLDPWD=", oldpwd);
+// 			builtin_export(shell, (char *[]){NULL, oldpwd, NULL});
+// 			free(oldpwd);
+// 			dir = ft_strjoin("PWD=", dir);
+// 			builtin_export(shell, (char *[]){NULL, dir, NULL});
+// 			free(dir);
+// 			return (0);
+// 		}
+// 	}
+
+// 	else if (ft_strcmp(args[1], "-") == 0)
+// 	{
+// 		printf("going back to previous directory\n");
+// 		dir = get_env_value(shell->env_list, "OLDPWD");
+// 		printf("dir: %s\n", dir);
+// 		if (dir == NULL)
+// 		{
+// 			perror("cd: OLDPWD not set\n");
+// 			return (1);
+// 		}
+// 		else if (chdir(dir) != 0)
+// 		{
+// 			perror("cd failed");
+// 			return (1);
+// 		}
+// 		else
+// 		{
+// 			printf("%s\n", dir);
+// 			oldpwd = ft_strjoin("OLDPWD=", oldpwd);
+// 			builtin_export(shell, (char *[]){NULL, oldpwd, NULL});
+// 			free(oldpwd);
+// 			dir = ft_strjoin("PWD=", dir);
+// 			builtin_export(shell, (char *[]){NULL, dir, NULL});
+// 			free(dir);
+// 			return (0);
+// 		}
+// 	}
+
+// 	else if (chdir(args[1]) != 0)
+// 	{
+// 		perror("cd failed");
+// 		return (1);
+// 	}
+// 	else
+// 	{
+// 		printf("got to %s\n", args[1]);
+// 		oldpwd = ft_strjoin("OLDPWD=", oldpwd);
+// 		builtin_export(shell, (char *[]){NULL, oldpwd, NULL});
+// 		free(oldpwd);
+// 		dir = ft_strjoin("PWD=", args[1]);
+// 		builtin_export(shell, (char *[]){NULL, dir, NULL});
+// 		free(dir);
+// 		return (0);
+// 	}
+// 	return (0);
+// }
 
 /*
 * @brief: print the current working directory.
