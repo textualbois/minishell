@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 16:29:47 by mrusu             #+#    #+#             */
-/*   Updated: 2024/08/02 14:53:52 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/08/02 17:57:12 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,6 @@ int	parse(t_shell *shell)
 			perror("Error: failed to build AST\n");
 			return (1);
 		}
-		// else
-		// {
-		// 	printf("got an ast- all ok)\n");
-		// }
 	}
 	else
 	{

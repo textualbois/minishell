@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 15:34:33 by mrusu             #+#    #+#             */
-/*   Updated: 2024/07/30 18:42:25 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/08/02 18:01:50 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,19 +52,33 @@ void	handle_quote_token(t_shell *shell, char *input, int *i, int *start)
 
 	quote_char = input[*i];
 	j = *i + 1;
-	while (input[j] && input[j] != quote_char)
-		j++;
-	if (input[j] == quote_char)
+	if (quote_char == '\'')
 	{
-		j++;
-		substr = ft_substr(input, *i, j - *i);
-		add_token(shell, T_WORD, substr);
-		*i = j - 1;
-		*start = j;
+		while (input[j] && input[j] != '\'')
+			j++;
+		if (input[j] == '\'')
+		{
+			substr = ft_substr(input, *i + 1, j - *i - 1);
+			add_token(shell, T_WORD, substr);
+			*i = j;
+			*start = j + 1;
+		}
+		else
+			printf("Error: unmatched single quote\n");
 	}
-	else
+	else if (quote_char == '"')
 	{
-		printf("Error: unmatched quote\n");
+		while (input[j] && input[j] != '"')
+			j++;
+		if (input[j] == '"')
+		{
+			substr = ft_substr(input, *i + 1, j - *i - 1);
+			add_token(shell, T_WORD_EXPAND, substr);
+			*i = j;
+			*start = j + 1;
+		}
+		else
+			printf("Error: unmatched double quote\n");
 	}
 }
 
@@ -142,6 +156,8 @@ void	add_token(t_shell *shell, t_tokentype type, char *value)
 		printf("$?");
 	else if (type == T_WILDCARD)
 		printf("WILDCARD");
+	else if (type == T_WORD_EXPAND)
+		printf("T_WORD_EXPAND");
 	else
 		printf("UNKNOWN");
 	printf(", Value = '%s'\n", value);

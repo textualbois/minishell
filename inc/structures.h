@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 15:32:24 by isemin            #+#    #+#             */
-/*   Updated: 2024/08/02 14:22:26 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/08/02 17:26:29 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@ typedef enum e_tokentype
 	T_QUOTE,
 	T_DOLLAR,
 	T_EXCODE,
-	T_WILDCARD
+	T_WILDCARD,
+	T_WORD_EXPAND
 }	t_tokentype;
 
 // **********************====STRUCT====*********************

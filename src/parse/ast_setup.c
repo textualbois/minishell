@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast_setup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 15:58:09 by isemin            #+#    #+#             */
-/*   Updated: 2024/07/31 15:40:03 by isemin           ###   ########.fr       */
+/*   Updated: 2024/08/02 15:18:07 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,10 @@ t_tree	*get_nodes_and_or(t_token *start, t_token *stop, t_tree *parent)
 	head_token = NULL;
 	current = start;
 
-	printf("Entering get_nodes_and_or\n"); //debug
+	// printf("Entering get_nodes_and_or\n"); //debug
 	while (current != stop)
 	{
-		printf("Current token: %s, type: %d\n", current->value, current->type); //debug
+		// printf("Current token: %s, type: %d\n", current->value, current->type); //debug
 		if (current->type == T_SPECIAL && current->value[0] == '(')
 			depth++;
 		else if (current->type == T_SPECIAL && current->value[0] == ')')
@@ -52,7 +52,7 @@ t_tree	*get_nodes_and_or(t_token *start, t_token *stop, t_tree *parent)
 	}
 	else if (start != stop)
 	{
-		printf("No operator found, calling get_nodes_pipes\n"); //debug
+		// printf("No operator found, calling get_nodes_pipes\n"); //debug
 		return (get_nodes_pipes(start, stop, parent));
 	}
 	else
@@ -68,12 +68,12 @@ t_tree	*get_nodes_pipes(t_token *start, t_token *stop, t_tree *parent)
 	current = start;
 	pipe_token = NULL;
 
-	printf("Entering get_nodes_pipes\n"); //debug
+	// printf("Entering get_nodes_pipes\n"); //debug
 	while (current != stop)
 	{
 		if (current->type == T_PIPE)
 		{
-			printf("Found pipe token\n"); //debug
+			// printf("Found pipe token\n"); //debug
 			pipe_token = current;
 			break;
 		}
@@ -97,7 +97,7 @@ t_tree	*get_nodes_pipes(t_token *start, t_token *stop, t_tree *parent)
 	}
 	else
 	{
-		printf("No pipe found, creating command node\n");
+		// printf("No pipe found, creating command node\n");
 		return (init_cmd_node(start, stop, parent));
 	}
 }
