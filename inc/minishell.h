@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 13:17:13 by mrusu             #+#    #+#             */
-/*   Updated: 2024/07/31 09:22:16 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/08/02 14:30:13 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,7 @@ void		*ft_readline(t_shell *shell);
 // ----------DIR-----setup
 // -init_shell.c
 void		init_shell(t_shell *shell, char **env);
+void		setup_signals(t_shell *shell);
 
 // -env.c
 char		*ft_getenv(void);
@@ -216,9 +217,10 @@ int			package_pipex(t_shell *shell);
 
 // ----------DIR-----signals
 // -signals.c
-void		handle_sigint(int sig, siginfo_t *siginfo, void *context);
-void		handle_sigquit(int sig, siginfo_t *siginfo, void *context);
-void		handle_sigtstp(int sig, siginfo_t *siginfo, void *context);
-void		setup_signals(t_shell *shell);
+void		handle_sigint(t_shell *shell);
+void		handle_sigquit(t_shell *shell);
+void		handle_sigtstp(t_shell *shell);
+void		handle_signal(int sig, siginfo_t *siginfo, void *context);
+void		handle_received_signal(t_shell *shell);
 
 #endif
