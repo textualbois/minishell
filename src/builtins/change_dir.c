@@ -6,7 +6,7 @@
 /*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 19:05:09 by isemin            #+#    #+#             */
-/*   Updated: 2024/08/02 19:32:52 by isemin           ###   ########.fr       */
+/*   Updated: 2024/08/02 19:46:06 by isemin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static int	change_dir_to_oldpwd(t_shell *shell, char *oldpwd)
 	char	cwd[1024];
 
 	dir = get_env_value(shell->env_list, "OLDPWD");
-	if (dir == NULL)
+	if (dir == NULL || ft_strcmp(dir, "") == 0)
 	{
 		perror("cd: OLDPWD not set\n");
 		return (1);
