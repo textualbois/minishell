@@ -6,7 +6,7 @@
 /*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 22:59:57 by isemin            #+#    #+#             */
-/*   Updated: 2024/07/30 17:49:07 by isemin           ###   ########.fr       */
+/*   Updated: 2024/08/03 20:25:39 by isemin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static int	set_ins(int fd_array[][2], int cmd_num, t_command *cmd)
 			return (perror_return(EXIT_FAILURE, "1_dup2"));
 		// else
 		// {
-		// 	ft_putstr_fd("redirected stdin to heredoc", 2);
+		// 	ft_putstr_fd("redirected stdin to heredoc\n", 2);
 		// }
 	}
 	else if (cmd->input_file != NULL) //todo if we have input file to handle
@@ -63,17 +63,19 @@ static int	set_outs(int fd_array[][2], int cmd_num, t_command *cmd)//F
 int	set_fds_pipe4shell(int fd_array[][2], int cmd_num, t_command *cmd)
 {
 
-	if (pipe(fd_array[(cmd_num % 2) + 1]) == -1) //A creates a pipe at this location. no commitment to use it
-		return (perror_return(EXIT_FAILURE, "pipe error"));
-	// else
-	// {
-	// 	ft_putstr_fd("pipe created for cmd number ", 2);
-	// 	ft_putnbr_fd(cmd_num, 2);
-	// 	ft_putstr_fd(" at pipe index ", 2);
-	// 	ft_putnbr_fd((cmd_num % 2) + 1, 2);
-	// 	ft_putstr_fd("\n", 2);
-	// }
-	// }
+	if (cmd_num != 1 || cmd->next != NULL)
+	{
+		if (pipe(fd_array[(cmd_num % 2) + 1]) == -1) //A creates a pipe at this location. no commitment to use it
+			return (perror_return(EXIT_FAILURE, "pipe error"));
+		// else
+		// {
+		// 	ft_putstr_fd("pipe created for cmd number ", 2);
+		// 	ft_putnbr_fd(cmd_num, 2);
+		// 	ft_putstr_fd(" at pipe index ", 2);
+		// 	ft_putnbr_fd((cmd_num % 2) + 1, 2);
+		// 	ft_putstr_fd("\n", 2);
+		// }
+	}
 	// else
 	// {
 	// 	ft_putstr_fd("no pipe created for cmd number ", 2);
@@ -89,26 +91,35 @@ int	set_fds_pipe4shell(int fd_array[][2], int cmd_num, t_command *cmd)
 
 void	close_fds_parent4shell(int fd_array[][2], int cmd_num, t_command *cmd)
 {
-	(void)cmd;
+	// ft_putstr_fd("IN PARENT ", 2);
+	// ft_putstr_fd("closing STDOUT_FILENO\n", 2);
+	// if (close(STDOUT_FILENO) == -1)
+	// 	perror("close");
 	if (cmd->heredoc_delimiter != NULL)
 	{
 		// ft_putstr_fd("closing fd[", 2);
 		// ft_putnbr_fd(0, 2);
 		// ft_putstr_fd("][WRITE_END]\n", 2);
-		close(fd_array[0][WRITE_END]);
+		if (close(fd_array[0][WRITE_END]) == -1)
+			perror("close");
 	}
 	else if (cmd->output_file != NULL)
 	{
 		// ft_putstr_fd("closing fd[", 2);
 		// ft_putnbr_fd(0, 2);
 		// ft_putstr_fd("][WRITE_END]\n", 2);
-		close(fd_array[0][WRITE_END]);
+		if (close(fd_array[0][WRITE_END]) == -1)
+			perror("close");
 	}
 	else
 	{
-		// ft_putstr_fd("4 parents closing fd[", 2);
-		// ft_putnbr_fd((cmd_num % 2) + 1, 2);
-		// ft_putstr_fd("][WRITE_END]\n", 2);
-		close(fd_array[(cmd_num % 2) + 1][WRITE_END]);
+		if (fd_array[(cmd_num % 2) + 1][WRITE_END] != -1)
+		{
+			// ft_putstr_fd("closing fd[", 2);
+			// ft_putnbr_fd((cmd_num % 2) + 1, 2);
+			// ft_putstr_fd("][WRITE_END]\n", 2);
+			if (close(fd_array[(cmd_num % 2) + 1][WRITE_END]) == -1)
+				perror("close");
+		}
 	}
 }

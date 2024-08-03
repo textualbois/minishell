@@ -6,7 +6,7 @@
 /*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 20:27:40 by isemin            #+#    #+#             */
-/*   Updated: 2024/07/30 17:49:31 by isemin           ###   ########.fr       */
+/*   Updated: 2024/08/03 20:26:10 by isemin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	setup_append_outfile(int fd_array[][2], char *output_file)
 		return (perror_return(EXIT_FAILURE, output_file));
 	// else
 	// {
-	// 	ft_putstr_fd("redirected stdout to output_file\n", 2);
+	// 	ft_putstr_fd("redirected stdout to output_file (appendable)\n", 2);
 	// 	//close(fd_array[0][WRITE_END]);
 	// }
 	return (EXIT_SUCCESS);
@@ -65,6 +65,8 @@ int	redirect_input_between_pipes(int fd_array[][2], int cmd_num) //C.2 only diff
 	if (cmd_num == 1) // if we are at the first command do nothing (because we take input from stdin)
 	{
 		// ft_putstr_fd("no redirection needed for first command\n", 2);
+		// dup2(fd_array[3][READ_END], STDIN_FILENO); // restore the original stdin
+		// close(fd_array[3][READ_END]);
 		return (EXIT_SUCCESS);
 	}
 	if (dup2(fd_array[2 - (cmd_num % 2)][READ_END], STDIN_FILENO) == -1)
@@ -84,6 +86,7 @@ int	redirect_out_between_pipes(int fd_array[][2], int cmd_num, t_command *cmd) /
 	{
 		// ft_putstr_fd("restoring stdout location for last command\n", 2);
 		dup2(fd_array[3][WRITE_END], STDOUT_FILENO); // restore the original stdout
+		//close(fd_array[3][WRITE_END]);
 		//dup2(STDOUT_FILENO, fd_array[3][WRITE_END]); // restore the original stdout
 		return (EXIT_SUCCESS);
 	}

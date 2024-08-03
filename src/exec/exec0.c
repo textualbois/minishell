@@ -6,11 +6,11 @@
 /*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 13:20:20 by mrusu             #+#    #+#             */
-/*   Updated: 2024/07/31 15:41:07 by isemin           ###   ########.fr       */
+/*   Updated: 2024/08/03 20:58:58 by isemin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minishell.h"
+#include "../../inc/minishell.h"
 
 static int	create_and_close_files(t_command *cmd);
 
@@ -33,7 +33,7 @@ int	execute_ast(t_shell *shell, t_tree *node, int exit_code)
 	// 	printf("node->cmd->name: %s\n", node->cmd->name);
 	// else
 	// 	printf("node->cmd is NULL\n");
-	if (!node->token)
+	if (!node->token) // if no actual cmd
 	{
 		// printf("should be single cmd without actual cmd. node->token is NULL\n");
 		create_and_close_files(node->cmd);
@@ -63,8 +63,7 @@ int	execute_ast(t_shell *shell, t_tree *node, int exit_code)
 		if (exit_code == EXIT_SUCCESS)
 			exit_code = execute_ast(shell, node->right, exit_code);
 	}
-	// else
-	// 	printf("could not determine node type\n");
+	// printf("exit_code: %d\n", exit_code);
 	return (exit_code);
 }
 
