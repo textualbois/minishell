@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
+/*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 14:19:26 by mrusu             #+#    #+#             */
-/*   Updated: 2024/07/29 18:57:09 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/08/02 17:07:35 by isemin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ int	builtin_export(t_shell *shell, char **args)
 			add_env_node(&shell->env_list, kv_pair[0], kv_pair[1]);
 		else
 			update_env_node(shell->env_list, kv_pair[0], kv_pair[1]);
+		if (ft_strcmp(kv_pair[0], "USER") == 0)
+			form_prompt(NULL, kv_pair[1]);
 		free(kv_pair[0]);
 		free(kv_pair[1]);
 		free(kv_pair);

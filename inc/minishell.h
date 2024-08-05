@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 13:17:13 by mrusu             #+#    #+#             */
-/*   Updated: 2024/08/02 17:45:35 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/08/05 10:01:20 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -226,6 +226,6 @@ void		handle_received_signal(t_shell *shell);
 
 char *ft_strjoin_free_char(char *s, char c);
 char *ft_strjoin_free(char *s1, char *s2);
-char *extract_var_name(char *str);
+
 
 #endif

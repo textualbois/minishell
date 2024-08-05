@@ -6,7 +6,7 @@
 /*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 22:14:48 by isemin            #+#    #+#             */
-/*   Updated: 2024/07/31 15:47:16 by isemin           ###   ########.fr       */
+/*   Updated: 2024/08/03 20:30:58 by isemin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,46 @@
 static int	parent_await(int last_pid, int fd_array[3][2]);
 static void	try_execution(char *cmd, char **args, char **env_paths, char **envp);
 
+//maybe comment out this
+static void pipe_fd_init(int fd[4][2])
+{
+	int 		i;
 
-// one question - is the fd of an open file handled correctly \
-// when the next command also has it's own input file and would take over the fd slot?
+	i = 0;
+	while (i < 4)
+	{
+		fd[i][0] = -1;
+		fd[i][1] = -1;
+		i++;
+	}
+}
+
+static void	close_all_4shell(int fd_array[4][2])
+{
+	int	i;
+
+	i = 2;
+	while (i >= 0)
+	{
+		if (fd_array[i][WRITE_END] != -1)
+		{
+			// ft_putstr_fd("closing fd_array[", 2);
+			// ft_putnbr_fd(i, 2);
+			// ft_putstr_fd("][WRITE_END]\n", 2);
+			if (close(fd_array[i][WRITE_END]) == -1)
+				perror("close");
+		}
+		if (fd_array[i][READ_END] != -1)
+		{
+			// ft_putstr_fd("closing fd_array[", 2);
+			// ft_putnbr_fd(i, 2);
+			// ft_putstr_fd("][READ_END]\n", 2);
+			if (close(fd_array[i][READ_END]) == -1)
+				perror("close");
+		}
+		i--;
+	}
+}
 
 int	pipex_wrapper(t_shell *shell, t_command *cmd)
 {
@@ -33,17 +70,16 @@ int	pipex_wrapper(t_shell *shell, t_command *cmd)
 	// }
 	// printf("pipex_wrapper\n");
 	// printf("cmd->name: %s\n", cmd->name);
+	pipe_fd_init(fd);
 	i = 2;
 	fd[3][READ_END] = dup(STDIN_FILENO); // save the current stdin
 	fd[3][WRITE_END] = dup(STDOUT_FILENO); // save the current stdout
+	// ft_putstr_fd("saving stdin and stdout for later\n", 2);
 	if (fd[3][READ_END] == -1 || fd[3][WRITE_END] == -1)
 		return (perror_return(EXIT_FAILURE, "dup error"));
+	// fflush(stdout);
 	while (cmd != NULL)
 	{
-		// ft_putstr_fd("cmd #", 2);
-		// ft_putnbr_fd(i - 1, 2);
-		// ft_putstr_fd("\n", 2);
-		//pre-route dependiong on infile/outfile/append/here_doc?
 		if (set_fds_pipe4shell(fd, i - 1, cmd) != -1)
 		{
 			//add builtin check here. if builtin, maybe fork is unnecessary
@@ -52,7 +88,13 @@ int	pipex_wrapper(t_shell *shell, t_command *cmd)
 				werror_exit(EXIT_FAILURE, "fork_failed", 2);
 			else if (pid == CHILD)
 			{
-				close(fd[((i - 1) % 2) + 1][READ_END]); // do we close correctly?
+				if (fd[((i - 1) % 2) + 1][READ_END] != -1)
+				{
+					close(fd[((i - 1) % 2) + 1][READ_END]); // do we close correctly?
+					// ft_putstr_fd("IN_CHILD closing fd[", 2);
+					// ft_putnbr_fd(((i - 1) % 2) + 1, 2);
+					// ft_putstr_fd("][READ_END]\n", 2);
+				}
 				if (cmd->name == NULL)
 				{
 					// ft_putstr_fd("no command name - ", 2);
@@ -75,18 +117,22 @@ int	pipex_wrapper(t_shell *shell, t_command *cmd)
 	return (parent_await(pid, fd));
 }
 
-static int	parent_await(int last_pid, int fd_array[3][2])
+static int	parent_await(int last_pid, int fd_array[4][2])
 {
 	int	status;
 	int	pid;
 
 	pid = waitpid(last_pid, &status, 0);
-	close_all(fd_array);
+	close_all_4shell(fd_array);
 	// ft_putstr_fd("closing STDIN_FILENO specifically\n", 2);
-	close(STDIN_FILENO);
-	// ft_putstr_fd("duping back to original stdin and stdout\n", 2);
-	dup2(fd_array[3][READ_END], STDIN_FILENO); // restore the original stdin
-	dup2(fd_array[3][WRITE_END], STDOUT_FILENO); // restore the original stdout
+	if (close(STDIN_FILENO) == -1)
+		perror("close error");
+	// ft_putstr_fd("duping back to original stdIN\n", 2);
+	if (dup2(fd_array[3][READ_END], STDIN_FILENO) == -1) // restore the original stdin
+		perror("dup2");
+	// ft_putstr_fd("duping back to original stdOUT\n", 2);
+	if (dup2(fd_array[3][WRITE_END], STDOUT_FILENO) == -1) // restore the original stdout
+		perror("dup2");
 	while (pid != -1)
 		pid = wait(NULL);
 	if (WIFEXITED(status))
