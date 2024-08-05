@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 13:17:13 by mrusu             #+#    #+#             */
-/*   Updated: 2024/08/05 14:03:13 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/08/05 15:31:19 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,16 +179,19 @@ t_tree		*get_nodes_and_or(t_token *start, t_token *stop, t_tree *parent);
 
 // -lexer.c
 int			tokenize_loop(t_shell *shell, char *input, int i, int start);
-void		handle_quote_token(t_shell *shell, char *input, int *i, int *start);
+void		handle_squote(t_shell *shell, char *input, int *i, int *start);
+void		handle_dquote(t_shell *shell, char *input, int *i, int *start);
 void		handle_special_chars(t_shell *shell, char *input,
 				int *i, int *start);
 void		handle_dollar_char(t_shell *shell, char *input, int *i, int *start);
-void		handle_wildcard_char(t_shell *shell, char *input,
-				int *i, int *start);
+
 
 // -lexer_utils.c
-t_token		*create_token(t_tokentype type, char *value);
+int			tokenize(t_shell *shell, char *input);
 void		add_token(t_shell *shell, t_tokentype type, char *value);
+t_token		*create_token(t_tokentype type, char *value);
+void		add_word_token(t_shell *shell, char *input, int start, int end);
+void		add_special_token(t_shell *shell, char *special);
 
 // -parse.c
 int			parse(t_shell *shell);
@@ -196,15 +199,12 @@ int			syntax_check(char *input);
 int			check_start_end(char *input);
 int			quotes_a_parentheses(char *input);
 int			check_consecutive_operators(char *input);
-int			check_heredoc_syntax(char *input);
-
 
 // -utils.c
 t_tokentype	get_token_type(char *str);
 void		free_tokens(t_shell *shell);
 void		add_word_token(t_shell *shell, char *input, int start, int end);
-int			tokenize(t_shell *shell, char *input);
-void		add_special_token(t_shell *shell, char *special);
+int			check_redirect_syntax(char *input, int *i);
 
 // -------------------------------------------DIR---expand
 // -expand.c
@@ -218,6 +218,7 @@ char		*ft_strjoin_free_char(char *s, char c);
 char		*extract_variable_name(char *str, int *i);
 
 // -expand_wildcard.c
+void	handle_wildcard_char(t_shell *shell, char *input, int *i, int *start);
 void		expand_wildcard_tokens(t_shell *shell);
 bool		match(const char *pattern, const char *string);
 bool		match_re(const char *pattern, const char *string,

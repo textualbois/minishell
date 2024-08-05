@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 15:34:33 by mrusu             #+#    #+#             */
-/*   Updated: 2024/08/05 13:17:40 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/08/05 15:35:34 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,10 @@ int	tokenize_loop(t_shell *shell, char *input, int i, int start)
 {
 	while (input[i])
 	{
-		if (input[i] == '\'' || input[i] == '"') // here i split the handel quote in 2 function fore each type 
-			handle_quote_token(shell, input, &i, &start);
+		if (input[i] == '\'')
+			handle_squote(shell, input, &i, &start);
+		else if (input[i] == '"')
+			handle_dquote(shell, input, &i, &start);
 		else if (ft_isspace(input[i]))
 		{
 			if (i > start)
@@ -41,44 +43,60 @@ int	tokenize_loop(t_shell *shell, char *input, int i, int start)
 }
 
 /*
-* @ brief: Processes quoted strings in the input string,
+* brief: Processes single quoted strings in the input string,
 *	capturing the quoted string and creating a token for it.
 */
-void	handle_quote_token(t_shell *shell, char *input, int *i, int *start)
+void	handle_squote(t_shell *shell, char *input, int *i, int *start)
 {
-	char	quote_char;
 	int		j;
 	char	*substr;
 
-	quote_char = input[*i];
 	j = *i + 1;
-	if (quote_char == '\'')
+	while (input[j] && input[j] != '\'')
+		j++;
+	if (input[j] == '\'')
 	{
-		while (input[j] && input[j] != '\'')
-			j++;
-		if (input[j] == '\'')
-		{
-			substr = ft_substr(input, *i + 1, j - *i - 1);
-			add_token(shell, T_WORD, substr);
-			*i = j;
-			*start = j + 1;
-		}
-		else
-			printf("Error: unmatched single quote\n");
+		substr = ft_substr(input, *i + 1, j - *i - 1);
+		add_token(shell, T_WORD, substr);
+		free(substr);
+		*i = j;
+		*start = j + 1;
 	}
-	else if (quote_char == '"')
+	else
 	{
-		while (input[j] && input[j] != '"')
-			j++;
-		if (input[j] == '"')
-		{
-			substr = ft_substr(input, *i + 1, j - *i - 1);
-			add_token(shell, T_WORD_EXPAND, substr);
-			*i = j;
-			*start = j + 1;
-		}
-		else
-			printf("Error: unmatched double quote\n");
+		printf("Teoretically: Never gonna give you up,\n");
+		printf("never gonna let you down,\n");
+		printf("never gonna run around and desert you.\n");
+		return ;
+	}
+}
+
+/*
+* brief: Processes double quoted strings in the input string,
+*	capturing the quoted string and creating a token for it.
+*/
+void	handle_dquote(t_shell *shell, char *input, int *i, int *start)
+{
+	int		j;
+	char	*substr;
+
+	j = *i + 1;
+	while (input[j] && input[j] != '\"')
+		j++;
+	if (input[j] == '\"')
+	{
+		substr = ft_substr(input, *i + 1, j - *i - 1);
+		add_token(shell, T_WORD_EXPAND, substr);
+		free(substr);
+		*i = j;
+		*start = j + 1;
+	}
+	else
+	{
+		printf("Teoretically: Never gonna give you up,\n");
+		printf("never gonna let you down,\n");
+		printf("never gonna run around and desert you.\n");
+		return ;
 	}
 }
 
@@ -143,21 +161,4 @@ void	handle_dollar_char(t_shell *shell, char *input, int *i, int *start)
 		*i = j - 1;
 	}
 	*start = *i + 1;
-}
-
-/*
-* @ brief : Adds a WILDCARD token to the shell's token list.
-*/
-void	handle_wildcard_char(t_shell *shell, char *input, int *i, int *start)
-{
-	int		j;
-	char	*substr;
-
-	j = *i + 1;
-	while (input[j] && !ft_isspace(input[j]) && !ft_is_special_char(input[j]))
-		j++;
-	substr = ft_substr(input, *i, j - *i);
-	add_token(shell, T_WILDCARD, substr);
-	*i = j - 1;
-	*start = j;
 }

@@ -6,11 +6,28 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 18:25:03 by mrusu             #+#    #+#             */
-/*   Updated: 2024/08/05 13:17:51 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/08/05 15:29:40 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
+
+/*
+* @ brief : Adds a WILDCARD token to the shell's token list.
+*/
+void	handle_wildcard_char(t_shell *shell, char *input, int *i, int *start)
+{
+	int		j;
+	char	*substr;
+
+	j = *i + 1;
+	while (input[j] && !ft_isspace(input[j]) && !ft_is_special_char(input[j]))
+		j++;
+	substr = ft_substr(input, *i, j - *i);
+	add_token(shell, T_WILDCARD, substr);
+	*i = j - 1;
+	*start = j;
+}
 
 /*
 * @ Brief: go through the token list, if the token is a wildcard,

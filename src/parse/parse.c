@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 16:29:47 by mrusu             #+#    #+#             */
-/*   Updated: 2024/08/05 14:02:11 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/08/05 14:56:41 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,14 +56,12 @@ int	syntax_check(char *input)
 	if (check_start_end(input) != 0)
 		return (1);
 	if (quotes_a_parentheses(input) != 0)
-		return (1);
-	if (check_consecutive_operators(input) != 0)
-		return (1);
-	if (check_heredoc_syntax(input) != 0)
 	{
-		printf("Error: invalid heredoc syntax\n");
+		printf("Error: unmatched quotes or parentheses\n");
 		return (1);
 	}
+	if (check_consecutive_operators(input) != 0)
+		return (1);
 	return (0);
 }
 
@@ -129,6 +127,8 @@ int	quotes_a_parentheses(char *input)
 
 /*
 * @ brief: Checks if there are invalid pipes and ampersands.
+* 	and also if < or > is encountered, it calls another function
+*	to check the redirect syntax.
 */
 int	check_consecutive_operators(char *input)
 {
@@ -144,10 +144,13 @@ int	check_consecutive_operators(char *input)
 			operator_count++;
 			if (operator_count > 2
 				|| (operator_count == 2 && input[i] == input[i - 1]))
-			{
-				printf("Error: invalid syntax\n");
+				return (printf("Error: invalid bla bla syntax\n"), 1);
+		}
+		else if (input[i] == '>' || input[i] == '<')
+		{
+			if (check_redirect_syntax(input, &i))
 				return (1);
-			}
+			continue ;
 		}
 		else if (!ft_isspace(input[i]))
 			operator_count = 0;

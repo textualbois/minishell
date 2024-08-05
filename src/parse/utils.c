@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 10:05:39 by mrusu             #+#    #+#             */
-/*   Updated: 2024/08/05 13:59:33 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/08/05 14:48:44 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,24 +63,35 @@ void	free_tokens(t_shell *shell)
 }
 
 /*
-* @ brief: Checks if there are invalid heredoc syntax.
+* @ brief: when char < or > is meet, this function is called to check if the
+*	redirect syntax is valid. valid means no more than 2 consecutive < or >.
+* 	also, the next char after the redirect symbol should not be a space or
+* 	a special char. we expect a word after the redirect symbol.
 */
-int	check_heredoc_syntax(char *input)
+int	check_redirect_syntax(char *input, int *i)
 {
-	int		i;
+	int		j;
+	int		redirect_count;
 
-	i = 0;
-	while (input[i])
+	j = *i;
+	redirect_count = 0;
+	while (input[j] == '>' || input[j] == '<')
 	{
-		if (input[i] == '<' && input[i + 1] == '<')
+		redirect_count++;
+		if (redirect_count > 2)
 		{
-			i += 2;
-			while (input[i] && ft_isspace(input[i]))
-				i++;
-			if (!input[i] || ft_is_special_char(input[i]))
-				return (1);
+			printf("Error: invalid redirect syntax\n");
+			return (1);
 		}
-		i++;
+		j++;
 	}
+	while (input[j] && ft_isspace(input[j]))
+		j++;
+	if (!input[j] || ft_is_special_char(input[j]))
+	{
+		printf("Error: invalid redirect syntax\n");
+		return (1);
+	}
+	*i = j;
 	return (0);
 }
