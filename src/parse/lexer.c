@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 15:34:33 by mrusu             #+#    #+#             */
-/*   Updated: 2024/08/02 18:01:50 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/08/05 13:17:40 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	tokenize_loop(t_shell *shell, char *input, int i, int start)
 {
 	while (input[i])
 	{
-		if (input[i] == '\'' || input[i] == '"')
+		if (input[i] == '\'' || input[i] == '"') // here i split the handel quote in 2 function fore each type 
 			handle_quote_token(shell, input, &i, &start);
 		else if (ft_isspace(input[i]))
 		{
@@ -115,77 +115,49 @@ void	handle_special_chars(t_shell *shell, char *input, int *i, int *start)
 }
 
 /*
-* @ brief: Adds a new token to the shell's token list.
-*	call create_token and pass the type and value to it
-*	then add the token to the end of the shell's token list
+* @ brief: Check the following character after the $, if it's
+*	'?' add a T_EXCODE token, otherwise, get the variable name
+*	that is after and add a T_DOLLAR token.
 */
-void	add_token(t_shell *shell, t_tokentype type, char *value)
+void	handle_dollar_char(t_shell *shell, char *input, int *i, int *start)
 {
-	t_token	*new_token;
+	int		j;
+	char	*var_name;
 
-	new_token = create_token(type, value);
-	if (!new_token)
-		return ;
-	if (shell->head == NULL)
+	if (input[*i + 1] == '?')
 	{
-		shell->head = new_token;
-		shell->tail = new_token;
+		add_token(shell, T_EXCODE, ft_strdup("?"));
+		(*i)++;
 	}
 	else
 	{
-		shell->tail->next = new_token;
-		new_token->prev = shell->tail;
-		shell->tail = new_token;
+		j = *i + 1;
+		while (input[j] && (ft_isalnum(input[j]) || input[j] == '_'))
+			j++;
+		var_name = ft_substr(input, *i + 1, j - (*i + 1));
+		if (var_name)
+		{
+			add_token(shell, T_DOLLAR, var_name);
+			free(var_name);
+		}
+		*i = j - 1;
 	}
-	shell->token_count++;
-	//debug
-	printf("Added Token: Type = ");
-	if (type == T_WORD)
-		printf("WORD");
-	else if (type == T_PIPE)
-		printf("PIPE");
-	else if (type == T_OR)
-		printf("OR");
-	else if (type == T_AND)
-		printf("AND");
-	else if (type == T_SPECIAL)
-		printf("SPECIAL");
-	else if (type == T_DOLLAR)
-		printf("DOLLAR");
-	else if (type == T_EXCODE)
-		printf("$?");
-	else if (type == T_WILDCARD)
-		printf("WILDCARD");
-	else if (type == T_WORD_EXPAND)
-		printf("T_WORD_EXPAND");
-	else
-		printf("UNKNOWN");
-	printf(", Value = '%s'\n", value);
+	*start = *i + 1;
 }
 
 /*
-* @ brief: Creates a new token with given type and value.
-*	and puts it at the end of the shell's token list.
+* @ brief : Adds a WILDCARD token to the shell's token list.
 */
-t_token	*create_token(t_tokentype type, char *value)
+void	handle_wildcard_char(t_shell *shell, char *input, int *i, int *start)
 {
-	t_token	*new_token;
+	int		j;
+	char	*substr;
 
-	new_token = malloc(sizeof(t_token) * 1);
-	if (!new_token)
-	{
-		printf("Error: malloc failed in create_token\n");
-		return (NULL);
-	}
-	new_token->type = type;
-	new_token->value = ft_strdup(value);
-	if (!new_token->value)
-	{
-		printf("Error: ft_strdup failed in create_token\n");
-		free(new_token);
-		return (NULL);
-	}
-	new_token->next = NULL;
-	new_token->prev = NULL;
-	return (new_token);
+	j = *i + 1;
+	while (input[j] && !ft_isspace(input[j]) && !ft_is_special_char(input[j]))
+		j++;
+	substr = ft_substr(input, *i, j - *i);
+	add_token(shell, T_WILDCARD, substr);
+	*i = j - 1;
+	*start = j;
 }

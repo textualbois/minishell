@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ast_debug.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 13:18:55 by isemin            #+#    #+#             */
-/*   Updated: 2024/07/31 15:39:16 by isemin           ###   ########.fr       */
+/*   Updated: 2024/08/05 13:17:27 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/minishell.h"
+#include "../inc/minishell.h"
 
 int	print_ast(t_shell *shell)
 {

@@ -6,11 +6,11 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 15:58:09 by isemin            #+#    #+#             */
-/*   Updated: 2024/08/02 15:18:07 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/08/05 13:17:34 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/minishell.h"
+#include "../inc/minishell.h"
 
 t_tree	*get_nodes_and_or(t_token *start, t_token *stop, t_tree *parent)
 {

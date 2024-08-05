@@ -6,7 +6,7 @@
 #    By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/01 09:20:11 by mrusu             #+#    #+#              #
-#    Updated: 2024/08/05 09:55:31 by mrusu            ###   ########.fr        #
+#    Updated: 2024/08/05 13:19:06 by mrusu            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -84,14 +84,16 @@ SRC = $(SRC_DIR)/main.c \
 	$(SRC_DIR)/exec/pipex_api/here_doc.c $(SRC_DIR)/exec/pipex_api/manage_fd.c $(SRC_DIR)/exec/pipex_api/manage_fd_helpers.c \
 	$(SRC_DIR)/exec/exec0.c $(SRC_DIR)/exec/pipex_wrapper.c \
 	$(SRC_DIR)/parse/ast_helper.c $(SRC_DIR)/parse/ast_setup.c $(SRC_DIR)/parse/ast_debug.c \
-	$(SRC_DIR)/parse/parse.c $(SRC_DIR)/parse/lexer.c \
-	$(SRC_DIR)/parse/utils.c $(SRC_DIR)/parse/expand.c $(SRC_DIR)/parse/wildcard.c \
+	$(SRC_DIR)/parse/parse.c $(SRC_DIR)/parse/lexer.c $(SRC_DIR)/parse/lexer_utils.c \
+	$(SRC_DIR)/parse/utils.c \
+	$(SRC_DIR)/expand/expand_dollar.c $(SRC_DIR)/expand/expand_wildcard.c $(SRC_DIR)/expand/expand_utils.c \
 	$(SRC_DIR)/prompts/terminal_prompt.c \
 	$(SRC_DIR)/setup/env.c $(SRC_DIR)/setup/init_shell.c \
 	$(SRC_DIR)/utils/utils0.c $(SRC_DIR)/utils/env.c $(SRC_DIR)/utils/wild_math.c \
 	$(SRC_DIR)/error/error.c \
 	$(SRC_DIR)/builtins/cmds.c $(SRC_DIR)/builtins/env.c $(SRC_DIR)/builtins/export.c $(SRC_DIR)/builtins/change_dir.c \
 	$(SRC_DIR)/signal/signals.c \
+ 
 
 # OBJ FILES
 OBJS = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC))

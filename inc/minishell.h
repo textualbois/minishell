@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 13:17:13 by mrusu             #+#    #+#             */
-/*   Updated: 2024/08/05 10:01:20 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/08/05 14:03:13 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@
 // **********************====FUNCTION DECLARATION====*********************
 // main.c
 
-// ----------DIR-----builtins
+// -------------------------------------------DIR---builtins
 // ---cmds.c
 int			builtin_echo(char **args);
 int			builtin_cd(t_shell *shell, char **args);
@@ -89,12 +89,12 @@ int			builtin_export(t_shell *shell, char **args);
 int			print_env_list(t_env *env_list);
 void		update_env_node(t_env *env_list, char *key, char *value);
 
-// ----------DIR-----loop
+// -------------------------------------------DIR---loop
 // -loop.c
 int			shell_loop(t_shell	*shell);
 void		*ft_readline(t_shell *shell);
 
-// ----------DIR-----setup
+// -------------------------------------------DIR---setup
 // -init_shell.c
 void		init_shell(t_shell *shell, char **env);
 void		setup_signals(t_shell *shell);
@@ -104,11 +104,11 @@ char		*ft_getenv(void);
 void		init_env_list(t_env **env_list, char **env);
 int			add_env_node(t_env **env_list, char *key, char *value);
 
-// ----------DIR-----prompts
+// -------------------------------------------DIR---prompts
 // -terminal_prompt.c
 void		form_prompt(t_shell *shell, char *new_user_name);
 
-// ----------DIR-----utils
+// -------------------------------------------DIR---utils
 // ---env.c
 t_env		*get_tail(t_env *env_list);
 t_env		*get_key_node(t_env *env_list, char *key);
@@ -123,14 +123,14 @@ int			ft_strcmp(const char *str1, const char *str2);
 int			my_max(int a, int b);
 int			my_min(int a, int b);
 
-// ----------DIR-----error
+// -------------------------------------------DIR---error
 // -error.c
 int			ft_error(t_shell *shell, int error_code);
 int			syntax_error(void);
 
 
-// ----------DIR-----exec
-// ----sub_DIR----pipex_api
+// -------------------------------------------DIR---exec
+// -------------------------------------------DIR---sub_DIR----pipex_api
 // ---heredoc.c
 int			here_doc4shell(int fd_array[][2], t_command *cmd, char *delimiter);
 
@@ -153,11 +153,11 @@ int			is_builtin(t_command *cmd);
 // ---pipex_wrapper.c
 int			pipex_wrapper(t_shell *shell, t_command *cmd);
 
-// ----------DIR-----prompts
+// -------------------------------------------DIR---prompts
 // -prompts.c
 void		print_welcome_msg(void);
 
-// ----------DIR-----parse
+// -------------------------------------------DIR---parse
 // -ast_debug.c
 int			print_ast(t_shell *shell);
 void		print_ast_recursive1(t_tree *node, int depth);
@@ -182,6 +182,11 @@ int			tokenize_loop(t_shell *shell, char *input, int i, int start);
 void		handle_quote_token(t_shell *shell, char *input, int *i, int *start);
 void		handle_special_chars(t_shell *shell, char *input,
 				int *i, int *start);
+void		handle_dollar_char(t_shell *shell, char *input, int *i, int *start);
+void		handle_wildcard_char(t_shell *shell, char *input,
+				int *i, int *start);
+
+// -lexer_utils.c
 t_token		*create_token(t_tokentype type, char *value);
 void		add_token(t_shell *shell, t_tokentype type, char *value);
 
@@ -191,18 +196,8 @@ int			syntax_check(char *input);
 int			check_start_end(char *input);
 int			quotes_a_parentheses(char *input);
 int			check_consecutive_operators(char *input);
+int			check_heredoc_syntax(char *input);
 
-// -expand.c
-void		expand_dollar_tokens(t_shell *shell);
-void		handle_dollar_char(t_shell *shell, char *input, int *i, int *start);
-
-// -wildcard.c
-void		handle_wildcard_char(t_shell *shell, char *input,
-				int *i, int *start);
-bool		match(const char *pattern, const char *string);
-bool		match_re(const char *pattern, const char *string,
-				const char **laststar_pat, const char **laststar_str);
-void		expand_wildcard_tokens(t_shell *shell);
 
 // -utils.c
 t_tokentype	get_token_type(char *str);
@@ -211,21 +206,33 @@ void		add_word_token(t_shell *shell, char *input, int start, int end);
 int			tokenize(t_shell *shell, char *input);
 void		add_special_token(t_shell *shell, char *special);
 
-// ----------DIR-----pipex_wrapper
+// -------------------------------------------DIR---expand
+// -expand.c
+void		expand_dollar_tokens(t_shell *shell);
+char		*expand_word_token(t_shell *shell, char *str);
+void		process_dollar_token(t_shell *shell, t_token *current);
+
+// -expand_utils.c
+char		*ft_strjoin_free(char *s1, char *s2);
+char		*ft_strjoin_free_char(char *s, char c);
+char		*extract_variable_name(char *str, int *i);
+
+// -expand_wildcard.c
+void		expand_wildcard_tokens(t_shell *shell);
+bool		match(const char *pattern, const char *string);
+bool		match_re(const char *pattern, const char *string,
+				const char **laststar_pat, const char **laststar_str);
+
+// -------------------------------------------DIR---pipex_wrapper
 // -input_formatting.c
 int			package_pipex(t_shell *shell);
 
-// ----------DIR-----signals
+// -------------------------------------------DIR---signals
 // -signals.c
 void		handle_sigint(t_shell *shell);
 void		handle_sigquit(t_shell *shell);
 void		handle_sigtstp(t_shell *shell);
 void		handle_signal(int sig, siginfo_t *siginfo, void *context);
 void		handle_received_signal(t_shell *shell);
-
-
-char *ft_strjoin_free_char(char *s, char c);
-char *ft_strjoin_free(char *s1, char *s2);
-
 
 #endif

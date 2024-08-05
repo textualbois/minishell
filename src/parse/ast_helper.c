@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ast_helper.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 15:58:09 by isemin            #+#    #+#             */
-/*   Updated: 2024/07/31 15:39:28 by isemin           ###   ########.fr       */
+/*   Updated: 2024/08/05 13:58:12 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/minishell.h"
+#include "../inc/minishell.h"
 
 t_token *get_input_file(t_command *cmd, t_token *start, t_token *stop)
 {
@@ -114,17 +114,3 @@ char	**list_to_arr(t_token *start, t_token *stop)
 	}
 	return (res);
 }
-
-// void	print_ast(t_tree *node, int depth) //debug
-// {
-// 	if (!node)
-// 		return;
-// 	for (int i = 0; i < depth; i++)
-// 		printf("  ");
-// 	if (node->cmd)
-// 		printf("Command: %s\n", node->cmd->name);
-// 	else if (node->token)
-// 		printf("Operator: %s\n", node->token->value);
-// 	print_ast(node->left, depth + 1);
-// 	print_ast(node->right, depth + 1);
-// }

@@ -6,11 +6,12 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 10:05:39 by mrusu             #+#    #+#             */
-/*   Updated: 2024/08/02 17:27:27 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/08/05 13:59:33 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
+
 
 /*
 * @ brief: Determines the type of a token based on char.
@@ -62,59 +63,24 @@ void	free_tokens(t_shell *shell)
 }
 
 /*
-* brief: adds only word tokens type to the shell's token list.
+* @ brief: Checks if there are invalid heredoc syntax.
 */
-void	add_word_token(t_shell *shell, char *input, int start, int end)
+int	check_heredoc_syntax(char *input)
 {
-	char	*substr;
+	int		i;
 
-	substr = ft_substr(input, start, end - start);
-	if (!substr)
+	i = 0;
+	while (input[i])
 	{
-		printf("Error: ft_substr failed in add_word_token\n");
-		return ;
-	}
-	add_token(shell, T_WORD, substr);
-	free(substr);
-}
-
-/*
-* @ brief: initializes the shell's token list and token count.
-*/
-int	tokenize(t_shell *shell, char *input)
-{
-	shell->head = NULL;
-	shell->tail = NULL;
-	shell->token_count = 0;
-	if (tokenize_loop(shell, input, 0, 0) != 0)
-	{
-		printf("Error: tokenize_loop failed\n");
-		return (1);
+		if (input[i] == '<' && input[i + 1] == '<')
+		{
+			i += 2;
+			while (input[i] && ft_isspace(input[i]))
+				i++;
+			if (!input[i] || ft_is_special_char(input[i]))
+				return (1);
+		}
+		i++;
 	}
 	return (0);
-}
-
-/*
-* @ brief: adds special tokens to the shell's token list.
-*/
-void	add_special_token(t_shell *shell, char *special)
-{
-	if (special[0] == '|')
-	{
-		if (special[1] == '|')
-			add_token(shell, T_OR, special);
-		else
-			add_token(shell, T_PIPE, special);
-	}
-	else if (special[0] == '&')
-	{
-		if (special[1] == '&')
-			add_token(shell, T_AND, special);
-		else
-			add_token(shell, T_WORD, special);
-	}
-	else if (special[0] == '$')
-		add_token(shell, T_DOLLAR, special);
-	else
-		add_token(shell, T_SPECIAL, special);
 }

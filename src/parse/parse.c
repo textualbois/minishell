@@ -6,13 +6,12 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 16:29:47 by mrusu             #+#    #+#             */
-/*   Updated: 2024/08/02 17:57:12 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/08/05 14:02:11 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-int	here_doc_syntax(char *input);
 /*
 * @ brief: Parses the raw input string, tokenizes it
 *	and creates AST.
@@ -47,43 +46,23 @@ int	parse(t_shell *shell)
 }
 
 /*
-* @ brief: Checks for syntax errors in the input string.
+* @ brief: calls other functions to check the syntax of the input string.
 */
 int	syntax_check(char *input)
 {
+	int	i;
+
+	i = 0;
 	if (check_start_end(input) != 0)
 		return (1);
 	if (quotes_a_parentheses(input) != 0)
 		return (1);
 	if (check_consecutive_operators(input) != 0)
-	{
-		printf("Error: invalid syntax\n");
 		return (1);
-	}
-	// if (here_doc_syntax(input) != 0)
-	// {
-	// 	printf("Error: invalid syntax\n");
-	// 	return (1);
-	// }
-	return (0);
-}
-
-int	here_doc_syntax(char *input)
-{
-	int		i;
-
-	i = 0;
-	while (input[i])
+	if (check_heredoc_syntax(input) != 0)
 	{
-		if (input[i] == '<' && input[i + 1] == '<')
-		{
-			i += 2;
-			while (input[i] && ft_isspace(input[i]))
-				i++;
-			if (!input[i] || ft_is_special_char(input[i]))
-				return (1);
-		}
-		i++;
+		printf("Error: invalid heredoc syntax\n");
+		return (1);
 	}
 	return (0);
 }
@@ -116,7 +95,9 @@ int	check_start_end(char *input)
 
 /*
 * @ brief: Checks if there are unmatched quotes or
-*	parentheses in the input string.
+*	parentheses in the input string. It loops through the
+*	the input string and check for opening and closing quotes
+*	and parentheses. 
 */
 int	quotes_a_parentheses(char *input)
 {
@@ -161,16 +142,17 @@ int	check_consecutive_operators(char *input)
 		if (input[i] == '|' || input[i] == '&')
 		{
 			operator_count++;
-			if (operator_count > 2)
+			if (operator_count > 2
+				|| (operator_count == 2 && input[i] == input[i - 1]))
+			{
+				printf("Error: invalid syntax\n");
 				return (1);
-			if (operator_count == 2 && input[i] != input[i - 1])
-				return (1);
+			}
 		}
 		else if (!ft_isspace(input[i]))
-		{
 			operator_count = 0;
-		}
 		i++;
 	}
 	return (0);
 }
+

@@ -1,32 +1,50 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   wildcard.c                                         :+:      :+:    :+:   */
+/*   expand_wildcard.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 18:25:03 by mrusu             #+#    #+#             */
-/*   Updated: 2024/08/02 17:45:03 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/08/05 13:17:51 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
 /*
-* @ brief : Adds a WILDCARD token to the shell's token list.
+* @ Brief: go through the token list, if the token is a wildcard,
+*	open the current directory and go through each entry, if the entry
+*	matches the wildcard pattern, add a WORD token with the entry name.
+*	close the directory and free the wildcard token. move to the next token.
 */
-void	handle_wildcard_char(t_shell *shell, char *input, int *i, int *start)
+void	expand_wildcard_tokens(t_shell *shell)
 {
-	int		j;
-	char	*substr;
+	t_token			*current;
+	DIR				*dir;
+	struct dirent	*entry;
 
-	j = *i + 1;
-	while (input[j] && !ft_isspace(input[j]) && !ft_is_special_char(input[j]))
-		j++;
-	substr = ft_substr(input, *i, j - *i);
-	add_token(shell, T_WILDCARD, substr);
-	*i = j - 1;
-	*start = j;
+	current = shell->head;
+	while (current)
+	{
+		if (current->type == T_WILDCARD)
+		{
+			dir = opendir(".");
+			if (dir)
+			{
+				while (entry != NULL)
+				{
+					if (match(current->value, entry->d_name))
+						add_token(shell, T_WORD, ft_strdup(entry->d_name));
+					entry = readdir(dir);
+				}
+				closedir(dir);
+			}
+			free(current->value);
+			current->value = NULL;
+		}
+		current = current->next;
+	}
 }
 
 /*
@@ -74,39 +92,4 @@ bool	match_re(const char *pattern, const char *string,
 	while (*pattern == '*')
 		pattern++;
 	return (*pattern == '\0');
-}
-
-/*
-* @ Brief: go through the token list, if the token is a wildcard,
-*	open the current directory and go through each entry, if the entry
-*	matches the wildcard pattern, add a WORD token with the entry name.
-*	close the directory and free the wildcard token. move to the next token.
-*/
-void	expand_wildcard_tokens(t_shell *shell)
-{
-	t_token			*current;
-	DIR				*dir;
-	struct dirent	*entry;
-
-	current = shell->head;
-	while (current)
-	{
-		if (current->type == T_WILDCARD)
-		{
-			dir = opendir(".");
-			if (dir)
-			{
-				while (entry != NULL)
-				{
-					if (match(current->value, entry->d_name))
-						add_token(shell, T_WORD, ft_strdup(entry->d_name));
-					entry = readdir(dir);
-				}
-				closedir(dir);
-			}
-			free(current->value);
-			current->value = NULL;
-		}
-		current = current->next;
-	}
 }
