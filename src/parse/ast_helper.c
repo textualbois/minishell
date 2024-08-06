@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ast_helper.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
+/*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 15:58:09 by isemin            #+#    #+#             */
-/*   Updated: 2024/08/05 13:58:12 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/08/06 17:55:20 by isemin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minishell.h"
+#include "../../inc/minishell.h"
 
 t_token *get_input_file(t_command *cmd, t_token *start, t_token *stop)
 {
@@ -84,6 +84,34 @@ t_token	*get_output_file(t_command *cmd, t_token *start, t_token *stop)
 		current = current->next;
 	}
 	return (stop);
+}
+
+char	**list_to_arr_no_limit(t_token *start)
+{
+	t_token	*current;
+	char	**res;
+	int		i;
+
+	current = start;
+	i = 0;
+	while (current != NULL && (current->type == T_WORD || current->type == T_SPECIAL)) // can we have non T_WORD types here? i.e will T_bracket pass
+	{
+		if (current->type == T_WORD)
+			i++;
+		current = current->next;
+	}
+	res = ft_calloc(sizeof(char *), i + 1);
+	current = start;
+	while (i != 0) //maybe i > 0 or other condition
+	{
+		if (current->type == T_WORD)
+		{
+			res[i] = current->value;
+			i--;
+		}
+		current = current->next;
+	}
+	return (res);
 }
 
 char	**list_to_arr(t_token *start, t_token *stop)

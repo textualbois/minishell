@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ast_setup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
+/*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 15:58:09 by isemin            #+#    #+#             */
-/*   Updated: 2024/08/05 13:17:34 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/08/06 17:59:04 by isemin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minishell.h"
+#include "../../inc/minishell.h"
 
 t_tree	*get_nodes_and_or(t_token *start, t_token *stop, t_tree *parent)
 {
@@ -104,36 +104,73 @@ t_tree	*get_nodes_pipes(t_token *start, t_token *stop, t_tree *parent)
 
 t_tree	*init_cmd_node(t_token *start, t_token *stop, t_tree *parent)
 {
-	t_tree	*res;
-	t_token	*current;
-	t_command *cmd;
+	t_tree		*res;
+	t_token		*current;
+	t_command	*cmd;
+	int			got_cmd_name;
 
-	//if res not null
-
-	// printf("Entering init_cmd_node with start = %s and stop = %s\n", start->value, stop ? stop->value : "NLUL"); //debug
-	cmd = ft_calloc(sizeof(t_command), 1);
-	start = get_input_file(cmd, start, stop);
-	stop = get_heredoc(cmd, start, stop);
-	stop = get_output_file(cmd, start, stop);
-	current = start;
-	cmd->args = list_to_arr(current, stop);
-	if (current == stop)
-		current = NULL;
-	res = init_tree_node(current, parent);
-	res->cmd = cmd;
-	if (current != NULL)
-		cmd->name = current->value;
-
-	// printf("Command node created successfully\n");
-	// printf("Command: %s\n", cmd->name);
-	// printf("Arguments: ");
-	for (int j = 0; cmd->args[j]; j++)
+	got_cmd_name = 0;
+	cmd = ft_calloc(sizeof(t_command), 1); //1
+	current = start; //5
+	while (current != stop)
 	{
-		printf("%s ", cmd->args[j]);
+		if (current->type == T_SPECIAL)
+		{
+			if (current->value[1] == '<')
+				get_heredoc(cmd, current, stop); //3
+			else if (current->value[0] == '>')
+				get_output_file(cmd, current, stop); //4
+			else
+				get_input_file(cmd, current, stop); //2
+			current = current->next;
+		}
+		else if(got_cmd_name == 0)
+		{
+			cmd->name = current->value; //11
+			cmd->args = list_to_arr_no_limit(current); //6
+			got_cmd_name = 1;
+		}
+		else
+			perror("Error: Invalid command node\n");
+		current = current->next;
 	}
-	printf("\n");
+	res = init_tree_node(current, parent);	//8
+	res->cmd = cmd;	//9
 	return (res);
 }
+
+// t_token start - first token of the sub-list
+// t_token stop - last token of the sub-list, generally a pipe or NULL (end of list)
+
+// t_tree	*init_cmd_node(t_token *start, t_token *stop, t_tree *parent)
+// {
+// 	t_tree	*res;
+// 	t_token	*current;
+// 	t_command *cmd;
+
+// 	//if res not null
+
+// 	// printf("Entering init_cmd_node with start = %s and stop = %s\n", start->value, stop ? stop->value : "NLUL"); //debug
+// 	cmd = ft_calloc(sizeof(t_command), 1); //1
+// 	start = get_input_file(cmd, start, stop); //2
+// 	stop = get_heredoc(cmd, start, stop); //3
+// 	stop = get_output_file(cmd, start, stop);//4
+// 	current = start; //5
+// 	cmd->args = list_to_arr(current, stop); //6
+// 	if (current == stop) //7
+// 		current = NULL;
+// 	res = init_tree_node(current, parent);	//8
+// 	res->cmd = cmd;	//9
+// 	if (current != NULL)	//10
+// 		cmd->name = current->value;	//11
+
+// 	for (int j = 0; cmd->args[j]; j++)
+// 	{
+// 		printf("%s ", cmd->args[j]);
+// 	}
+// 	printf("\n");
+// 	return (res);
+// }
 
 t_tree	*init_tree_node(t_token *token, t_tree *parent)
 {

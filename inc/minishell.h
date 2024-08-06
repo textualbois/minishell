@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
+/*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 13:17:13 by mrusu             #+#    #+#             */
-/*   Updated: 2024/08/06 14:47:30 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/08/06 17:53:55 by isemin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,6 +172,7 @@ int			print_ast_recursive2main(t_tree *tree, int is_left, int offset, int depth,
 t_token		*get_input_file(t_command *cmd, t_token *start, t_token *stop);
 t_token		*get_heredoc(t_command *cmd, t_token *start, t_token *stop);
 t_token		*get_output_file(t_command *cmd, t_token *start, t_token *stop);
+char		**list_to_arr_no_limit(t_token *start);
 char		**list_to_arr(t_token *start, t_token *stop);
 
 // -ast_setup.c
