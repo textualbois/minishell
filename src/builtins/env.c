@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 14:19:18 by isemin            #+#    #+#             */
-/*   Updated: 2024/08/02 17:05:32 by isemin           ###   ########.fr       */
+/*   Updated: 2024/08/06 15:09:50 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ int	builtin_unset(t_env **env_list, char *key)
 
 	last_node = NULL;
 	current_env = *env_list;
+	if (!env_list || !key)
+		return (1);
 	while (current_env)
 	{
 		if (ft_strcmp(current_env->key, key) == 0)
