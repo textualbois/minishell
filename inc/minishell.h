@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 13:17:13 by mrusu             #+#    #+#             */
-/*   Updated: 2024/08/06 14:10:29 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/08/06 14:47:30 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,8 +100,11 @@ void		init_shell(t_shell *shell, char **env);
 
 // -env.c
 char		*ft_getenv(void);
-void		init_env_list(t_env **env_list, char **env);
+t_env		*init_env_list(char **env);
 int			add_env_node(t_env **env_list, char *key, char *value);
+char		**sync_env_from_list(t_env *env_list);
+void		update_env_shell(t_shell *shell);
+void		free_env_list(t_env *env_list);
 
 // -------------------------------------------DIR---prompts
 // -terminal_prompt.c

@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 13:28:51 by isemin            #+#    #+#             */
-/*   Updated: 2024/07/29 18:57:59 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/08/06 14:56:47 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,28 +18,35 @@ char *ft_getenv() // gets environment from char **env or some other way
 }
 
 /*
-* @brief: init the env list with the environment variables
+* @brief: create env list with the environment variables
 * from the char **env wiht ft_split, key(name) is [0] and value is [1].
 */
-void	init_env_list(t_env **env_list, char **env)
+t_env	*init_env_list(char **env)
 {
 	int		i;
 	char	**kv_pair;
+	t_env	*env_list;
 
 	i = 0;
+	env_list = NULL;
 	while (env[i])
 	{
 		kv_pair = ft_split(env[i], '=');
-		if (kv_pair && kv_pair[0] && kv_pair[1])
-			add_env_node(env_list, kv_pair[0], kv_pair[1]);
 		if (kv_pair)
 		{
+			if (kv_pair[0])
+			{
+				if (kv_pair[1] == NULL)
+					kv_pair[1] = ft_strdup("");
+				add_env_node(&env_list, kv_pair[0], kv_pair[1]);
+			}
 			free(kv_pair[0]);
 			free(kv_pair[1]);
 			free(kv_pair);
 		}
 		i++;
 	}
+	return (env_list);
 }
 
 /*
@@ -69,4 +76,70 @@ int	add_env_node(t_env **env_list, char *key, char *value)
 		current->next = new;
 	}
 	return (0);
+}
+
+/*
+* @brief: go through the env_list and update the shell->env with the new values.
+* becouse changes are made to the env_list.
+*/
+char	**sync_env_from_list(t_env *env_list)
+{
+	t_env	*current_env;
+	char	**env;
+	int		i;
+
+	current_env = env_list;
+	i = 0;
+	while (current_env)
+	{
+		i++;
+		current_env = current_env->next;
+	}
+	env = malloc(sizeof(char *) * (i + 1));
+	if (env == NULL)
+		return (perror("malloc failed"), NULL);
+	current_env = env_list;
+	i = 0;
+	while (current_env)
+	{
+		env[i] = ft_strjoin(current_env->key, "=");
+		env[i] = ft_strjoin(env[i], current_env->value);
+		i++;
+		current_env = current_env->next;
+	}
+	env[i] = NULL;
+	return (env);
+}
+
+/*
+* @brief: call sync_env_from_list to go through the env_list and
+* update the shell->env with the new values. 
+*/
+void	update_env_shell(t_shell *shell)
+{
+	char	**env;
+
+	env = sync_env_from_list(shell->env_list);
+	if (env == NULL)
+		return ;
+	shell->env = env;
+}
+
+/*
+* @brief: free the env_list.
+*/
+void	free_env_list(t_env *env_list)
+{
+	t_env	*current_env;
+	t_env	*next_env;
+
+	current_env = env_list;
+	while (current_env)
+	{
+		next_env = current_env->next;
+		free(current_env->key);
+		free(current_env->value);
+		free(current_env);
+		current_env = next_env;
+	}
 }

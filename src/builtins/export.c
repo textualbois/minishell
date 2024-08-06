@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 14:19:26 by mrusu             #+#    #+#             */
-/*   Updated: 2024/08/02 17:07:35 by isemin           ###   ########.fr       */
+/*   Updated: 2024/08/06 15:03:02 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,7 @@ int	builtin_export(t_shell *shell, char **args)
 	char	**kv_pair;
 
 	if (args[1] == NULL)
-	{
-		print_env_list(shell->env_list);
-		return (0);
-	}
+		return (print_env_list(shell->env_list), 0);
 	args++;
 	while (*args != NULL)
 	{
@@ -41,6 +38,7 @@ int	builtin_export(t_shell *shell, char **args)
 		free(kv_pair);
 		args++;
 	}
+	update_env_shell(shell); // update the shell env array after each export
 	return (0);
 }
 

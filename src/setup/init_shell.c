@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 13:30:39 by isemin            #+#    #+#             */
-/*   Updated: 2024/08/06 14:11:21 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/08/06 14:41:33 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 void	init_shell(t_shell *shell, char **env)
 {
-	init_env_list(&shell->env_list, env);
 	if (getenv("USER") == NULL)
 	{
 		printf("TODO we should get user data on our own in this case\n");
@@ -26,6 +25,7 @@ void	init_shell(t_shell *shell, char **env)
 		shell->user = getenv("USER");
 		shell->cmd_paths = get_path(env);
 	}
+	shell->env_list = init_env_list(env);
 	shell->terminal_prompt = NULL;
 	shell->exit_code = 0;
 	shell->heredoc = NULL;
