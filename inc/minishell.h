@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 13:17:13 by mrusu             #+#    #+#             */
-/*   Updated: 2024/08/05 15:31:19 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/08/06 14:10:29 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,6 @@ void		*ft_readline(t_shell *shell);
 // -------------------------------------------DIR---setup
 // -init_shell.c
 void		init_shell(t_shell *shell, char **env);
-void		setup_signals(t_shell *shell);
 
 // -env.c
 char		*ft_getenv(void);
@@ -128,7 +127,6 @@ int			my_min(int a, int b);
 int			ft_error(t_shell *shell, int error_code);
 int			syntax_error(void);
 
-
 // -------------------------------------------DIR---exec
 // -------------------------------------------DIR---sub_DIR----pipex_api
 // ---heredoc.c
@@ -136,13 +134,15 @@ int			here_doc4shell(int fd_array[][2], t_command *cmd, char *delimiter);
 
 // ---manage_fd.c
 int			set_fds_pipe4shell(int fd_array[][2], int cmd_num, t_command *cmd);
-void		close_fds_parent4shell(int fd_array[][2], int cmd_num, t_command *cmd);
+void		close_fds_parent4shell(int fd_array[][2],
+				int cmd_num, t_command *cmd);
 
 // ---manage_fd_helpers.c
 int			setup_infile_read_fd(int fd_array[][2], char *input_file);
 int			setup_outfile(int fd_array[][2], char *output_file);
 int			setup_append_outfile(int fd_array[][2], char *output_file);
-int			redirect_out_between_pipes(int fd_array[][2], int cmd_num, t_command *cmd);
+int			redirect_out_between_pipes(int fd_array[][2], int cmd_num,
+				t_command *cmd);
 int			redirect_input_between_pipes(int fd_array[][2], int cmd_num);
 
 // ---exec0.c
@@ -185,7 +185,6 @@ void		handle_special_chars(t_shell *shell, char *input,
 				int *i, int *start);
 void		handle_dollar_char(t_shell *shell, char *input, int *i, int *start);
 
-
 // -lexer_utils.c
 int			tokenize(t_shell *shell, char *input);
 void		add_token(t_shell *shell, t_tokentype type, char *value);
@@ -218,7 +217,8 @@ char		*ft_strjoin_free_char(char *s, char c);
 char		*extract_variable_name(char *str, int *i);
 
 // -expand_wildcard.c
-void	handle_wildcard_char(t_shell *shell, char *input, int *i, int *start);
+void		handle_wildcard_char(t_shell *shell, char *input,
+				int *i, int *start);
 void		expand_wildcard_tokens(t_shell *shell);
 bool		match(const char *pattern, const char *string);
 bool		match_re(const char *pattern, const char *string,
@@ -230,10 +230,7 @@ int			package_pipex(t_shell *shell);
 
 // -------------------------------------------DIR---signals
 // -signals.c
-void		handle_sigint(t_shell *shell);
-void		handle_sigquit(t_shell *shell);
-void		handle_sigtstp(t_shell *shell);
-void		handle_signal(int sig, siginfo_t *siginfo, void *context);
-void		handle_received_signal(t_shell *shell);
+void		signal_handlers(void);
+void		sigint_handler(int signum);
 
 #endif

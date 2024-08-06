@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 14:02:02 by isemin            #+#    #+#             */
-/*   Updated: 2024/08/02 14:53:32 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/08/06 14:16:24 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 int	shell_loop(t_shell *shell)
 {
 	char	*t_input;
-
-	shell->is_parent_process = true;
+	
+	signal_handlers();
 	while (42)
 	{
 		form_prompt(shell, NULL);
@@ -33,9 +33,6 @@ int	shell_loop(t_shell *shell)
 			free(shell->raw_input);
 			continue ;
 		}
-		printf("raw_input: %s\n", t_input); //DEBUG
-
-	//	expand_dollar_tokens(shell); //call before print_ast
 		if (parse(shell) != 0)
 		{
 			printf("Parsing failed\n");

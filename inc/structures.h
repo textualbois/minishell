@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 15:32:24 by isemin            #+#    #+#             */
-/*   Updated: 2024/08/02 17:26:29 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/08/06 12:40:20 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ typedef enum e_tokentype
 // **********************====STRUCT====*********************
 
 // main shell object
-typedef struct s_shell //todo
+typedef struct s_shell
 {
 	char		*terminal_prompt;
 	char		*raw_input;
@@ -54,8 +54,6 @@ typedef struct s_shell //todo
 	int			*pid;
 	int			token_count;
 	int			command_count;
-	int			is_parent_process;
-	volatile int	sig_received;
 	t_token		*head;
 	t_token		*tail;
 	t_tree		*ast;
