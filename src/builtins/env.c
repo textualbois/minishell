@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 14:19:18 by isemin            #+#    #+#             */
-/*   Updated: 2024/08/06 15:09:50 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/08/06 15:48:24 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,18 @@
 int	builtin_env(t_shell *shell)
 {
 	t_env	*env_node;
+	char	*input;
 
-	if (!shell->env_list)
+	input = shell->raw_input;
+	while (ft_isspace(*input))
+		input++;
+	if (strcmp(input, "env") != 0)
 	{
+		printf("env: %s: No such file or directory\n", (input + 3));
 		return (127);
 	}
+	if (!shell->env_list)
+		return (127);
 	env_node = shell->env_list;
 	while (env_node)
 	{
