@@ -6,7 +6,7 @@
 /*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 15:58:09 by isemin            #+#    #+#             */
-/*   Updated: 2024/08/06 17:59:04 by isemin           ###   ########.fr       */
+/*   Updated: 2024/08/07 15:10:14 by isemin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,13 +129,13 @@ t_tree	*init_cmd_node(t_token *start, t_token *stop, t_tree *parent)
 			cmd->name = current->value; //11
 			cmd->args = list_to_arr_no_limit(current); //6
 			got_cmd_name = 1;
+			res = init_tree_node(current, parent);	//8
+			res->cmd = cmd;	//9
 		}
 		else
 			perror("Error: Invalid command node\n");
 		current = current->next;
 	}
-	res = init_tree_node(current, parent);	//8
-	res->cmd = cmd;	//9
 	return (res);
 }
 
