@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 13:17:13 by mrusu             #+#    #+#             */
-/*   Updated: 2024/08/07 13:44:36 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/08/07 15:01:23 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,8 @@
 // ---cmds.c
 int			builtin_echo(char **args);
 int			builtin_pwd(void);
-int			builtin_exit(void);
+int			builtin_exit(t_shell *shell, t_command *cmd);
+int			ft_isnum(const char *str);
 
 //change_dir.c
 int			builtin_cd(t_shell *shell, char **args);

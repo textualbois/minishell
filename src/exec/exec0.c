@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 13:20:20 by mrusu             #+#    #+#             */
-/*   Updated: 2024/08/07 13:34:04 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/08/07 15:01:36 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ int	execute_builtin(t_shell *shell, t_command *cmd)
 	if (ft_strcmp(cmd->name, "env") == 0)
 		return (builtin_env(shell));
 	if (ft_strcmp(cmd->name, "exit") == 0)
-		return (builtin_exit());
+		return (builtin_exit(shell, cmd));
 	return (1);
 }
 
