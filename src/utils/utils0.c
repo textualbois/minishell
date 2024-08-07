@@ -6,12 +6,15 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 13:22:09 by mrusu             #+#    #+#             */
-/*   Updated: 2024/07/30 10:43:30 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/08/07 13:23:09 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
+/*
+* @brief: duplicate a string.
+*/
 char	**ft_arrdup(char **arr)
 {
 	int		i;
@@ -40,33 +43,40 @@ char	**ft_arrdup(char **arr)
 	return (new_arr);
 }
 
+/*
+* @brief: check if a char is a space.
+*/
 int	ft_isspace(char c)
 {
 	return (c == ' ' || c == '\t' || c == '\n' || c == '\v' || c == '\f');
 }
 
+/*
+* @brief: check a char from a string and if return if it is a special char.
+*/
 int	ft_is_special_char(char c)
 {
 	return (c == '|' || c == '<' || c == '>' || c == '&' || c == ';'
 		|| c == '(' || c == ')');
 }
 
-static int	convert_ascii(int i) // maybe replace with typecasting to char
-{
-	if (i < 0)
-		return (256 - i);
-	return (i);
-}
-
+/*
+* @brief: convert to unsigned char adn then compare two strings.
+*	return 0 if the strings are equal, otherwise the difference > 1.
+*/
 int	ft_strcmp(const char *str1, const char *str2)
 {
-	size_t	i;
+	size_t			i;
+	unsigned char	*u_str1;
+	unsigned char	*u_str2;
 
 	i = 0;
-	while (str1[i] != '\0' || str2[i] != '\0')
+	u_str1 = (unsigned char *)str1;
+	u_str2 = (unsigned char *)str2;
+	while (u_str1[i] != '\0' || u_str2[i] != '\0')
 	{
-		if (str1[i] != str2[i])
-			return (convert_ascii(str1[i]) - convert_ascii(str2[i])); // maybe replace with typecasting to char
+		if (u_str1[i] != u_str2[i])
+			return (u_str1[i] - u_str2[i]);
 		i++;
 	}
 	return (0);

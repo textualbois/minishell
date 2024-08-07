@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 14:02:02 by isemin            #+#    #+#             */
-/*   Updated: 2024/08/06 14:16:24 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/08/07 13:32:16 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	shell_loop(t_shell *shell)
 {
 	char	*t_input;
-	
+
 	signal_handlers();
 	while (42)
 	{
@@ -52,9 +52,11 @@ int	shell_loop(t_shell *shell)
 
 //readline works if stdin has not been redirected or messed with
 // so for that case use get_next_line maybe
-void	*ft_readline(t_shell *shell) //readline works if stdin has not been redirected or messed with
+//readline works if stdin has not been redirected or messed with
+// readline ()  -  shows prompt and reads line
+void	*ft_readline(t_shell *shell)
 {
-	shell->raw_input = readline(shell->terminal_prompt); //shows prompt and reads line
+	shell->raw_input = readline(shell->terminal_prompt);
 	if (shell->raw_input == NULL)
 	{
 		printf("readline gave null\n");

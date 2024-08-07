@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 13:22:29 by mrusu             #+#    #+#             */
-/*   Updated: 2024/08/06 14:30:01 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/08/07 13:23:51 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,4 +27,16 @@ void	signal_handlers(void)
 {
 	signal(SIGINT, sigint_handler);
 	signal(SIGQUIT, SIG_IGN);
+}
+
+/*
+* @ brief: Disables the control characters. 
+*/
+void	disable_ctrl_chars(void)
+{
+	struct termios	terminal;
+
+	tcgetattr(STDIN_FILENO, &terminal);
+	terminal.c_lflag &= ~(ECHOCTL);
+	tcsetattr(STDIN_FILENO, TCSANOW, &terminal);
 }

@@ -6,35 +6,30 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 15:34:33 by mrusu             #+#    #+#             */
-/*   Updated: 2024/08/05 15:35:34 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/08/07 13:30:50 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
 /*
-* @ brief: Loops through the input string, creating tokens for each part.
+* @ brief: initializes the shell's token list and token count.
+*	Calls handle_character for each character in the input string.
+* 	When the loop ends, if there are characters left, add a word token.
 */
-int	tokenize_loop(t_shell *shell, char *input, int i, int start)
+int	tokenize(t_shell *shell, char *input)
 {
+	int		i;
+	int		start;
+
+	shell->head = NULL;
+	shell->tail = NULL;
+	shell->token_count = 0;
+	i = 0;
+	start = 0;
 	while (input[i])
 	{
-		if (input[i] == '\'')
-			handle_squote(shell, input, &i, &start);
-		else if (input[i] == '"')
-			handle_dquote(shell, input, &i, &start);
-		else if (ft_isspace(input[i]))
-		{
-			if (i > start)
-				add_word_token(shell, input, start, i);
-			start = i + 1;
-		}
-		else if (ft_is_special_char(input[i]))
-			handle_special_chars(shell, input, &i, &start);
-		else if (input[i] == '$')
-			handle_dollar_char(shell, input, &i, &start);
-		else if (input[i] == '*')
-			handle_wildcard_char(shell, input, &i, &start);
+		handle_character(shell, input, &i, &start);
 		i++;
 	}
 	if (i > start)
@@ -43,51 +38,57 @@ int	tokenize_loop(t_shell *shell, char *input, int i, int start)
 }
 
 /*
-* brief: Processes single quoted strings in the input string,
-*	capturing the quoted string and creating a token for it.
+* @ brief: Creates a token for a input based on the character type.
 */
-void	handle_squote(t_shell *shell, char *input, int *i, int *start)
+void	handle_character(t_shell *shell, char *input, int *i, int *start)
 {
-	int		j;
-	char	*substr;
-
-	j = *i + 1;
-	while (input[j] && input[j] != '\'')
-		j++;
-	if (input[j] == '\'')
+	if (input[*i] == '\'' || input[*i] == '"')
 	{
-		substr = ft_substr(input, *i + 1, j - *i - 1);
-		add_token(shell, T_WORD, substr);
-		free(substr);
-		*i = j;
-		*start = j + 1;
+		if (*i > *start)
+			add_word_token(shell, input, *start, *i);
+		handle_quote(shell, input, i, start);
 	}
-	else
+	else if (ft_isspace(input[*i]))
 	{
-		printf("Teoretically: Never gonna give you up,\n");
-		printf("never gonna let you down,\n");
-		printf("never gonna run around and desert you.\n");
-		return ;
+		if (*i > *start)
+			add_word_token(shell, input, *start, *i);
+		*start = *i + 1;
+	}
+	else if (ft_is_special_char(input[*i]))
+	{
+		if (*i > *start)
+			add_word_token(shell, input, *start, *i);
+		handle_special_chars(shell, input, i, start);
+	}
+	else if (input[*i] == '$')
+	{
+		if (*i > *start)
+			add_word_token(shell, input, *start, *i);
+		handle_dollar_char(shell, input, i, start);
 	}
 }
 
 /*
-* brief: Processes double quoted strings in the input string,
-*	capturing the quoted string and creating a token for it.
+* @ brief: adds nokens with qoutes based on the quote type.
+* 	Extracts the substr in the quotes and creates a token with it.
 */
-void	handle_dquote(t_shell *shell, char *input, int *i, int *start)
+void	handle_quote(t_shell *shell, char *input, int *i, int *start)
 {
-	int		j;
-	char	*substr;
+	char		quote;
+	int			j;
+	t_tokentype	type;
 
+	quote = input[*i];
 	j = *i + 1;
-	while (input[j] && input[j] != '\"')
+	while (input[j] && input[j] != quote)
 		j++;
-	if (input[j] == '\"')
+	if (input[j] == quote)
 	{
-		substr = ft_substr(input, *i + 1, j - *i - 1);
-		add_token(shell, T_WORD_EXPAND, substr);
-		free(substr);
+		if (quote == '"')
+			type = T_DQUOTE;
+		else
+			type = T_SQUOTE;
+		add_token(shell, type, ft_substr(input, *i, j - *i + 1));
 		*i = j;
 		*start = j + 1;
 	}
@@ -99,6 +100,7 @@ void	handle_dquote(t_shell *shell, char *input, int *i, int *start)
 		return ;
 	}
 }
+
 
 /*
 * @ brief: Processes special characters in the input string, 

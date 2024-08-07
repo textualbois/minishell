@@ -6,18 +6,18 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 13:30:39 by isemin            #+#    #+#             */
-/*   Updated: 2024/08/06 14:41:33 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/08/07 13:24:11 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
+// todo : get an env throu this? if its messing we need to generet it?
 void	init_shell(t_shell *shell, char **env)
 {
 	if (getenv("USER") == NULL)
 	{
 		printf("TODO we should get user data on our own in this case\n");
-		ft_getenv(); // todo get an environmnet through this. possibly generate some stuff.
 	}
 	else
 	{

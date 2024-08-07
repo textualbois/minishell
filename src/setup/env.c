@@ -6,16 +6,11 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 13:28:51 by isemin            #+#    #+#             */
-/*   Updated: 2024/08/06 14:56:47 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/08/07 13:28:32 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
-
-char *ft_getenv() // gets environment from char **env or some other way
-{
-	return (NULL);
-}
 
 /*
 * @brief: create env list with the environment variables
@@ -82,11 +77,13 @@ int	add_env_node(t_env **env_list, char *key, char *value)
 * @brief: go through the env_list and update the shell->env with the new values.
 * becouse changes are made to the env_list.
 */
-char	**sync_env_from_list(t_env *env_list)
+char	**sync_env_from_list(t_env *env_list) // not final
 {
 	t_env	*current_env;
 	char	**env;
 	int		i;
+	char	*temp;
+	temp = malloc(1000);
 
 	current_env = env_list;
 	i = 0;
@@ -97,17 +94,20 @@ char	**sync_env_from_list(t_env *env_list)
 	}
 	env = malloc(sizeof(char *) * (i + 1));
 	if (env == NULL)
-		return (perror("malloc failed"), NULL);
+		return (printf("malloc failed"), NULL);
 	current_env = env_list;
 	i = 0;
 	while (current_env)
 	{
-		env[i] = ft_strjoin(current_env->key, "=");
-		env[i] = ft_strjoin(env[i], current_env->value);
-		i++;
+		temp = ft_strjoin(current_env->key, "=");
+		if (!temp)
+			return (printf("malloc failed"), NULL);//free more each?
+		env[i] = ft_strjoin(temp, current_env->value);
+		free(temp);
 		current_env = current_env->next;
 	}
 	env[i] = NULL;
+	free(temp);
 	return (env);
 }
 

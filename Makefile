@@ -6,7 +6,7 @@
 #    By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/01 09:20:11 by mrusu             #+#    #+#              #
-#    Updated: 2024/08/05 13:19:06 by mrusu            ###   ########.fr        #
+#    Updated: 2024/08/07 13:55:38 by mrusu            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -90,10 +90,9 @@ SRC = $(SRC_DIR)/main.c \
 	$(SRC_DIR)/prompts/terminal_prompt.c \
 	$(SRC_DIR)/setup/env.c $(SRC_DIR)/setup/init_shell.c \
 	$(SRC_DIR)/utils/utils0.c $(SRC_DIR)/utils/env.c $(SRC_DIR)/utils/wild_math.c \
-	$(SRC_DIR)/error/error.c \
 	$(SRC_DIR)/builtins/cmds.c $(SRC_DIR)/builtins/env.c $(SRC_DIR)/builtins/export.c $(SRC_DIR)/builtins/change_dir.c \
 	$(SRC_DIR)/signal/signals.c \
- 
+
 
 # OBJ FILES
 OBJS = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC))

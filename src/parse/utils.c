@@ -6,12 +6,11 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 10:05:39 by mrusu             #+#    #+#             */
-/*   Updated: 2024/08/05 14:48:44 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/08/07 13:30:07 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
-
 
 /*
 * @ brief: Determines the type of a token based on char.
@@ -31,8 +30,10 @@ t_tokentype	get_token_type(char *str)
 		return (T_SPECIAL);
 	else if (*str == '>' || (*str == '>' && *(str + 1) == '>'))
 		return (T_SPECIAL);
-	else if (*str == '"' || *str == '\'')
-		return (T_QUOTE);
+	else if (*str == '"')
+		return (T_DQUOTE);
+	else if (*str == '\'')
+		return (T_SQUOTE);
 	else if (*str == '$' && *(str + 1) == '?')
 		return (T_EXCODE);
 	else if (*str == '$')

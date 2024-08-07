@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 13:17:13 by mrusu             #+#    #+#             */
-/*   Updated: 2024/08/06 17:53:55 by isemin           ###   ########.fr       */
+/*   Updated: 2024/08/07 13:44:36 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,9 +75,11 @@
 // -------------------------------------------DIR---builtins
 // ---cmds.c
 int			builtin_echo(char **args);
-int			builtin_cd(t_shell *shell, char **args);
 int			builtin_pwd(void);
 int			builtin_exit(void);
+
+//change_dir.c
+int			builtin_cd(t_shell *shell, char **args);
 
 // ---env.c
 int			builtin_env(t_shell *shell);
@@ -99,7 +101,6 @@ void		*ft_readline(t_shell *shell);
 void		init_shell(t_shell *shell, char **env);
 
 // -env.c
-char		*ft_getenv(void);
 t_env		*init_env_list(char **env);
 int			add_env_node(t_env **env_list, char *key, char *value);
 char		**sync_env_from_list(t_env *env_list);
@@ -182,9 +183,8 @@ t_tree		*get_nodes_pipes(t_token *start, t_token *stop, t_tree *parent);
 t_tree		*get_nodes_and_or(t_token *start, t_token *stop, t_tree *parent);
 
 // -lexer.c
-int			tokenize_loop(t_shell *shell, char *input, int i, int start);
-void		handle_squote(t_shell *shell, char *input, int *i, int *start);
-void		handle_dquote(t_shell *shell, char *input, int *i, int *start);
+void		handle_character(t_shell *shell, char *input, int *i, int *start);
+void		handle_quote(t_shell *shell, char *input, int *i, int *start);
 void		handle_special_chars(t_shell *shell, char *input,
 				int *i, int *start);
 void		handle_dollar_char(t_shell *shell, char *input, int *i, int *start);
@@ -210,15 +210,20 @@ void		add_word_token(t_shell *shell, char *input, int start, int end);
 int			check_redirect_syntax(char *input, int *i);
 
 // -------------------------------------------DIR---expand
-// -expand.c
+// -expand_dollar.c
 void		expand_dollar_tokens(t_shell *shell);
-char		*expand_word_token(t_shell *shell, char *str);
+void		handle_word_or_dquote(t_shell *shell, t_token *token);
 void		process_dollar_token(t_shell *shell, t_token *current);
+char		*expand_word_token(t_shell *shell, const char *str);
+
 
 // -expand_utils.c
 char		*ft_strjoin_free(char *s1, char *s2);
 char		*ft_strjoin_free_char(char *s, char c);
-char		*extract_variable_name(char *str, int *i);
+char		*extract_variable_name(const char *str, int *i);
+int			handle_quotes(const char *str, int i, int *in_dquote);
+char		*expand_variables(t_shell *shell, const char *str,
+				int *i, int in_dquote);
 
 // -expand_wildcard.c
 void		handle_wildcard_char(t_shell *shell, char *input,
@@ -228,13 +233,10 @@ bool		match(const char *pattern, const char *string);
 bool		match_re(const char *pattern, const char *string,
 				const char **laststar_pat, const char **laststar_str);
 
-// -------------------------------------------DIR---pipex_wrapper
-// -input_formatting.c
-int			package_pipex(t_shell *shell);
-
 // -------------------------------------------DIR---signals
 // -signals.c
 void		signal_handlers(void);
 void		sigint_handler(int signum);
+void		disable_ctrl_chars(void);
 
 #endif

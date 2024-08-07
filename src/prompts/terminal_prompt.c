@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 14:48:23 by isemin            #+#    #+#             */
-/*   Updated: 2024/08/06 14:25:20 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/08/07 13:28:50 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ void	form_prompt(t_shell *shell, char *new_user_name)
 	static char	*user = NULL;
 	char		*temp;
 
+	disable_ctrl_chars();
 	if (new_user_name)
 	{
 		if (user)

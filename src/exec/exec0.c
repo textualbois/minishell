@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 13:20:20 by mrusu             #+#    #+#             */
-/*   Updated: 2024/08/05 09:48:55 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/08/07 13:34:04 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,9 @@ int	execute_ast(t_shell *shell, t_tree *node, int exit_code)
 	return (exit_code);
 }
 
+/*
+* @brief: Executes a builtin command if it exists.
+*/
 int	execute_builtin(t_shell *shell, t_command *cmd)
 {
 	if (ft_strcmp(cmd->name, "echo") == 0)
@@ -86,6 +89,9 @@ int	execute_builtin(t_shell *shell, t_command *cmd)
 	return (1);
 }
 
+/*
+* @brief: Checks if the command is a builtin command.
+*/
 int	is_builtin(t_command *cmd)
 {
 	if (ft_strcmp(cmd->name, "echo") == 0)
@@ -107,7 +113,7 @@ int	is_builtin(t_command *cmd)
 
 static int	create_and_close_files(t_command *cmd)
 {
-	int fd;
+	int	fd;
 
 	fd = 0;
 	if (cmd->output_file)

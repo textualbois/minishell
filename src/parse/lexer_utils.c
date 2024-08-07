@@ -6,27 +6,11 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 12:57:50 by mrusu             #+#    #+#             */
-/*   Updated: 2024/08/05 13:50:51 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/08/07 13:31:11 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
-
-/*
-* @ brief: initializes the shell's token list and token count.
-*/
-int	tokenize(t_shell *shell, char *input)
-{
-	shell->head = NULL;
-	shell->tail = NULL;
-	shell->token_count = 0;
-	if (tokenize_loop(shell, input, 0, 0) != 0)
-	{
-		printf("Error: tokenize_loop failed\n");
-		return (1);
-	}
-	return (0);
-}
 
 /*
 * @ brief: Adds a new token to the shell's token list.
@@ -72,6 +56,10 @@ void	add_token(t_shell *shell, t_tokentype type, char *value)
 		printf("WILDCARD");
 	else if (type == T_WORD_EXPAND)
 		printf("T_WORD_EXPAND");
+	else if (type == T_SQUOTE)
+		printf("T_SQUOTE");
+	else if (type == T_DQUOTE)
+		printf("T_DQUOTE");
 	else
 		printf("UNKNOWN");
 	printf(", Value = '%s'\n", value);
@@ -109,16 +97,15 @@ t_token	*create_token(t_tokentype type, char *value)
 */
 void	add_word_token(t_shell *shell, char *input, int start, int end)
 {
-	char	*substr;
+	char		*word;
+	t_tokentype	type;
 
-	substr = ft_substr(input, start, end - start);
-	if (!substr)
-	{
-		printf("Error: ft_substr failed in add_word_token\n");
-		return ;
-	}
-	add_token(shell, T_WORD, substr);
-	free(substr);
+	type = T_WORD;
+	word = ft_substr(input, start, end - start);
+	if (ft_strchr(word, '$'))
+		type = T_WORD_EXPAND;
+	add_token(shell, type, word);
+	free(word);
 }
 
 /*
@@ -145,4 +132,3 @@ void	add_special_token(t_shell *shell, char *special)
 	else
 		add_token(shell, T_SPECIAL, special);
 }
-
