@@ -6,11 +6,11 @@
 /*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 13:28:51 by isemin            #+#    #+#             */
-/*   Updated: 2024/08/07 17:46:47 by isemin           ###   ########.fr       */
+/*   Updated: 2024/08/07 17:48:17 by isemin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minishell.h"
+#include "../../inc/minishell.h"
 
 /*
 * @brief: create env list with the environment variables
