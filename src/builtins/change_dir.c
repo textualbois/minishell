@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 19:05:09 by isemin            #+#    #+#             */
-/*   Updated: 2024/08/07 13:42:23 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/08/07 18:42:41 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,6 @@ static int	change_dir(t_shell *shell, char *dir, char *oldpwd)
 	char	cwd[1024];
 
 	printf("normal change_dird\n");
-
 	if (chdir(dir) != 0)
 	{
 		perror("cd failed");
@@ -93,7 +92,6 @@ static int	change_dir(t_shell *shell, char *dir, char *oldpwd)
 		return (0);
 	}
 }
-
 
 /*
 * @brief: change directory.

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 14:36:13 by isemin            #+#    #+#             */
-/*   Updated: 2024/07/09 14:36:57 by isemin           ###   ########.fr       */
+/*   Updated: 2024/08/07 18:42:26 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-int	pipex(int argc, char **argv, char **envp) //todo refactor
+int	pipex(int argc, char **argv, char **envp)
 {
 	char	**path;
 	int		res_code;

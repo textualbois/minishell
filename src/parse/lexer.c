@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 15:34:33 by mrusu             #+#    #+#             */
-/*   Updated: 2024/08/07 13:30:50 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/08/07 18:39:48 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,12 @@ void	handle_character(t_shell *shell, char *input, int *i, int *start)
 			add_word_token(shell, input, *start, *i);
 		handle_dollar_char(shell, input, i, start);
 	}
+	else if (input[*i] == '*')
+	{
+		if (*i > *start)
+			add_word_token(shell, input, *start, *i);
+		handle_wildcard_char(shell, input, i, start);
+	}
 }
 
 /*
@@ -100,7 +106,6 @@ void	handle_quote(t_shell *shell, char *input, int *i, int *start)
 		return ;
 	}
 }
-
 
 /*
 * @ brief: Processes special characters in the input string, 

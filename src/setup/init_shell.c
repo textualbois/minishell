@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_shell.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 13:30:39 by isemin            #+#    #+#             */
-/*   Updated: 2024/08/07 17:46:58 by isemin           ###   ########.fr       */
+/*   Updated: 2024/08/07 17:59:24 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,10 @@ void	init_shell(t_shell *shell, char **env)
 	char	*shlvl_str;
 	char	*kv_pair;
 
-	if (getenv("USER") == NULL)
+	if (getenv("USER") == NULL || getenv("PATH") == NULL)
 	{
-		printf("TODO we should get user data on our own in this case\n");
+		printf(RED"No environment found. Exiting...\n"RESET);
+		exit(1);
 	}
 	else
 	{
@@ -29,6 +30,7 @@ void	init_shell(t_shell *shell, char **env)
 		shell->user = getenv("USER");
 		shell->cmd_paths = get_path(env);
 	}
+	shell->path = NULL;
 	shell->env_list = init_env_list(env);
 	shell->terminal_prompt = NULL;
 	shell->exit_code = 0;

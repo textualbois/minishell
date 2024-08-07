@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 14:19:26 by mrusu             #+#    #+#             */
-/*   Updated: 2024/08/06 15:03:02 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/08/07 18:43:06 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	builtin_export(t_shell *shell, char **args)
 		free(kv_pair);
 		args++;
 	}
-	update_env_shell(shell); // update the shell env array after each export
+	update_env_shell(shell);
 	return (0);
 }
 

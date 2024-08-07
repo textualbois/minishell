@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 13:17:13 by mrusu             #+#    #+#             */
-/*   Updated: 2024/08/07 15:01:23 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/08/07 18:41:48 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -216,7 +216,6 @@ void		expand_dollar_tokens(t_shell *shell);
 void		handle_word_or_dquote(t_shell *shell, t_token *token);
 void		process_dollar_token(t_shell *shell, t_token *current);
 char		*expand_word_token(t_shell *shell, const char *str);
-
 
 // -expand_utils.c
 char		*ft_strjoin_free(char *s1, char *s2);

@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 15:32:24 by isemin            #+#    #+#             */
-/*   Updated: 2024/08/07 13:42:58 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/08/07 18:42:09 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ typedef struct s_shell
 	char		*raw_input;
 	int			exit_code;
 	char		*user;
-	t_env		*env_list; // this wil be sync wiht env array
+	t_env		*env_list;
 	char		**env;
 	char		*heredoc;
 	char		*last_input;

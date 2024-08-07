@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 18:25:03 by mrusu             #+#    #+#             */
-/*   Updated: 2024/08/07 13:32:32 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/08/07 18:37:54 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ void	expand_wildcard_tokens(t_shell *shell)
 			dir = opendir(".");
 			if (dir)
 			{
+				entry = readdir(dir);
 				while (entry != NULL)
 				{
 					if (match(current->value, entry->d_name))
