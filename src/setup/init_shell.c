@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_shell.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
+/*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 13:30:39 by isemin            #+#    #+#             */
-/*   Updated: 2024/08/07 13:24:11 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/08/07 17:46:58 by isemin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,10 @@
 // todo : get an env throu this? if its messing we need to generet it?
 void	init_shell(t_shell *shell, char **env)
 {
+	int		shlvl;
+	char	*shlvl_str;
+	char	*kv_pair;
+
 	if (getenv("USER") == NULL)
 	{
 		printf("TODO we should get user data on our own in this case\n");
@@ -34,4 +38,11 @@ void	init_shell(t_shell *shell, char **env)
 	shell->stdio_fds[0] = dup(STDIN_FILENO);
 	shell->stdio_fds[1] = dup(STDOUT_FILENO);
 	form_prompt(shell, shell->user);
+	update_env_shell(shell);
+	shlvl = ft_atoi(get_env_value(shell->env_list, "SHLVL"));
+	shlvl_str = ft_itoa(shlvl + 1);
+	kv_pair = ft_strjoin("SHLVL=", shlvl_str);
+	builtin_export(shell, (char *[]){NULL, kv_pair, NULL});
+	free(shlvl_str);
+	free(kv_pair);
 }

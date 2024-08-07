@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
+/*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 13:28:51 by isemin            #+#    #+#             */
-/*   Updated: 2024/08/07 13:28:32 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/08/07 17:46:47 by isemin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,6 @@ char	**sync_env_from_list(t_env *env_list) // not final
 	char	**env;
 	int		i;
 	char	*temp;
-	temp = malloc(1000);
 
 	current_env = env_list;
 	i = 0;
@@ -101,19 +100,19 @@ char	**sync_env_from_list(t_env *env_list) // not final
 	{
 		temp = ft_strjoin(current_env->key, "=");
 		if (!temp)
-			return (printf("malloc failed"), NULL);//free more each?
+			return (printf("malloc failed"), NULL);
 		env[i] = ft_strjoin(temp, current_env->value);
 		free(temp);
 		current_env = current_env->next;
+		i++;
 	}
-	env[i] = NULL;
-	free(temp);
+	env[i] = NULL;mak
 	return (env);
 }
 
 /*
 * @brief: call sync_env_from_list to go through the env_list and
-* update the shell->env with the new values. 
+* update the shell->env with the new values.
 */
 void	update_env_shell(t_shell *shell)
 {
