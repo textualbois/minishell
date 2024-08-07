@@ -6,7 +6,7 @@
 /*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 20:27:40 by isemin            #+#    #+#             */
-/*   Updated: 2024/08/03 20:26:10 by isemin           ###   ########.fr       */
+/*   Updated: 2024/08/07 16:12:11 by isemin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ int	setup_infile_read_fd(int fd_array[][2], char *input_file) //B.2 completely c
 		return (perror_return(EXIT_FAILURE, input_file));
 	if (dup2(fd_array[0][READ_END], STDIN_FILENO) == -1)
 		return (perror_return(EXIT_FAILURE, "1_dup2"));
-	// else
+	else
+		close(fd_array[0][READ_END]);
 	// {
 	// 	ft_putstr_fd("redirected stdin to input_file\n", 2);
 	// 	//close(fd_array[0][READ_END]);
@@ -34,7 +35,8 @@ int	setup_outfile(int fd_array[][2], char *output_file)
 		return (perror_return(EXIT_FAILURE, output_file));
 	if (dup2(fd_array[0][WRITE_END], STDOUT_FILENO) == -1)
 		return (perror_return(EXIT_FAILURE, output_file));
-	// else
+	else
+		close(fd_array[0][WRITE_END]);
 	// {
 	// 	ft_putstr_fd("redirected stdout to output_file\n", 2);
 	// 	//close(fd_array[0][WRITE_END]);
@@ -49,7 +51,8 @@ int	setup_append_outfile(int fd_array[][2], char *output_file)
 		return (perror_return(EXIT_FAILURE, output_file));
 	if (dup2(fd_array[0][WRITE_END], STDOUT_FILENO) == -1)
 		return (perror_return(EXIT_FAILURE, output_file));
-	// else
+	else
+		close(fd_array[0][WRITE_END]);
 	// {
 	// 	ft_putstr_fd("redirected stdout to output_file (appendable)\n", 2);
 	// 	//close(fd_array[0][WRITE_END]);
@@ -71,7 +74,8 @@ int	redirect_input_between_pipes(int fd_array[][2], int cmd_num) //C.2 only diff
 	}
 	if (dup2(fd_array[2 - (cmd_num % 2)][READ_END], STDIN_FILENO) == -1)
 		return (perror_return(EXIT_FAILURE, "dup2 input error"));
-	// else
+	else
+		close(fd_array[2 - (cmd_num % 2)][READ_END]);
 	// {
 	// 	ft_putstr_fd("redirected stdin to pipe at pip index ", 2);
 	// 	ft_putnbr_fd(2 - (cmd_num % 2), 2);
@@ -86,7 +90,7 @@ int	redirect_out_between_pipes(int fd_array[][2], int cmd_num, t_command *cmd) /
 	{
 		// ft_putstr_fd("restoring stdout location for last command\n", 2);
 		dup2(fd_array[3][WRITE_END], STDOUT_FILENO); // restore the original stdout
-		//close(fd_array[3][WRITE_END]);
+		close(fd_array[3][WRITE_END]);
 		//dup2(STDOUT_FILENO, fd_array[3][WRITE_END]); // restore the original stdout
 		return (EXIT_SUCCESS);
 	}
@@ -95,7 +99,8 @@ int	redirect_out_between_pipes(int fd_array[][2], int cmd_num, t_command *cmd) /
 	// ft_putstr_fd("[WRITE_END]\n", 2);
 	if (dup2(fd_array[(cmd_num % 2) + 1][WRITE_END], STDOUT_FILENO) == -1)
 			return (perror_return(EXIT_FAILURE, "2_dup2"));
-	// else
+	else
+		close(fd_array[(cmd_num % 2) + 1][WRITE_END]);
 	// {
 	// 	ft_putstr_fd("redirected stdout to pipe at pipe index ", 2);
 	// 	ft_putnbr_fd((cmd_num % 2) + 1, 2);

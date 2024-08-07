@@ -6,7 +6,7 @@
 /*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 22:59:57 by isemin            #+#    #+#             */
-/*   Updated: 2024/08/03 20:25:39 by isemin           ###   ########.fr       */
+/*   Updated: 2024/08/07 16:12:09 by isemin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ static int	set_ins(int fd_array[][2], int cmd_num, t_command *cmd)
 		here_doc4shell(fd_array, cmd, cmd->heredoc_delimiter); // take user input, put it into fd[0][READ_END]
 		if (dup2(fd_array[0][READ_END], STDIN_FILENO) == -1)
 			return (perror_return(EXIT_FAILURE, "1_dup2"));
-		// else
+		else
+			close(fd_array[0][READ_END]);
 		// {
 		// 	ft_putstr_fd("redirected stdin to heredoc\n", 2);
 		// }
