@@ -6,7 +6,7 @@
 /*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 15:58:09 by isemin            #+#    #+#             */
-/*   Updated: 2024/08/06 17:55:20 by isemin           ###   ########.fr       */
+/*   Updated: 2024/08/07 12:41:34 by isemin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,24 +90,25 @@ char	**list_to_arr_no_limit(t_token *start)
 {
 	t_token	*current;
 	char	**res;
-	int		i;
+	int		count;
 
 	current = start;
-	i = 0;
+	count = 0;
 	while (current != NULL && (current->type == T_WORD || current->type == T_SPECIAL)) // can we have non T_WORD types here? i.e will T_bracket pass
 	{
 		if (current->type == T_WORD)
-			i++;
+			count++;
 		current = current->next;
 	}
-	res = ft_calloc(sizeof(char *), i + 1);
+	res = ft_calloc(sizeof(char *), count + 1);
+	count = 0;
 	current = start;
-	while (i != 0) //maybe i > 0 or other condition
+	while (current != NULL && (current->type == T_WORD || current->type == T_SPECIAL)) // can we have non T_WORD types here? i.e will T_bracket pass
 	{
 		if (current->type == T_WORD)
 		{
-			res[i] = current->value;
-			i--;
+			res[count] = current->value;
+			count++;
 		}
 		current = current->next;
 	}
