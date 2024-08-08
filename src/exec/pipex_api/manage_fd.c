@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   manage_fd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 22:59:57 by isemin            #+#    #+#             */
-/*   Updated: 2024/08/07 16:12:09 by isemin           ###   ########.fr       */
+/*   Updated: 2024/08/08 08:51:43 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,48 +14,42 @@
 
 static int	set_ins(int fd_array[][2], int cmd_num, t_command *cmd)
 {
-	if (cmd->heredoc_delimiter != NULL) // if we have heredoc
+	if (cmd->heredoc_delimiter != NULL)
 	{
-		here_doc4shell(fd_array, cmd, cmd->heredoc_delimiter); // take user input, put it into fd[0][READ_END]
+		here_doc4shell(fd_array, cmd, cmd->heredoc_delimiter);
 		if (dup2(fd_array[0][READ_END], STDIN_FILENO) == -1)
 			return (perror_return(EXIT_FAILURE, "1_dup2"));
 		else
 			close(fd_array[0][READ_END]);
-		// {
-		// 	ft_putstr_fd("redirected stdin to heredoc\n", 2);
-		// }
 	}
-	else if (cmd->input_file != NULL) //todo if we have input file to handle
+	else if (cmd->input_file != NULL)
 	{
-		if (setup_infile_read_fd(fd_array, cmd->input_file) != 0) //B
+		if (setup_infile_read_fd(fd_array, cmd->input_file) != 0)
 			return (EXIT_FAILURE);
 	}
-	else // if we have a pipe or no file // possible handle differently when the command is the first one
+	else
 	{
-		if (redirect_input_between_pipes(fd_array, cmd_num) != 0) //C
+		if (redirect_input_between_pipes(fd_array, cmd_num) != 0)
 			return (EXIT_FAILURE);
 	}
 	return (EXIT_SUCCESS);
 }
 
-static int	set_outs(int fd_array[][2], int cmd_num, t_command *cmd)//F
+static int	set_outs(int fd_array[][2], int cmd_num, t_command *cmd)
 {
-	if (cmd->append_output) // if we have append output file to handle //F.2.2.append
+	if (cmd->append_output)
 	{
-		// ft_putstr_fd("append output file: ", 2);
-		// ft_putstr_fd(cmd->output_file, 2);
-		// ft_putstr_fd("\n", 2);
 		if (setup_append_outfile(fd_array, cmd->output_file) != 0)
 			return (EXIT_FAILURE);
 	}
-	else if (cmd->output_file) // if we have output file to handle //F.2.2.overwrite
+	else if (cmd->output_file)
 	{
 		if (setup_outfile(fd_array, cmd->output_file) != 0)
 			return (EXIT_FAILURE);
 	}
-	else // if we have a pipe or no file // possible handle differently when the command is the last one
+	else
 	{
-		if (redirect_out_between_pipes(fd_array, cmd_num, cmd) != 0) //F.2.1
+		if (redirect_out_between_pipes(fd_array, cmd_num, cmd) != 0)
 			return (EXIT_FAILURE);
 	}
 	return (EXIT_SUCCESS);
@@ -63,52 +57,27 @@ static int	set_outs(int fd_array[][2], int cmd_num, t_command *cmd)//F
 
 int	set_fds_pipe4shell(int fd_array[][2], int cmd_num, t_command *cmd)
 {
-
 	if (cmd_num != 1 || cmd->next != NULL)
 	{
-		if (pipe(fd_array[(cmd_num % 2) + 1]) == -1) //A creates a pipe at this location. no commitment to use it
+		if (pipe(fd_array[(cmd_num % 2) + 1]) == -1)
 			return (perror_return(EXIT_FAILURE, "pipe error"));
-		// else
-		// {
-		// 	ft_putstr_fd("pipe created for cmd number ", 2);
-		// 	ft_putnbr_fd(cmd_num, 2);
-		// 	ft_putstr_fd(" at pipe index ", 2);
-		// 	ft_putnbr_fd((cmd_num % 2) + 1, 2);
-		// 	ft_putstr_fd("\n", 2);
-		// }
 	}
-	// else
-	// {
-	// 	ft_putstr_fd("no pipe created for cmd number ", 2);
-	// 	ft_putnbr_fd(cmd_num, 2);
-	// 	ft_putstr_fd("\n", 2);
-	// }
-	if (set_ins(fd_array, cmd_num, cmd) != EXIT_SUCCESS) //B and C
+	if (set_ins(fd_array, cmd_num, cmd) != EXIT_SUCCESS)
 		return (EXIT_FAILURE);
-	if (set_outs(fd_array, cmd_num, cmd) != EXIT_SUCCESS) //F
+	if (set_outs(fd_array, cmd_num, cmd) != EXIT_SUCCESS)
 		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }
 
 void	close_fds_parent4shell(int fd_array[][2], int cmd_num, t_command *cmd)
 {
-	// ft_putstr_fd("IN PARENT ", 2);
-	// ft_putstr_fd("closing STDOUT_FILENO\n", 2);
-	// if (close(STDOUT_FILENO) == -1)
-	// 	perror("close");
 	if (cmd->heredoc_delimiter != NULL)
 	{
-		// ft_putstr_fd("closing fd[", 2);
-		// ft_putnbr_fd(0, 2);
-		// ft_putstr_fd("][WRITE_END]\n", 2);
 		if (close(fd_array[0][WRITE_END]) == -1)
 			perror("close");
 	}
 	else if (cmd->output_file != NULL)
 	{
-		// ft_putstr_fd("closing fd[", 2);
-		// ft_putnbr_fd(0, 2);
-		// ft_putstr_fd("][WRITE_END]\n", 2);
 		if (close(fd_array[0][WRITE_END]) == -1)
 			perror("close");
 	}
@@ -116,9 +85,6 @@ void	close_fds_parent4shell(int fd_array[][2], int cmd_num, t_command *cmd)
 	{
 		if (fd_array[(cmd_num % 2) + 1][WRITE_END] != -1)
 		{
-			// ft_putstr_fd("closing fd[", 2);
-			// ft_putnbr_fd((cmd_num % 2) + 1, 2);
-			// ft_putstr_fd("][WRITE_END]\n", 2);
 			if (close(fd_array[(cmd_num % 2) + 1][WRITE_END]) == -1)
 				perror("close");
 		}

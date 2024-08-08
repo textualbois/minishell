@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 13:17:13 by mrusu             #+#    #+#             */
-/*   Updated: 2024/08/07 18:41:48 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/08/07 18:52:58 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,11 +126,6 @@ int			ft_strcmp(const char *str1, const char *str2);
 // ---wild_math.c
 int			my_max(int a, int b);
 int			my_min(int a, int b);
-
-// -------------------------------------------DIR---error
-// -error.c
-int			ft_error(t_shell *shell, int error_code);
-int			syntax_error(void);
 
 // -------------------------------------------DIR---exec
 // -------------------------------------------DIR---sub_DIR----pipex_api

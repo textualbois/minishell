@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 19:27:13 by isemin            #+#    #+#             */
-/*   Updated: 2024/07/30 00:14:31 by isemin           ###   ########.fr       */
+/*   Updated: 2024/08/07 18:54:05 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,8 @@ int	here_doc4shell(int fd_array[][2], t_command *cmd, char *delimiter)
 
 	(void)(cmd);
 	here_doc_file = create_here_doc();
-	fd_array[0][READ_END] = open(here_doc_file, O_WRONLY | O_TRUNC | O_CREAT, 0644);
+	fd_array[0][READ_END] = open(here_doc_file,
+			O_WRONLY | O_TRUNC | O_CREAT, 0644);
 	if (fd_array[0][READ_END] == -1)
 	{
 		perror(here_doc_file);
@@ -71,8 +72,7 @@ int	here_doc4shell(int fd_array[][2], t_command *cmd, char *delimiter)
 	}
 	free(here_doc_file);
 	receive_input(fd_array[0][READ_END], delimiter);
-	// close(fd_array[0][READ_END]); //close later, when input read
-	unlink(here_doc_file); // it's okay to unlink here, because the file is already open and is accessible by it's fd
+	unlink(here_doc_file);
 	free(here_doc_file);
 	return (EXIT_SUCCESS);
 }
