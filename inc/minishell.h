@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 13:17:13 by mrusu             #+#    #+#             */
-/*   Updated: 2024/08/08 13:55:31 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/08/08 19:20:59 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -237,5 +237,6 @@ bool		match_re(const char *pattern, const char *string,
 void		signal_handlers(void);
 void		sigint_handler(int signum);
 void		disable_ctrl_chars(void);
+void		sigquit_handler(int sig);
 
 #endif

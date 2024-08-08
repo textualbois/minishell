@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 12:30:36 by mrusu             #+#    #+#             */
-/*   Updated: 2024/08/08 13:44:50 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/08/08 18:36:29 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@
 int	builtin_echo(char **args)
 {
 	int	i;
-	int	n_flag;
-
+	int	n_flag; 
+	
 	i = 1;
 	n_flag = 1;
 	if (args[1] && ft_strcmp(args[1], "-n") == 0)

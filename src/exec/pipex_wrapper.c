@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 22:14:48 by isemin            #+#    #+#             */
-/*   Updated: 2024/08/08 10:55:14 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/08/08 19:21:19 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,9 @@ int	pipex_wrapper(t_shell *shell, t_command *cmd)
 			if (pid < 0)
 				werror_exit(EXIT_FAILURE, "fork_failed", 2);
 			else if (pid == CHILD)
-			{
+			{	
+				// if (cmd->next == NULL)
+				signal(SIGQUIT, sigquit_handler);
 				if (fd[((i - 1) % 2) + 1][READ_END] != -1)
 					close(fd[((i - 1) % 2) + 1][READ_END]);
 				if (cmd->name == NULL)
@@ -92,14 +94,27 @@ static int	parent_await(int last_pid, int fd_array[4][2])
 {
 	int	status;
 	int	pid;
-
 	pid = waitpid(last_pid, &status, 0);
+	if (WIFSIGNALED(status))
+	{
+		if (WTERMSIG(status) == 3)
+			printf("Quit: %d\n", WTERMSIG(status));
+		close_all_4shell(fd_array);
+		if (close(STDIN_FILENO) == -1)
+			perror("close error");
+		if (dup2(fd_array[3][READ_END], STDIN_FILENO) == -1)
+			perror("dup2");
+		if (dup2(fd_array[3][WRITE_END], STDOUT_FILENO) == -1)
+			perror("dup2");
+		return (128 + WTERMSIG(status));
+	}
 	close_all_4shell(fd_array);
 	if (close(STDIN_FILENO) == -1)
 		perror("close error");
 	if (dup2(fd_array[3][READ_END], STDIN_FILENO) == -1)
 		perror("dup2");
 	if (dup2(fd_array[3][WRITE_END], STDOUT_FILENO) == -1)
+		perror("dup2");
 	while (pid != -1)
 		pid = wait(NULL);
 	if (WIFEXITED(status))
