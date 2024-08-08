@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 14:02:02 by isemin            #+#    #+#             */
-/*   Updated: 2024/08/07 13:32:16 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/08/08 08:55:00 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ int	shell_loop(t_shell *shell)
 		}
 		else
 		{
-			// print_ast(shell);
 			shell->exit_code = execute_ast(shell, shell->ast, EXIT_SUCCESS);
 			free_tokens(shell);
 			free(shell->raw_input);

@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 12:57:50 by mrusu             #+#    #+#             */
-/*   Updated: 2024/08/07 13:31:11 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/08/08 11:28:17 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,33 +36,33 @@ void	add_token(t_shell *shell, t_tokentype type, char *value)
 		shell->tail = new_token;
 	}
 	shell->token_count++;
-	//debug
-	printf("Added Token: Type = ");
-	if (type == T_WORD)
-		printf("WORD");
-	else if (type == T_PIPE)
-		printf("PIPE");
-	else if (type == T_OR)
-		printf("OR");
-	else if (type == T_AND)
-		printf("AND");
-	else if (type == T_SPECIAL)
-		printf("SPECIAL");
-	else if (type == T_DOLLAR)
-		printf("DOLLAR");
-	else if (type == T_EXCODE)
-		printf("$?");
-	else if (type == T_WILDCARD)
-		printf("WILDCARD");
-	else if (type == T_WORD_EXPAND)
-		printf("T_WORD_EXPAND");
-	else if (type == T_SQUOTE)
-		printf("T_SQUOTE");
-	else if (type == T_DQUOTE)
-		printf("T_DQUOTE");
-	else
-		printf("UNKNOWN");
-	printf(", Value = '%s'\n", value);
+	// //debug
+	// printf("Added Token: Type = ");
+	// if (type == T_WORD)
+	// 	printf("WORD");
+	// else if (type == T_PIPE)
+	// 	printf("PIPE");
+	// else if (type == T_OR)
+	// 	printf("OR");
+	// else if (type == T_AND)
+	// 	printf("AND");
+	// else if (type == T_SPECIAL)
+	// 	printf("SPECIAL");
+	// else if (type == T_DOLLAR)
+	// 	printf("DOLLAR");
+	// else if (type == T_EXCODE)
+	// 	printf("$?");
+	// else if (type == T_WILDCARD)
+	// 	printf("WILDCARD");
+	// else if (type == T_WORD_EXPAND)
+	// 	printf("T_WORD_EXPAND");
+	// else if (type == T_SQUOTE)
+	// 	printf("T_SQUOTE");
+	// else if (type == T_DQUOTE)
+	// 	printf("T_DQUOTE");
+	// else
+	// 	printf("UNKNOWN");
+	// printf(", Value = '%s'\n", value);
 }
 
 /*

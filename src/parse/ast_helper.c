@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ast_helper.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 15:58:09 by isemin            #+#    #+#             */
-/*   Updated: 2024/08/07 12:41:34 by isemin           ###   ########.fr       */
+/*   Updated: 2024/08/08 09:56:40 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-t_token *get_input_file(t_command *cmd, t_token *start, t_token *stop)
+t_token	*get_input_file(t_command *cmd, t_token *start, t_token *stop)
 {
 	t_token	*current;
 	char	*error_str;
@@ -134,7 +134,7 @@ char	**list_to_arr(t_token *start, t_token *stop)
 	i = 0;
 	while (current != stop)
 	{
-		if (current->type == T_WORD) //handle this or nah?
+		if (current->type == T_WORD)
 		{
 			res[i] = current->value;
 			i++;

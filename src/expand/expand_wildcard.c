@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 18:25:03 by mrusu             #+#    #+#             */
-/*   Updated: 2024/08/07 18:37:54 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/08/08 11:31:20 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,22 +38,33 @@ void	handle_wildcard_char(t_shell *shell, char *input, int *i, int *start)
 void	expand_wildcard_tokens(t_shell *shell)
 {
 	t_token			*current;
+	t_token			*prev;
 	DIR				*dir;
 	struct dirent	*entry;
+	bool			found_match;
 
 	current = shell->head;
+	prev = NULL;
 	while (current)
 	{
 		if (current->type == T_WILDCARD)
 		{
+			found_match = false;
 			dir = opendir(".");
 			if (dir)
 			{
 				entry = readdir(dir);
 				while (entry != NULL)
 				{
-					if (match(current->value, entry->d_name))
-						add_token(shell, T_WORD, ft_strdup(entry->d_name));
+					// Skip entries that start with '.' bash does it.
+					if (entry->d_name[0] != '.')
+					{
+						if (match(current->value, entry->d_name))
+						{
+							add_token(shell, T_WORD, ft_strdup(entry->d_name));
+							found_match = true;
+						}
+					}
 					entry = readdir(dir);
 				}
 				closedir(dir);
@@ -63,12 +74,28 @@ void	expand_wildcard_tokens(t_shell *shell)
 				printf("Error: opendir failed\n");
 				return ;
 			}
-			free(current->value);
-			current->value = NULL;
+			if (found_match)
+			{
+				// Remove the wildcard token only if matches were found else print wahtever
+				if (prev)
+					prev->next = current->next;
+				else
+					shell->head = current->next;
+				free(current->value);
+				free(current);
+				current = prev;
+			}
+			else
+			{
+				// No match found, treat the wildcard token as a normal word
+				current->type = T_WORD;
+			}
 		}
+		prev = current;
 		current = current->next;
 	}
 }
+
 
 /*
 * @ brief: Matches the given pattern with the string,
@@ -101,7 +128,8 @@ bool	match_re(const char *pattern, const char *string,
 			pattern++;
 		}
 		else if (*pattern == '*')
-		{			*laststar_pat = pattern++;
+		{			
+			*laststar_pat = pattern++;
 			*laststar_str = string;
 		}
 		else if (*laststar_pat)

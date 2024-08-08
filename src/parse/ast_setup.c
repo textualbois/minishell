@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast_setup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 15:58:09 by isemin            #+#    #+#             */
-/*   Updated: 2024/08/07 16:43:48 by isemin           ###   ########.fr       */
+/*   Updated: 2024/08/08 09:55:53 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,8 @@ t_tree	*get_nodes_and_or(t_token *start, t_token *stop, t_tree *parent)
 	head_node_depth = 0;
 	head_token = NULL;
 	current = start;
-
-	// printf("Entering get_nodes_and_or\n"); //debug
 	while (current != stop)
 	{
-		// printf("Current token: %s, type: %d\n", current->value, current->type); //debug
 		if (current->type == T_SPECIAL && current->value[0] == '(')
 			depth++;
 		else if (current->type == T_SPECIAL && current->value[0] == ')')
@@ -42,8 +39,7 @@ t_tree	*get_nodes_and_or(t_token *start, t_token *stop, t_tree *parent)
 		}
 		current = current->next;
 	}
-
-	if (head_token != NULL) // if we found && or ||
+	if (head_token != NULL)
 	{
 		t_tree *res = init_tree_node(head_token, parent);
 		res->left = get_nodes_and_or(start, head_token, res);
@@ -52,7 +48,6 @@ t_tree	*get_nodes_and_or(t_token *start, t_token *stop, t_tree *parent)
 	}
 	else if (start != stop)
 	{
-		// printf("No operator found, calling get_nodes_pipes\n"); //debug
 		return (get_nodes_pipes(start, stop, parent));
 	}
 	else
@@ -67,13 +62,10 @@ t_tree	*get_nodes_pipes(t_token *start, t_token *stop, t_tree *parent)
 
 	current = start;
 	pipe_token = NULL;
-
-	// printf("Entering get_nodes_pipes\n"); //debug
 	while (current != stop)
 	{
 		if (current->type == T_PIPE)
 		{
-			// printf("Found pipe token\n"); //debug
 			pipe_token = current;
 			break;
 		}
@@ -97,7 +89,6 @@ t_tree	*get_nodes_pipes(t_token *start, t_token *stop, t_tree *parent)
 	}
 	else
 	{
-		// printf("No pipe found, creating command node\n");
 		return (init_cmd_node(start, stop, parent));
 	}
 }
@@ -137,44 +128,10 @@ t_tree	*init_cmd_node(t_token *start, t_token *stop, t_tree *parent)
 	return (res);
 }
 
-// t_token start - first token of the sub-list
-// t_token stop - last token of the sub-list, generally a pipe or NULL (end of list)
-
-// t_tree	*init_cmd_node(t_token *start, t_token *stop, t_tree *parent)
-// {
-// 	t_tree	*res;
-// 	t_token	*current;
-// 	t_command *cmd;
-
-// 	//if res not null
-
-// 	// printf("Entering init_cmd_node with start = %s and stop = %s\n", start->value, stop ? stop->value : "NLUL"); //debug
-// 	cmd = ft_calloc(sizeof(t_command), 1); //1
-// 	start = get_input_file(cmd, start, stop); //2
-// 	stop = get_heredoc(cmd, start, stop); //3
-// 	stop = get_output_file(cmd, start, stop);//4
-// 	current = start; //5
-// 	cmd->args = list_to_arr(current, stop); //6
-// 	if (current == stop) //7
-// 		current = NULL;
-// 	res = init_tree_node(current, parent);	//8
-// 	res->cmd = cmd;	//9
-// 	if (current != NULL)	//10
-// 		cmd->name = current->value;	//11
-
-// 	for (int j = 0; cmd->args[j]; j++)
-// 	{
-// 		printf("%s ", cmd->args[j]);
-// 	}
-// 	printf("\n");
-// 	return (res);
-// }
-
 t_tree	*init_tree_node(t_token *token, t_tree *parent)
 {
 	t_tree	*new_node;
 
-	// printf("Entering init_tree_node\n");
 	new_node = ft_calloc(1, sizeof(t_tree));
 	if (!new_node)
 	{
@@ -186,7 +143,5 @@ t_tree	*init_tree_node(t_token *token, t_tree *parent)
 	new_node->right = NULL;
 	new_node->parent = parent;
 	new_node->token = token;
-	// printf("Tree node created successfully\n");
 	return (new_node);
 }
-
