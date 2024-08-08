@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
+/*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 14:19:26 by mrusu             #+#    #+#             */
-/*   Updated: 2024/08/07 18:43:06 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/08/08 17:14:42 by isemin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minishell.h"
+#include "../../inc/minishell.h"
 
 /*
 * @brief: print the environment list, add/update new var to list.
@@ -38,7 +38,7 @@ int	builtin_export(t_shell *shell, char **args)
 		free(kv_pair);
 		args++;
 	}
-	update_env_shell(shell);
+	update_env_shell(shell); // update the shell env array after each export
 	return (0);
 }
 
