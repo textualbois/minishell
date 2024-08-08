@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 12:30:36 by mrusu             #+#    #+#             */
-/*   Updated: 2024/08/07 14:59:47 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/08/08 13:44:50 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ int	builtin_exit(t_shell *shell, t_command *cmd)
 		}
 		else
 			return (printf("%s: numeric argument required\n",
-					cmd->args[1]), 255);
+					cmd->args[1]), exit(255), 255);
 	}
 }
 

@@ -6,42 +6,22 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 18:25:03 by mrusu             #+#    #+#             */
-/*   Updated: 2024/08/08 11:31:20 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/08/08 14:07:29 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
 /*
-* @ brief : Adds a WILDCARD token to the shell's token list.
-*/
-void	handle_wildcard_char(t_shell *shell, char *input, int *i, int *start)
-{
-	int		j;
-	char	*substr;
-
-	j = *i + 1;
-	while (input[j] && !ft_isspace(input[j]) && !ft_is_special_char(input[j]))
-		j++;
-	substr = ft_substr(input, *i, j - *i);
-	add_token(shell, T_WILDCARD, substr);
-	*i = j - 1;
-	*start = j;
-}
-
-/*
-* @ Brief: go through the token list, if the token is a wildcard,
-*	open the current directory and go through each entry, if the entry
-*	matches the wildcard pattern, add a WORD token with the entry name.
-*	close the directory and free the wildcard token. move to the next token.
+* @ Brief: initialize the dir pointer and check if curennt token is a
+*	wildcard it loops through the directory and when it finds a match it
+*	it calls expand_wildcard_token to handle the match.
 */
 void	expand_wildcard_tokens(t_shell *shell)
 {
 	t_token			*current;
 	t_token			*prev;
 	DIR				*dir;
-	struct dirent	*entry;
-	bool			found_match;
 
 	current = shell->head;
 	prev = NULL;
@@ -49,46 +29,15 @@ void	expand_wildcard_tokens(t_shell *shell)
 	{
 		if (current->type == T_WILDCARD)
 		{
-			found_match = false;
 			dir = opendir(".");
 			if (dir)
 			{
-				entry = readdir(dir);
-				while (entry != NULL)
-				{
-					// Skip entries that start with '.' bash does it.
-					if (entry->d_name[0] != '.')
-					{
-						if (match(current->value, entry->d_name))
-						{
-							add_token(shell, T_WORD, ft_strdup(entry->d_name));
-							found_match = true;
-						}
-					}
-					entry = readdir(dir);
-				}
-				closedir(dir);
+				expand_wildcard_token(shell, current, &prev, dir);
 			}
 			else
 			{
 				printf("Error: opendir failed\n");
 				return ;
-			}
-			if (found_match)
-			{
-				// Remove the wildcard token only if matches were found else print wahtever
-				if (prev)
-					prev->next = current->next;
-				else
-					shell->head = current->next;
-				free(current->value);
-				free(current);
-				current = prev;
-			}
-			else
-			{
-				// No match found, treat the wildcard token as a normal word
-				current->type = T_WORD;
 			}
 		}
 		prev = current;
@@ -96,6 +45,55 @@ void	expand_wildcard_tokens(t_shell *shell)
 	}
 }
 
+/*
+* @ brief: @ brief: expand a token by matching it with files in the current
+*	current directory if a match is found it adds the matched
+*	files to the token list.
+*/
+void	expand_wildcard_token(t_shell *shell, t_token *token,
+			t_token **prev, DIR *dir)
+{
+	struct dirent	*entry;
+	bool			found_match;
+
+	found_match = false;
+	entry = readdir(dir);
+	while (entry != NULL)
+	{
+		if (entry->d_name[0] != '.')
+		{
+			if (match(token->value, entry->d_name))
+			{
+				add_token(shell, T_WORD, ft_strdup(entry->d_name));
+				found_match = true;
+			}
+		}
+		entry = readdir(dir);
+	}
+	closedir(dir);
+	handle_wildcard_match(shell, token, prev, found_match);
+}
+
+/*
+* @ brief: if a match is found it removes the wildcard token from the
+*	list otherwise it treats the wildcard token as a normal word
+*/
+void	handle_wildcard_match(t_shell *shell, t_token *token, t_token **prev, bool found_match)
+{
+	if (found_match)
+	{
+		if (*prev)
+			(*prev)->next = token->next;
+		else
+			shell->head = token->next;
+		free(token->value);
+		free(token);
+	}
+	else
+	{
+		token->type = T_WORD;
+	}
+}
 
 /*
 * @ brief: Matches the given pattern with the string,

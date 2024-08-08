@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 13:17:13 by mrusu             #+#    #+#             */
-/*   Updated: 2024/08/08 10:18:54 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/08/08 13:55:31 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -223,6 +223,10 @@ char		*expand_variables(t_shell *shell, const char *str,
 // -expand_wildcard.c
 void		handle_wildcard_char(t_shell *shell, char *input,
 				int *i, int *start);
+void		handle_wildcard_match(t_shell *shell, t_token *token,
+				t_token **prev, bool found_match);
+void		expand_wildcard_token(t_shell *shell, t_token *token,
+				t_token **prev, DIR *dir);
 void		expand_wildcard_tokens(t_shell *shell);
 bool		match(const char *pattern, const char *string);
 bool		match_re(const char *pattern, const char *string,

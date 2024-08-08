@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 12:57:50 by mrusu             #+#    #+#             */
-/*   Updated: 2024/08/08 11:28:17 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/08/08 14:03:06 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,4 +131,21 @@ void	add_special_token(t_shell *shell, char *special)
 		add_token(shell, T_DOLLAR, special);
 	else
 		add_token(shell, T_SPECIAL, special);
+}
+
+/*
+* @ brief : Adds a WILDCARD token to the shell's token list.
+*/
+void	handle_wildcard_char(t_shell *shell, char *input, int *i, int *start)
+{
+	int		j;
+	char	*substr;
+
+	j = *i + 1;
+	while (input[j] && !ft_isspace(input[j]) && !ft_is_special_char(input[j]))
+		j++;
+	substr = ft_substr(input, *i, j - *i);
+	add_token(shell, T_WILDCARD, substr);
+	*i = j - 1;
+	*start = j;
 }
