@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 15:58:09 by isemin            #+#    #+#             */
-/*   Updated: 2024/08/09 15:05:27 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/08/09 15:35:28 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ t_tree	*get_nodes_pipes(t_token *start, t_token *stop, t_tree *parent)
 		if (current->type == T_PIPE)
 		{
 			pipe_token = current;
-			break;
+			break ;
 		}
 		current = current->next;
 	}
@@ -101,7 +101,7 @@ t_tree	*init_cmd_node(t_token *start, t_token *stop, t_tree *parent)
 	t_token		*current;
 	t_command	*cmd;
 	int			got_cmd_name;
-	
+
 	printf("getting cmd node\n");
 	got_cmd_name = 0;
 	cmd = ft_calloc(sizeof(t_command), 1); //1
@@ -119,7 +119,7 @@ t_tree	*init_cmd_node(t_token *start, t_token *stop, t_tree *parent)
 				current = get_input_file(cmd, current, stop); //2
 			//current = current->next;
 		}
-		else if(got_cmd_name == 0)
+		else if (got_cmd_name == 0)
 		{
 			cmd->name = current->value; //11
 			cmd->args = list_to_arr_no_limit(current); //6

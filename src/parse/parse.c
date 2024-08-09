@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 16:29:47 by mrusu             #+#    #+#             */
-/*   Updated: 2024/08/09 13:34:14 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/08/09 15:26:48 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,8 +139,8 @@ int	check_consecutive_operators(char *input)
 		{
 			operator_count++;
 			if (operator_count > 2
-				|| (operator_count == 2 && input[i] == input[i - 1]))
-				return (printf("Error: invalid bla bla syntax\n"), 1);
+				|| (operator_count == 2 && input[i] != input[i - 1]))
+				return (printf("Error: invalid bla bla syntax1\n"), 1);
 		}
 		else if (input[i] == '>' || input[i] == '<')
 		{

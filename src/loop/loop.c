@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 14:02:02 by isemin            #+#    #+#             */
-/*   Updated: 2024/08/09 13:34:06 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/08/09 14:03:11 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,9 @@ int	shell_loop(t_shell *shell)
 		}
 		else
 		{
+			printf("hehe i passed the parse\n");
 			shell->exit_code = execute_ast(shell, shell->ast, EXIT_SUCCESS);
+			printf("hehe i passed the execution\n");
 			free_tokens(shell);
 			free(shell->input);
 		}
