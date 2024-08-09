@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 15:58:09 by isemin            #+#    #+#             */
-/*   Updated: 2024/08/09 10:13:22 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/08/09 15:05:04 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ t_token	*get_input_file(t_command *cmd, t_token *start, t_token *stop)
 				error_str = ft_strjoin("Error near ", current->next->value);
 				perror(error_str);
 				free(error_str);
-				return (NULL);
+				return (current);
 			}
 		}
 		current = current->next;
@@ -56,11 +56,11 @@ t_token	*get_heredoc(t_command *cmd, t_token *start, t_token *stop)
 				return (current);
 			}
 			else // i dont think we should have a "<<" folowed by not a word
-				return (stop);
+				return (current);
 		}
 		current = current->next;
 	}
-	return (stop);
+	return (current);
 }
 
 t_token	*get_output_file(t_command *cmd, t_token *start, t_token *stop)
@@ -79,11 +79,11 @@ t_token	*get_output_file(t_command *cmd, t_token *start, t_token *stop)
 				return (current);
 			}
 			else
-				return (stop);
+				return (current);
 		}
 		current = current->next;
 	}
-	return (stop);
+	return (current);
 }
 
 char	**list_to_arr_no_limit(t_token *start)
@@ -92,6 +92,7 @@ char	**list_to_arr_no_limit(t_token *start)
 	char	**res;
 	int		count;
 
+	printf("getting arg arr\n");
 	current = start;
 	count = 0;
 	while (current != NULL && (current->type == T_WORD || current->type == T_SPECIAL)) // can we have non T_WORD types here? i.e will T_bracket pass
@@ -100,6 +101,7 @@ char	**list_to_arr_no_limit(t_token *start)
 			count++;
 		current = current->next;
 	}
+	printf("no limit_arr count is %i\n", count);
 	res = ft_calloc(sizeof(char *), count + 1);
 	count = 0;
 	current = start;
@@ -112,6 +114,7 @@ char	**list_to_arr_no_limit(t_token *start)
 		}
 		current = current->next;
 	}
+	printf("made no_limit arr\n");
 	return (res);
 }
 

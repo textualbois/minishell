@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 15:58:09 by isemin            #+#    #+#             */
-/*   Updated: 2024/08/08 09:55:53 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/08/09 15:05:27 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ t_tree	*get_nodes_and_or(t_token *start, t_token *stop, t_tree *parent)
 		}
 		current = current->next;
 	}
+	printf("went through and/or while loop\n");
 	if (head_token != NULL)
 	{
 		t_tree *res = init_tree_node(head_token, parent);
@@ -71,6 +72,7 @@ t_tree	*get_nodes_pipes(t_token *start, t_token *stop, t_tree *parent)
 		}
 		current = current->next;
 	}
+	printf("went through pipe node while loop\n");
 	if (pipe_token != NULL)
 	{
 		res = init_tree_node(pipe_token, parent);
@@ -99,21 +101,23 @@ t_tree	*init_cmd_node(t_token *start, t_token *stop, t_tree *parent)
 	t_token		*current;
 	t_command	*cmd;
 	int			got_cmd_name;
-
+	
+	printf("getting cmd node\n");
 	got_cmd_name = 0;
 	cmd = ft_calloc(sizeof(t_command), 1); //1
 	current = start; //5
 	while (current != stop)
 	{
+		printf("current->value = %s; current->type = %d\n", current->value, current->type);
 		if (current->type == T_SPECIAL)
 		{
 			if (current->value[1] == '<')
-				get_heredoc(cmd, current, stop); //3
+				current = get_heredoc(cmd, current, stop); //3
 			else if (current->value[0] == '>')
-				get_output_file(cmd, current, stop); //4
-			else
-				get_input_file(cmd, current, stop); //2
-			current = current->next;
+				current = get_output_file(cmd, current, stop); //4
+			else if (current->value[0] == '<')
+				current = get_input_file(cmd, current, stop); //2
+			//current = current->next;
 		}
 		else if(got_cmd_name == 0)
 		{
@@ -125,6 +129,7 @@ t_tree	*init_cmd_node(t_token *start, t_token *stop, t_tree *parent)
 		}
 		current = current->next;
 	}
+	printf("went through cmd_node while loop\n");
 	return (res);
 }
 
