@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast_setup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
+/*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 15:58:09 by isemin            #+#    #+#             */
-/*   Updated: 2024/08/09 15:35:28 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/08/09 16:54:21 by isemin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ t_tree	*get_nodes_and_or(t_token *start, t_token *stop, t_tree *parent)
 		}
 		current = current->next;
 	}
-	printf("went through and/or while loop\n");
+	// printf("went through and/or while loop\n");
 	if (head_token != NULL)
 	{
 		t_tree *res = init_tree_node(head_token, parent);
@@ -72,7 +72,7 @@ t_tree	*get_nodes_pipes(t_token *start, t_token *stop, t_tree *parent)
 		}
 		current = current->next;
 	}
-	printf("went through pipe node while loop\n");
+	// printf("went through pipe node while loop\n");
 	if (pipe_token != NULL)
 	{
 		res = init_tree_node(pipe_token, parent);
@@ -111,6 +111,7 @@ t_tree	*init_cmd_node(t_token *start, t_token *stop, t_tree *parent)
 		printf("current->value = %s; current->type = %d\n", current->value, current->type);
 		if (current->type == T_SPECIAL)
 		{
+			printf("special type: current->value = %s\n", current->value);
 			if (current->value[1] == '<')
 				current = get_heredoc(cmd, current, stop); //3
 			else if (current->value[0] == '>')

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast_helper.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
+/*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 15:58:09 by isemin            #+#    #+#             */
-/*   Updated: 2024/08/09 15:05:04 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/08/09 21:24:54 by isemin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ t_token	*get_input_file(t_command *cmd, t_token *start, t_token *stop)
 			if (current->next->type == T_WORD)
 			{
 				cmd->input_file = current->next->value;
-				return (current->next->next);
+				return (current->next);
 			}
 			else // is the error handled here or later or in lexing!!!! need to check against bash. If bash "lets this pass" i.e. still executes later commands, then we should act accordingly
 			{
@@ -38,7 +38,7 @@ t_token	*get_input_file(t_command *cmd, t_token *start, t_token *stop)
 		}
 		current = current->next;
 	}
-	return (start);
+	return (current->next);
 }
 
 t_token	*get_heredoc(t_command *cmd, t_token *start, t_token *stop)
@@ -53,14 +53,14 @@ t_token	*get_heredoc(t_command *cmd, t_token *start, t_token *stop)
 			if (current->next->type == T_WORD)
 			{
 				cmd->heredoc_delimiter = current->next->value;
-				return (current);
+				return (current->next);
 			}
 			else // i dont think we should have a "<<" folowed by not a word
-				return (current);
+				return (current->next);
 		}
 		current = current->next;
 	}
-	return (current);
+	return (current->next);
 }
 
 t_token	*get_output_file(t_command *cmd, t_token *start, t_token *stop)
@@ -76,14 +76,14 @@ t_token	*get_output_file(t_command *cmd, t_token *start, t_token *stop)
 			{
 				cmd->output_file = current->next->value;
 				cmd->append_output = (ft_strcmp(current->value, ">>") == 0);
-				return (current);
+				return (current->next);
 			}
 			else
-				return (current);
+				return (current->next);
 		}
 		current = current->next;
 	}
-	return (current);
+	return (current->next);
 }
 
 char	**list_to_arr_no_limit(t_token *start)
@@ -99,6 +99,8 @@ char	**list_to_arr_no_limit(t_token *start)
 	{
 		if (current->type == T_WORD)
 			count++;
+		else if (current->value[0] == '>' || current->value[0] == '<')
+			current = current->next;
 		current = current->next;
 	}
 	printf("no limit_arr count is %i\n", count);
@@ -112,6 +114,8 @@ char	**list_to_arr_no_limit(t_token *start)
 			res[count] = current->value;
 			count++;
 		}
+		else if (current->value[0] == '>' || current->value[0] == '<')
+			current = current->next;
 		current = current->next;
 	}
 	printf("made no_limit arr\n");
