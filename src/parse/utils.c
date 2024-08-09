@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 10:05:39 by mrusu             #+#    #+#             */
-/*   Updated: 2024/08/08 14:02:43 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/08/09 11:24:12 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,24 @@ void	free_tokens(t_shell *shell)
 	shell->head = NULL;
 	shell->tail = NULL;
 	shell->token_count = 0;
+}
+
+/*
+* @brief: return the count of tokens in the env_list.
+*/
+int	token_count(t_env *env_list)
+{
+	t_env	*current_env;
+	int		count;
+
+	current_env = env_list;
+	count = 0;
+	while (current_env)
+	{
+		count++;
+		current_env = current_env->next;
+	}
+	return (count);
 }
 
 /*

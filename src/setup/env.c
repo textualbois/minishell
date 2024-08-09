@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 13:28:51 by isemin            #+#    #+#             */
-/*   Updated: 2024/08/07 17:52:32 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/08/09 11:25:58 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ int	add_env_node(t_env **env_list, char *key, char *value)
 * @brief: go through the env_list and update the shell->env with the new values.
 * becouse changes are made to the env_list.
 */
-char	**sync_env_from_list(t_env *env_list) // not final
+char	**sync_env_from_list(t_env *env_list)
 {
 	t_env	*current_env;
 	char	**env;
@@ -85,12 +85,7 @@ char	**sync_env_from_list(t_env *env_list) // not final
 	char	*temp;
 
 	current_env = env_list;
-	i = 0;
-	while (current_env)
-	{
-		i++;
-		current_env = current_env->next;
-	}
+	i = token_count(env_list);
 	env = malloc(sizeof(char *) * (i + 1));
 	if (env == NULL)
 		return (printf("malloc failed"), NULL);

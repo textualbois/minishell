@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 14:19:18 by isemin            #+#    #+#             */
-/*   Updated: 2024/08/06 15:48:24 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/08/09 11:14:00 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,9 +63,7 @@ int	builtin_unset(t_env **env_list, char *key)
 				last_node->next = current_env->next;
 			else
 				*env_list = current_env->next;
-			free(current_env->key);
-			free(current_env->value);
-			free(current_env);
+			free_env_node(current_env);
 			if (ft_strcmp(key, "USER") == 0)
 				form_prompt(NULL, "");
 			return (0);
@@ -74,6 +72,16 @@ int	builtin_unset(t_env **env_list, char *key)
 		current_env = current_env->next;
 	}
 	return (1);
+}
+
+/*
+* @brief: free one node of the environment list.
+*/
+void	free_env_node(t_env *env_node)
+{
+	free(env_node->key);
+	free(env_node->value);
+	free(env_node);
 }
 
 /*

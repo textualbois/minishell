@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 18:25:03 by mrusu             #+#    #+#             */
-/*   Updated: 2024/08/08 14:07:29 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/08/09 11:20:56 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,8 @@ void	expand_wildcard_token(t_shell *shell, t_token *token,
 * @ brief: if a match is found it removes the wildcard token from the
 *	list otherwise it treats the wildcard token as a normal word
 */
-void	handle_wildcard_match(t_shell *shell, t_token *token, t_token **prev, bool found_match)
+void	handle_wildcard_match(t_shell *shell, t_token *token,
+	t_token **prev, bool found_match)
 {
 	if (found_match)
 	{
@@ -126,7 +127,7 @@ bool	match_re(const char *pattern, const char *string,
 			pattern++;
 		}
 		else if (*pattern == '*')
-		{			
+		{
 			*laststar_pat = pattern++;
 			*laststar_str = string;
 		}

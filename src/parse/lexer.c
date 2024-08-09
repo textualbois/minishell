@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 15:34:33 by mrusu             #+#    #+#             */
-/*   Updated: 2024/08/08 10:49:09 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/08/09 09:47:50 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,14 @@ int	tokenize(t_shell *shell, char *input)
 	start = 0;
 	while (input[i])
 	{
-		handle_character(shell, input, &i, &start);
+		if (input[i] == '\'' || input[i] == '"')
+		{
+			if (i > start)
+				add_word_token(shell, input, start, i);
+			handle_quote(shell, input, &i, &start);
+		}
+		else
+			handle_character(shell, input, &i, &start);
 		i++;
 	}
 	if (i > start)
@@ -42,13 +49,7 @@ int	tokenize(t_shell *shell, char *input)
 */
 void	handle_character(t_shell *shell, char *input, int *i, int *start)
 {
-	if (input[*i] == '\'' || input[*i] == '"')
-	{
-		if (*i > *start)
-			add_word_token(shell, input, *start, *i);
-		handle_quote(shell, input, i, start);
-	}
-	else if (ft_isspace(input[*i]))
+	if (ft_isspace(input[*i]))
 	{
 		if (*i > *start)
 			add_word_token(shell, input, *start, *i);

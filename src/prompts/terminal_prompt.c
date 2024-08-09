@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 14:48:23 by isemin            #+#    #+#             */
-/*   Updated: 2024/08/07 13:28:50 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/08/09 09:40:35 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,4 +33,23 @@ void	form_prompt(t_shell *shell, char *new_user_name)
 		shell->terminal_prompt = ft_strjoin(temp, " > ");
 		free(temp);
 	}
+}
+
+void	print_welcome_msg(void)
+{
+	int		i;
+	char	*art[6];
+
+	i = -1;
+	art[0] = "╔═══════════════════════════════════════════════╗";
+	art[1] = "║ █▀▄▀█ ▀█▀ █▄  █ ▀█▀ █▀▀▀█ █  █ █▀▀▀ █    █    ║";
+	art[2] = "║ █ █ █  █  █ █ █  █  ▀▀▀▄▄ █▀▀█ █▀▀▀ █    █    ║";
+	art[3] = "║ █   █ ▄█▄ █  ▀█ ▄█▄ █▄▄▄█ █  █ █▄▄▄ █▄▄█ █▄▄█ ║";
+	art[4] = "╚═══════════════════════════════════════════════╝";
+	art[5] = NULL;
+	while (art[++i])
+	{
+		printf(GREEN"\n%s"RESET, art[i]);
+	}
+	printf("\n\n");
 }

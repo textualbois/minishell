@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 15:58:09 by isemin            #+#    #+#             */
-/*   Updated: 2024/08/08 09:56:40 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/08/09 10:13:22 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ t_token	*get_input_file(t_command *cmd, t_token *start, t_token *stop)
 	return (start);
 }
 
-t_token *get_heredoc(t_command *cmd, t_token *start, t_token *stop)
+t_token	*get_heredoc(t_command *cmd, t_token *start, t_token *stop)
 {
 	t_token	*current;
 

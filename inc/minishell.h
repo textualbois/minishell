@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 13:17:13 by mrusu             #+#    #+#             */
-/*   Updated: 2024/08/08 19:20:59 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/08/09 11:24:29 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,8 +67,6 @@
 # define WHITE "\033[0;37m"
 # define RESET "\033[m"
 
-// Typdef
-
 // **********************====FUNCTION DECLARATION====*********************
 // main.c
 
@@ -85,47 +83,13 @@ int			builtin_cd(t_shell *shell, char **args);
 // ---env.c
 int			builtin_env(t_shell *shell);
 int			builtin_unset(t_env **env_list, char *key);
+void		free_env_node(t_env *env_node);
 char		*get_env_value(t_env *env_list, char *key);
 
 // ---export.c
 int			builtin_export(t_shell *shell, char **args);
 int			print_env_list(t_env *env_list);
 void		update_env_node(t_env *env_list, char *key, char *value);
-
-// -------------------------------------------DIR---loop
-// -loop.c
-int			shell_loop(t_shell	*shell);
-void		*ft_readline(t_shell *shell);
-
-// -------------------------------------------DIR---setup
-// -init_shell.c
-void		init_shell(t_shell *shell, char **env);
-
-// -env.c
-t_env		*init_env_list(char **env);
-int			add_env_node(t_env **env_list, char *key, char *value);
-char		**sync_env_from_list(t_env *env_list);
-void		update_env_shell(t_shell *shell);
-void		free_env_list(t_env *env_list);
-
-// -------------------------------------------DIR---prompts
-// -terminal_prompt.c
-void		form_prompt(t_shell *shell, char *new_user_name);
-
-// -------------------------------------------DIR---utils
-// ---env.c
-t_env		*get_tail(t_env *env_list);
-t_env		*get_key_node(t_env *env_list, char *key);
-
-// ---utiles0.c
-char		**ft_arrdup(char **arr);
-int			ft_isspace(char c);
-int			ft_is_special_char(char c);
-int			ft_strcmp(const char *str1, const char *str2);
-
-// ---wild_math.c
-int			my_max(int a, int b);
-int			my_min(int a, int b);
 
 // -------------------------------------------DIR---exec
 // -------------------------------------------DIR---sub_DIR----pipex_api
@@ -153,9 +117,35 @@ int			is_builtin(t_command *cmd);
 // ---pipex_wrapper.c
 int			pipex_wrapper(t_shell *shell, t_command *cmd);
 
-// -------------------------------------------DIR---prompts
-// -prompts.c
-void		print_welcome_msg(void);
+// -------------------------------------------DIR---expand
+// -expand_dollar.c
+void		expand_dollar_tokens(t_shell *shell);
+void		handle_word_or_dquote(t_shell *shell, t_token *token);
+void		process_dollar_token(t_shell *shell, t_token *current);
+char		*expand_word_token(t_shell *shell, const char *str);
+
+// -expand_utils.c
+char		*ft_strjoin_free(char *s1, char *s2);
+char		*ft_strjoin_free_char(char *s, char c);
+char		*extract_variable_name(const char *str, int *i);
+int			handle_quotes(const char *str, int i, int *in_dquote);
+char		*expand_variables(t_shell *shell, const char *str,
+				int *i, int in_dquote);
+
+// -expand_wildcard.c
+void		expand_wildcard_tokens(t_shell *shell);
+void		expand_wildcard_token(t_shell *shell, t_token *token,
+				t_token **prev, DIR *dir);
+void		handle_wildcard_match(t_shell *shell, t_token *token,
+				t_token **prev, bool found_match);
+bool		match(const char *pattern, const char *string);
+bool		match_re(const char *pattern, const char *string,
+				const char **laststar_pat, const char **laststar_str);
+
+// -------------------------------------------DIR---loop
+// -loop.c
+int			shell_loop(t_shell	*shell);
+void		*ft_readline(t_shell *shell);
 
 // -------------------------------------------DIR---parse
 // -ast_debug.c
@@ -178,19 +168,21 @@ t_tree		*init_tree_node(t_token *token, t_tree *parent);
 t_tree		*get_nodes_pipes(t_token *start, t_token *stop, t_tree *parent);
 t_tree		*get_nodes_and_or(t_token *start, t_token *stop, t_tree *parent);
 
+// -lexer_utils.c
+void		add_token(t_shell *shell, t_tokentype type, char *value);
+t_token		*create_token(t_tokentype type, char *value);
+void		add_word_token(t_shell *shell, char *input, int start, int end);
+void		add_special_token(t_shell *shell, char *special);
+void		handle_wildcard_char(t_shell *shell, char *input,
+				int *i, int *start);
+
 // -lexer.c
+int			tokenize(t_shell *shell, char *input);
 void		handle_character(t_shell *shell, char *input, int *i, int *start);
 void		handle_quote(t_shell *shell, char *input, int *i, int *start);
 void		handle_special_chars(t_shell *shell, char *input,
 				int *i, int *start);
 void		handle_dollar_char(t_shell *shell, char *input, int *i, int *start);
-
-// -lexer_utils.c
-int			tokenize(t_shell *shell, char *input);
-void		add_token(t_shell *shell, t_tokentype type, char *value);
-t_token		*create_token(t_tokentype type, char *value);
-void		add_word_token(t_shell *shell, char *input, int start, int end);
-void		add_special_token(t_shell *shell, char *special);
 
 // -parse.c
 int			parse(t_shell *shell);
@@ -202,35 +194,24 @@ int			check_consecutive_operators(char *input);
 // -utils.c
 t_tokentype	get_token_type(char *str);
 void		free_tokens(t_shell *shell);
-void		add_word_token(t_shell *shell, char *input, int start, int end);
+int			token_count(t_env *env_list);
 int			check_redirect_syntax(char *input, int *i);
 
-// -------------------------------------------DIR---expand
-// -expand_dollar.c
-void		expand_dollar_tokens(t_shell *shell);
-void		handle_word_or_dquote(t_shell *shell, t_token *token);
-void		process_dollar_token(t_shell *shell, t_token *current);
-char		*expand_word_token(t_shell *shell, const char *str);
+// -------------------------------------------DIR---prompts
+// -prompts.c
+void		form_prompt(t_shell *shell, char *new_user_name);
+void		print_welcome_msg(void);
 
-// -expand_utils.c
-char		*ft_strjoin_free(char *s1, char *s2);
-char		*ft_strjoin_free_char(char *s, char c);
-char		*extract_variable_name(const char *str, int *i);
-int			handle_quotes(const char *str, int i, int *in_dquote);
-char		*expand_variables(t_shell *shell, const char *str,
-				int *i, int in_dquote);
+// -------------------------------------------DIR---setup
+// -init_shell.c
+void		init_shell(t_shell *shell, char **env);
 
-// -expand_wildcard.c
-void		handle_wildcard_char(t_shell *shell, char *input,
-				int *i, int *start);
-void		handle_wildcard_match(t_shell *shell, t_token *token,
-				t_token **prev, bool found_match);
-void		expand_wildcard_token(t_shell *shell, t_token *token,
-				t_token **prev, DIR *dir);
-void		expand_wildcard_tokens(t_shell *shell);
-bool		match(const char *pattern, const char *string);
-bool		match_re(const char *pattern, const char *string,
-				const char **laststar_pat, const char **laststar_str);
+// -env.c
+t_env		*init_env_list(char **env);
+int			add_env_node(t_env **env_list, char *key, char *value);
+char		**sync_env_from_list(t_env *env_list);
+void		update_env_shell(t_shell *shell);
+void		free_env_list(t_env *env_list);
 
 // -------------------------------------------DIR---signals
 // -signals.c
@@ -238,5 +219,20 @@ void		signal_handlers(void);
 void		sigint_handler(int signum);
 void		disable_ctrl_chars(void);
 void		sigquit_handler(int sig);
+
+// -------------------------------------------DIR---utils
+// ---env.c
+t_env		*get_tail(t_env *env_list);
+t_env		*get_key_node(t_env *env_list, char *key);
+
+// ---utiles0.c
+char		**ft_arrdup(char **arr);
+int			ft_isspace(char c);
+int			ft_is_special_char(char c);
+int			ft_strcmp(const char *str1, const char *str2);
+
+// ---wild_math.c
+int			my_max(int a, int b);
+int			my_min(int a, int b);
 
 #endif

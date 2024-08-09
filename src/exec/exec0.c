@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 13:20:20 by mrusu             #+#    #+#             */
-/*   Updated: 2024/08/08 10:17:40 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/08/09 11:05:19 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,41 +16,19 @@ static int	create_and_close_files(t_command *cmd);
 
 int	execute_ast(t_shell *shell, t_tree *node, int exit_code)
 {
-	// printf("execute_ast\n");
-	// if (!node)
-	// {
-	// 	printf("node is NULL\n");
-	// 	return (EXIT_SUCCESS);
-	// }
-	// if (node->token)
-	// {
-	// 	printf("node->token->value: %s\n", node->token->value);
-	// 	printf("node->token->type: %d\n", node->token->type);
-	// }
-	// else
-	// 	printf("node->token is NULL\n");
-	// if (node->cmd)
-	// 	printf("node->cmd->name: %s\n", node->cmd->name);
-	// else
-	// 	printf("node->cmd is NULL\n");
-	if (!node->token) // if no actual cmd
+	if (!node->token)
 	{
-		// printf("should be single cmd without actual cmd. node->token is NULL\n");
 		create_and_close_files(node->cmd);
 		return (EXIT_SUCCESS);
 	}
 	else if (node->cmd && node->cmd->name)
 	{
-		// printf("single command withuot pipe\n");
 		if (is_builtin(node->cmd))
 			return (execute_builtin(shell, node->cmd));
 		exit_code = pipex_wrapper(shell, node->cmd);
 	}
 	else if (node->token->type == T_PIPE)
-	{
-		// printf("pipe command\n");
 		exit_code = pipex_wrapper(shell, node->left->cmd);
-	}
 	else if (node->token->type == T_OR)
 	{
 		exit_code = execute_ast(shell, node->left, exit_code);
@@ -63,7 +41,6 @@ int	execute_ast(t_shell *shell, t_tree *node, int exit_code)
 		if (exit_code == EXIT_SUCCESS)
 			exit_code = execute_ast(shell, node->right, exit_code);
 	}
-	// printf("exit_code: %d\n", exit_code);
 	return (exit_code);
 }
 
