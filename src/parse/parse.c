@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 16:29:47 by mrusu             #+#    #+#             */
-/*   Updated: 2024/08/09 10:56:57 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/08/09 13:34:14 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@
 */
 int	parse(t_shell *shell)
 {
-	if (syntax_check(shell->raw_input) != 0)
+	if (syntax_check(shell->input) != 0)
 		return (1);
-	if (tokenize(shell, shell->raw_input) != 0)
+	if (tokenize(shell, shell->input) != 0)
 	{
 		printf("Error: tokenization failed\n");
 		return (1);

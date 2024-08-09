@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 13:17:13 by mrusu             #+#    #+#             */
-/*   Updated: 2024/08/09 11:24:29 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/08/09 13:07:05 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,6 +146,7 @@ bool		match_re(const char *pattern, const char *string,
 // -loop.c
 int			shell_loop(t_shell	*shell);
 void		*ft_readline(t_shell *shell);
+int			handle_input(t_shell *shell);
 
 // -------------------------------------------DIR---parse
 // -ast_debug.c
@@ -205,6 +206,7 @@ void		print_welcome_msg(void);
 // -------------------------------------------DIR---setup
 // -init_shell.c
 void		init_shell(t_shell *shell, char **env);
+void		init_shell_env(t_shell *shell);
 
 // -env.c
 t_env		*init_env_list(char **env);

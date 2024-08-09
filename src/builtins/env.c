@@ -6,21 +6,22 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 14:19:18 by isemin            #+#    #+#             */
-/*   Updated: 2024/08/09 11:14:00 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/08/09 13:33:33 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
 /*
-* @brief: print the environment list.
+* @brief: print the environment list. if any arguments are passed
+* it will print an error message and return 127.
 */
 int	builtin_env(t_shell *shell)
 {
 	t_env	*env_node;
 	char	*input;
 
-	input = shell->raw_input;
+	input = shell->input;
 	while (ft_isspace(*input))
 		input++;
 	if (strcmp(input, "env") != 0)

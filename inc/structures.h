@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 15:32:24 by isemin            #+#    #+#             */
-/*   Updated: 2024/08/07 18:42:09 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/08/09 13:31:38 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ typedef enum e_tokentype
 typedef struct s_shell
 {
 	char		*terminal_prompt;
-	char		*raw_input;
+	char		*input;
 	int			exit_code;
 	char		*user;
 	t_env		*env_list;
