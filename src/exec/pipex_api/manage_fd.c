@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   manage_fd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
+/*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 22:59:57 by isemin            #+#    #+#             */
-/*   Updated: 2024/08/08 08:51:43 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/08/10 14:14:30 by isemin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static int	set_ins(int fd_array[][2], int cmd_num, t_command *cmd)
 	{
 		here_doc4shell(fd_array, cmd, cmd->heredoc_delimiter);
 		if (dup2(fd_array[0][READ_END], STDIN_FILENO) == -1)
-			return (perror_return(EXIT_FAILURE, "1_dup2"));
+			return (perror_return(EXIT_FAILURE, "dup2"));
 		else
 			close(fd_array[0][READ_END]);
 	}
@@ -57,7 +57,7 @@ static int	set_outs(int fd_array[][2], int cmd_num, t_command *cmd)
 
 int	set_fds_pipe4shell(int fd_array[][2], int cmd_num, t_command *cmd)
 {
-	if (cmd_num != 1 || cmd->next != NULL)
+	if (cmd->next != NULL)
 	{
 		if (pipe(fd_array[(cmd_num % 2) + 1]) == -1)
 			return (perror_return(EXIT_FAILURE, "pipe error"));
