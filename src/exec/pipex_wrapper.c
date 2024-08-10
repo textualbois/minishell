@@ -6,7 +6,7 @@
 /*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 22:14:48 by isemin            #+#    #+#             */
-/*   Updated: 2024/08/10 16:00:12 by isemin           ###   ########.fr       */
+/*   Updated: 2024/08/10 16:11:35 by isemin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,25 +30,16 @@ static void	pipe_fd_init(int fd[4][2])
 	}
 }
 
-void	close_all_4shell(int fd_array[4][2])
+void child_sequence(int fd[][2], int index, t_command *cmd, t_shell *shell)
 {
-	int	i;
-
-	i = 2;
-	while (i >= 0)
-	{
-		if (fd_array[i][WRITE_END] != -1)
-		{
-			if (close(fd_array[i][WRITE_END]) == -1)
-				perror("close");
-		}
-		if (fd_array[i][READ_END] != -1)
-		{
-			if (close(fd_array[i][READ_END]) == -1)
-				perror("close");
-		}
-		i--;
-	}
+	signal(SIGQUIT, sigquit_handler);
+	close(fd[(index % 2) + 1][READ_END]);
+	if (cmd->name == NULL)
+		exit(EXIT_SUCCESS);
+	else if (is_builtin(cmd))
+		exit(execute_builtin(shell, cmd));
+	else
+		try_execution(cmd->name, cmd->args, shell->path, shell->env);
 }
 
 int	pipex_wrapper(t_shell *shell, t_command *cmd)
@@ -68,17 +59,7 @@ int	pipex_wrapper(t_shell *shell, t_command *cmd)
 			if (pid < 0)
 				werror_exit(EXIT_FAILURE, "fork_failed", 2);
 			else if (pid == CHILD)
-			{
-				signal(SIGQUIT, sigquit_handler);
-				if (fd[((i - 1) % 2) + 1][READ_END] != -1)
-					close(fd[((i - 1) % 2) + 1][READ_END]);
-				if (cmd->name == NULL)
-					exit(EXIT_SUCCESS);
-				else if (is_builtin(cmd))
-					exit(execute_builtin(shell, cmd));
-				else
-					try_execution(cmd->name, cmd->args, shell->path, shell->env);
-			}
+				child_sequence(fd, i, cmd, shell);
 		}
 		close_fds_parent4shell(fd, i - 1, cmd);
 		cmd = cmd->next;

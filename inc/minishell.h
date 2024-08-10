@@ -6,7 +6,7 @@
 /*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 13:17:13 by mrusu             #+#    #+#             */
-/*   Updated: 2024/08/10 14:49:45 by isemin           ###   ########.fr       */
+/*   Updated: 2024/08/10 16:11:00 by isemin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,8 @@ int			is_builtin(t_command *cmd);
 
 // ---pipex_wrapper.c
 int			pipex_wrapper(t_shell *shell, t_command *cmd);
+void		child_sequence(int fd[][2], int index, \
+							t_command *cmd, t_shell *shell);
 void		close_all_4shell(int fd_array[4][2]);
 
 // -------------------------------------------DIR---expand
