@@ -6,7 +6,7 @@
 /*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 13:28:48 by isemin            #+#    #+#             */
-/*   Updated: 2024/08/10 14:33:41 by isemin           ###   ########.fr       */
+/*   Updated: 2024/08/10 16:00:31 by isemin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,7 @@ int	execute_builtin(t_shell *shell, t_command *cmd)
 	int	exit_code;
 	int	fd[4][2];
 
-	printf("doing builtin\n");
-	fd[3][READ_END] = dup(STDIN_FILENO); // save the current stdin
-	fd[3][WRITE_END] = dup(STDOUT_FILENO); // save the current stdout
+	save_stdio(fd[3]);
 	set_fds_pipe4shell(fd, 1, cmd);
 	exit_code = EXIT_FAILURE;
 	if (ft_strcmp(cmd->name, "echo") == 0)
@@ -40,11 +38,7 @@ int	execute_builtin(t_shell *shell, t_command *cmd)
 	if (ft_strcmp(cmd->name, "exit") == 0)
 		exit_code = builtin_exit(shell, cmd);
 	close_all_4shell(fd);
-	if (dup2(fd[3][READ_END], STDIN_FILENO) == -1)
-		perror("dup2");
-	if (dup2(fd[3][WRITE_END], STDOUT_FILENO) == -1)
-		perror("dup2");
-
+	restore_stdio(fd[3]);
 	return (exit_code);
 }
 

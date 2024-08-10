@@ -6,7 +6,7 @@
 /*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 13:17:13 by mrusu             #+#    #+#             */
-/*   Updated: 2024/08/10 14:29:09 by isemin           ###   ########.fr       */
+/*   Updated: 2024/08/10 14:49:45 by isemin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,10 @@ int			setup_append_outfile(int fd_array[][2], char *output_file);
 int			redirect_out_between_pipes(int fd_array[][2], int cmd_num,
 				t_command *cmd);
 int			redirect_input_between_pipes(int fd_array[][2], int cmd_num);
+
+// ---stdio_save_restore.c
+void		save_stdio(int fd[2]);
+void		restore_stdio(int fd[2]);
 
 // ---exec0.c
 int			execute_ast(t_shell *shell, t_tree *node, int exit_code);

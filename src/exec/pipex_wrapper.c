@@ -6,7 +6,7 @@
 /*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 22:14:48 by isemin            #+#    #+#             */
-/*   Updated: 2024/08/10 14:37:32 by isemin           ###   ########.fr       */
+/*   Updated: 2024/08/10 16:00:12 by isemin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,10 +59,7 @@ int	pipex_wrapper(t_shell *shell, t_command *cmd)
 
 	pipe_fd_init(fd);
 	i = 2;
-	fd[3][READ_END] = dup(STDIN_FILENO);
-	fd[3][WRITE_END] = dup(STDOUT_FILENO);
-	if (fd[3][READ_END] == -1 || fd[3][WRITE_END] == -1)
-		return (perror_return(EXIT_FAILURE, "dup error"));
+	save_stdio(fd[3]);
 	while (cmd != NULL)
 	{
 		if (set_fds_pipe4shell(fd, i - 1, cmd) != -1)
@@ -103,17 +100,13 @@ static int	parent_await(int last_pid, int fd_array[4][2])
 		close_all_4shell(fd_array);
 		if (close(STDIN_FILENO) == -1)
 			perror("close error");
-		if (dup2(fd_array[3][READ_END], STDIN_FILENO) == -1)
-			perror("dup2");
-		if (dup2(fd_array[3][WRITE_END], STDOUT_FILENO) == -1)
-			perror("dup2");
+		restore_stdio(fd_array[3]);
 		return (128 + WTERMSIG(status));
 	}
 	close_all_4shell(fd_array);
 	if (close(STDIN_FILENO) == -1)
 		perror("close error");
-	if (dup2(fd_array[3][READ_END], STDIN_FILENO) == -1)
-		perror("dup2");
+	restore_stdio(fd_array[3]);
 	while (pid != -1)
 		pid = wait(NULL);
 	if (WIFEXITED(status))
