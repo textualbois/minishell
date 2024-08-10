@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
+/*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 13:17:13 by mrusu             #+#    #+#             */
-/*   Updated: 2024/08/09 13:07:05 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/08/10 14:29:09 by isemin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,7 @@ int			is_builtin(t_command *cmd);
 
 // ---pipex_wrapper.c
 int			pipex_wrapper(t_shell *shell, t_command *cmd);
+void		close_all_4shell(int fd_array[4][2]);
 
 // -------------------------------------------DIR---expand
 // -expand_dollar.c

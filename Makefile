@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+         #
+#    By: isemin <isemin@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/01 09:20:11 by mrusu             #+#    #+#              #
-#    Updated: 2024/08/07 13:55:38 by mrusu            ###   ########.fr        #
+#    Updated: 2024/08/10 14:09:49 by isemin           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -82,7 +82,7 @@ HEADER = $(INC_DIR)/minishell.h
 SRC = $(SRC_DIR)/main.c \
 	$(SRC_DIR)/loop/loop.c \
 	$(SRC_DIR)/exec/pipex_api/here_doc.c $(SRC_DIR)/exec/pipex_api/manage_fd.c $(SRC_DIR)/exec/pipex_api/manage_fd_helpers.c \
-	$(SRC_DIR)/exec/exec0.c $(SRC_DIR)/exec/pipex_wrapper.c \
+	$(SRC_DIR)/exec/exec0.c $(SRC_DIR)/exec/exec_builtin.c $(SRC_DIR)/exec/pipex_wrapper.c \
 	$(SRC_DIR)/parse/ast_helper.c $(SRC_DIR)/parse/ast_setup.c $(SRC_DIR)/parse/ast_debug.c \
 	$(SRC_DIR)/parse/parse.c $(SRC_DIR)/parse/lexer.c $(SRC_DIR)/parse/lexer_utils.c \
 	$(SRC_DIR)/parse/utils.c \

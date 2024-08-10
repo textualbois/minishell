@@ -3,22 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_wrapper.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
+/*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 22:14:48 by isemin            #+#    #+#             */
-/*   Updated: 2024/08/08 19:21:19 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/08/10 14:37:32 by isemin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
 static int	parent_await(int last_pid, int fd_array[3][2]);
-static void	try_execution(char *cmd, char **args, char **env_paths, char **envp);
+static void	try_execution(char *cmd, char **args, char \
+							**env_paths, char **envp);
 
 //maybe comment out this
 static void	pipe_fd_init(int fd[4][2])
 {
-	int 		i;
+	int	i;
 
 	i = 0;
 	while (i < 4)
@@ -29,7 +30,7 @@ static void	pipe_fd_init(int fd[4][2])
 	}
 }
 
-static void	close_all_4shell(int fd_array[4][2])
+void	close_all_4shell(int fd_array[4][2])
 {
 	int	i;
 
@@ -58,8 +59,8 @@ int	pipex_wrapper(t_shell *shell, t_command *cmd)
 
 	pipe_fd_init(fd);
 	i = 2;
-	fd[3][READ_END] = dup(STDIN_FILENO); // save the current stdin
-	fd[3][WRITE_END] = dup(STDOUT_FILENO); // save the current stdout
+	fd[3][READ_END] = dup(STDIN_FILENO);
+	fd[3][WRITE_END] = dup(STDOUT_FILENO);
 	if (fd[3][READ_END] == -1 || fd[3][WRITE_END] == -1)
 		return (perror_return(EXIT_FAILURE, "dup error"));
 	while (cmd != NULL)
@@ -70,8 +71,7 @@ int	pipex_wrapper(t_shell *shell, t_command *cmd)
 			if (pid < 0)
 				werror_exit(EXIT_FAILURE, "fork_failed", 2);
 			else if (pid == CHILD)
-			{	
-				// if (cmd->next == NULL)
+			{
 				signal(SIGQUIT, sigquit_handler);
 				if (fd[((i - 1) % 2) + 1][READ_END] != -1)
 					close(fd[((i - 1) % 2) + 1][READ_END]);
@@ -94,6 +94,7 @@ static int	parent_await(int last_pid, int fd_array[4][2])
 {
 	int	status;
 	int	pid;
+
 	pid = waitpid(last_pid, &status, 0);
 	if (WIFSIGNALED(status))
 	{
@@ -112,8 +113,6 @@ static int	parent_await(int last_pid, int fd_array[4][2])
 	if (close(STDIN_FILENO) == -1)
 		perror("close error");
 	if (dup2(fd_array[3][READ_END], STDIN_FILENO) == -1)
-		perror("dup2");
-	if (dup2(fd_array[3][WRITE_END], STDOUT_FILENO) == -1)
 		perror("dup2");
 	while (pid != -1)
 		pid = wait(NULL);
