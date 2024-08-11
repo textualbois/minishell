@@ -112,13 +112,13 @@ pipex:
 
 $(NAME): $(OBJS) $(LIBFT_DIR)/libft.a $(PIPEX_DIR)/pipex.a
 	@mkdir -p obj/general_utils
-	@$(CC) $(FLAGS) -I$(INC_DIR) $(OBJS) $(LIBFT_DIR)/libft.a $(PIPEX_DIR)/pipex.a -o $(NAME) $(INC_RDL_LIB)
+	@$(CC) $(FLAGS) $(INC_RDL_HEADER) -I$(INC_DIR) $(OBJS) $(LIBFT_DIR)/libft.a $(PIPEX_DIR)/pipex.a -o $(NAME) $(INC_RDL_LIB)
 	@touch obj/general_utils/user.txt && echo $$USER > obj/general_utils/user.txt
 
 # RULES FOR CREATING OBJECT FILES
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(HEADER)
 	@mkdir -p $(dir $@)
-	@$(CC) $(FLAGS) -I$(INC_DIR) -c $< -o $@
+	@$(CC) $(FLAGS) $(INC_RDL_HEADER) -I$(INC_DIR) -c $< -o $@
 
 # RULES TO CLEAN EVERYTHING
 clean:
