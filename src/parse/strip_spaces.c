@@ -47,29 +47,36 @@ void strip_spaces(t_shell *shell)
 	{
 		if (current->type == T_SPACE)
 		{
-			temp = current;
-			if (current->next != NULL && current->prev != NULL)
+			if (current->value[0] == '\0')
 			{
-				current->prev->next = current->next;
-				current->next->prev = current->prev;
+				temp = current;
+				if (current->next != NULL && current->prev != NULL)
+				{
+					current->prev->next = current->next;
+					current->next->prev = current->prev;
+				}
+				if (temp->prev == NULL && temp->next != NULL)
+				{
+					shell->head = temp->next;
+					current->next->prev = NULL;
+				}
+				if (temp->prev != NULL && temp->next == NULL)
+				{
+					shell->tail = current->prev;
+					current->prev->next = NULL;
+				}
+				// else
+				// {
+				// 	shell->head = NULL;
+				// 	shell->tail = NULL;
+				// }
+				current = current->next;
+				free(temp->value);
+				free(temp);
+				
 			}
-			if (temp->prev == NULL && temp->next != NULL)
-			{
-				shell->head = temp->next;
-				current->next->prev = NULL;
-			}
-			if (temp->prev != NULL && temp->next == NULL)
-			{
-				shell->tail = current->prev;
-				current->prev->next = NULL;
-			}
-			// else
-			// {
-			// 	shell->head = NULL;
-			// 	shell->tail = NULL;
-			// }
-			free(temp->value);
-			free(temp);
+			else
+				current->type = T_WORD;
 		}
 		else
 			current = current->next;

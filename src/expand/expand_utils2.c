@@ -4,12 +4,14 @@ void	handle_exit_code(t_shell *shell, t_token *token)
 {
 	free(token->value);
 	token->value = ft_itoa(shell->exit_code);
+	token->type = T_WORD;
 }
 
 void	handle_single_quote(t_token *token)
 {
 	free(token->value);
 	token->value = ft_substr(token->value, 1, ft_strlen(token->value) - 2);
+	token->type = T_WORD;
 }
 
 t_token	*fallback_on_prev_token(t_token *current)
@@ -28,7 +30,6 @@ t_token	*fallback_on_prev_token(t_token *current)
 			current->next->prev = prev;
 		free(current->value);
 		free(current);
-		prev->type = T_WORD;
 		return (prev);
 	}
 	return (current);
