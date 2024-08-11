@@ -139,6 +139,11 @@ int			handle_quotes(const char *str, int i, int *in_dquote);
 char		*expand_variables(t_shell *shell, const char *str,
 				int *i, int in_dquote);
 
+// -expand_utils2.c
+t_token		*fallback_on_prev_token(t_token *current);
+void		handle_single_quote(t_token *token);
+void		handle_exit_code(t_shell *shell, t_token *token);
+
 // -expand_wildcard.c
 void		expand_wildcard_tokens(t_shell *shell);
 void		expand_wildcard_token(t_shell *shell, t_token *token,

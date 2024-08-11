@@ -86,7 +86,7 @@ SRC = $(SRC_DIR)/main.c \
 	$(SRC_DIR)/parse/ast_helper.c $(SRC_DIR)/parse/ast_setup.c $(SRC_DIR)/parse/ast_debug.c $(SRC_DIR)/parse/strip_spaces.c \
 	$(SRC_DIR)/parse/parse.c $(SRC_DIR)/parse/lexer.c $(SRC_DIR)/parse/lexer_utils.c \
 	$(SRC_DIR)/parse/utils.c \
-	$(SRC_DIR)/expand/expand_dollar.c $(SRC_DIR)/expand/expand_wildcard.c $(SRC_DIR)/expand/expand_utils.c \
+	$(SRC_DIR)/expand/expand_dollar.c $(SRC_DIR)/expand/expand_wildcard.c $(SRC_DIR)/expand/expand_utils.c $(SRC_DIR)/expand/expand_utils2.c \
 	$(SRC_DIR)/prompts/terminal_prompt.c \
 	$(SRC_DIR)/setup/env.c $(SRC_DIR)/setup/init_shell.c \
 	$(SRC_DIR)/utils/utils0.c $(SRC_DIR)/utils/env.c $(SRC_DIR)/utils/wild_math.c \

@@ -19,7 +19,6 @@
 void	expand_dollar_tokens(t_shell *shell)
 {
 	t_token	*current;
-	char	*exp;
 
 	current = shell->head;
 	while (current)
@@ -27,20 +26,22 @@ void	expand_dollar_tokens(t_shell *shell)
 		if (current->type == T_WORD_EXPAND || current->type == T_DQUOTE)
 			handle_word_or_dquote(shell, current);
 		else if (current->type == T_SQUOTE)
-		{
-			exp = ft_substr(current->value, 1, ft_strlen(current->value) - 2);
-			free(current->value);
-			current->value = exp;
-			current->type = T_WORD;
-		}
+			handle_single_quote(current);
 		else if (current->type == T_DOLLAR)
 			process_dollar_token(shell, current);
 		else if (current->type == T_EXCODE)
+			handle_exit_code(shell, current);
+		else if (ft_strchr(current->value, '*'))
+			current->type = T_WILDCARD;
+		else 
 		{
-			free(current->value);
-			current->value = ft_itoa(shell->exit_code);
-			current->type = T_WORD;
+			current = current->next;
+			continue;
 		}
+		if (ft_strchr(current->value, '*'))
+			current->type = T_WILDCARD;
+		else
+			current = fallback_on_prev_token(current);
 		current = current->next;
 	}
 }
