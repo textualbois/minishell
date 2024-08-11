@@ -54,6 +54,7 @@ void	handle_character(t_shell *shell, char *input, int *i, int *start)
 		if (*i > *start)
 			add_word_token(shell, input, *start, *i);
 		*start = *i + 1;
+		add_token(shell, T_SPACE, ft_strdup(""));
 	}
 	else if (ft_is_special_char(input[*i]))
 	{
@@ -67,12 +68,12 @@ void	handle_character(t_shell *shell, char *input, int *i, int *start)
 			add_word_token(shell, input, *start, *i);
 		handle_dollar_char(shell, input, i, start);
 	}
-	else if (input[*i] == '*')
-	{
-		if (*i > *start)
-			add_word_token(shell, input, *start, *i);
-		handle_wildcard_char(shell, input, i, start);
-	}
+	// else if (input[*i] == '*')
+	// {
+	// 	if (*i > *start)
+	// 		add_word_token(shell, input, *start, *i);
+	// 	handle_wildcard_char(shell, input, i, start);
+	// }
 }
 
 /*
