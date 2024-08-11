@@ -24,7 +24,7 @@ int	builtin_env(t_shell *shell)
 	input = shell->input;
 	while (ft_isspace(*input))
 		input++;
-	if (strcmp(input, "env") != 0)
+	if (ft_strcmp(input, "env") != 0)
 	{
 		printf("env: %s: No such file or directory\n", (input + 3));
 		return (127);

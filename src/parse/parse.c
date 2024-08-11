@@ -46,9 +46,9 @@ int	parse(t_shell *shell)
 */
 int	syntax_check(char *input)
 {
-	int	i;
+	// int	i;
 
-	i = 0;
+	// i = 0;
 	if (check_start_end(input) != 0)
 		return (1);
 	if (quotes_a_parentheses(input) != 0)

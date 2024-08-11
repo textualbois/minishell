@@ -115,12 +115,12 @@ void	handle_quote(t_shell *shell, char *input, int *i, int *start)
 void	handle_special_chars(t_shell *shell, char *input, int *i, int *start)
 {
 	char		special[3];
-	t_tokentype	type;
+	// t_tokentype	type;
 
 	special[0] = input[*i];
 	special[1] = '\0';
 	special[2] = '\0';
-	type = get_token_type(input + *i);
+	// type = get_token_type(input + *i);
 	if (special[0] == '$' && input[*i + 1] == '?')
 	{
 		add_token(shell, T_EXCODE, ft_strdup("$?"));

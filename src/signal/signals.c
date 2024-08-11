@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
+#include <readline/readline.h>
 
 // signal handler for sigint ctrl + c
 void	sigint_handler(int sig)

@@ -12,7 +12,7 @@
 
 #include "../../inc/minishell.h"
 
-static int	parent_await(int last_pid, int fd_array[3][2]);
+static int	parent_await(int last_pid, int fd_array[4][2]);
 static void	try_execution(char *cmd, char **args, char \
 							**env_paths, char **envp);
 
