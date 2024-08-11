@@ -44,6 +44,45 @@ void	expand_dollar_tokens(t_shell *shell)
 			current = fallback_on_prev_token(current);
 		current = current->next;
 	}
+
+	current = shell->head;
+
+	int type;
+
+
+	while (current)
+	{
+		type = current->type;
+		printf("After dollar expansion: Type = ");
+		if (type == T_WORD)
+			printf("WORD");
+		else if (type == T_PIPE)
+			printf("PIPE");
+		else if (type == T_OR)
+			printf("OR");
+		else if (type == T_AND)
+			printf("AND");
+		else if (type == T_SPECIAL)
+			printf("SPECIAL");
+		else if (type == T_DOLLAR)
+			printf("DOLLAR");
+		else if (type == T_EXCODE)
+			printf("$?");
+		else if (type == T_WILDCARD)
+			printf("WILDCARD");
+		else if (type == T_WORD_EXPAND)
+			printf("T_WORD_EXPAND");
+		else if (type == T_SQUOTE)
+			printf("T_SQUOTE");
+		else if (type == T_DQUOTE)
+			printf("T_DQUOTE");
+		else if (type == T_SPACE)
+			printf("T_SPACE");
+		else
+			printf("UNKNOWN");
+		printf(", Value = '%s'\n", current->value);
+		current = current->next;
+	}
 }
 
 /*

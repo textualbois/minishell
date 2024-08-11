@@ -59,6 +59,8 @@ void	add_token(t_shell *shell, t_tokentype type, char *value)
 		printf("T_SQUOTE");
 	else if (type == T_DQUOTE)
 		printf("T_DQUOTE");
+	else if (type == T_SPACE)
+		printf("T_SPACE");
 	else
 		printf("UNKNOWN");
 	printf(", Value = '%s'\n", value);
@@ -99,10 +101,16 @@ void	add_word_token(t_shell *shell, char *input, int start, int end)
 	char		*word;
 	t_tokentype	type;
 
+	// printf("addiong word token %s\n", input);
+	// printf("strlen %zu, start %i, end %i, end - start %i\n", ft_strlen(input), start, end, end - start);
 	type = T_WORD;
 	word = ft_substr(input, start, end - start);
+	// printf("word is %s\n", word);
 	if (ft_strchr(word, '$'))
+	// {
+	// 	printf("found dollar in string\n");
 		type = T_WORD_EXPAND;
+	// }
 	add_token(shell, type, word);
 	free(word);
 }

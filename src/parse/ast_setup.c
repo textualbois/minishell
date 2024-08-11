@@ -18,6 +18,7 @@ t_tree	*get_nodes_and_or(t_token *start, t_token *stop, t_tree *parent)
 	int		head_node_depth;
 	t_token	*head_token;
 	t_token	*current;
+	int 	type;
 
 	depth = 0;
 	head_node_depth = 0;
@@ -25,6 +26,38 @@ t_tree	*get_nodes_and_or(t_token *start, t_token *stop, t_tree *parent)
 	current = start;
 	while (current != stop)
 	{
+		type = current->type;
+			printf("Checking Token: Type = ");
+			if (type == T_WORD)
+				printf("WORD");
+			else if (type == T_PIPE)
+				printf("PIPE");
+			else if (type == T_OR)
+				printf("OR");
+			else if (type == T_AND)
+				printf("AND");
+			else if (type == T_SPECIAL)
+				printf("SPECIAL");
+			else if (type == T_DOLLAR)
+				printf("DOLLAR");
+			else if (type == T_EXCODE)
+				printf("$?");
+			else if (type == T_WILDCARD)
+				printf("WILDCARD");
+			else if (type == T_WORD_EXPAND)
+				printf("T_WORD_EXPAND");
+			else if (type == T_SQUOTE)
+				printf("T_SQUOTE");
+			else if (type == T_DQUOTE)
+				printf("T_DQUOTE");
+			else if (type == T_SPACE)
+				printf("T_SPACE");
+			else
+				printf("UNKNOWN");
+			printf(", Value = '%s'\n", current->value);
+
+		
+
 		if (current->type == T_SPECIAL && current->value[0] == '(')
 			depth++;
 		else if (current->type == T_SPECIAL && current->value[0] == ')')
@@ -108,6 +141,8 @@ t_tree	*init_cmd_node(t_token *start, t_token *stop, t_tree *parent)
 	current = start; //5
 	while (current != stop)
 	{
+		// if (current->type == T_SPACE)
+		// 	continue;
 		printf("current->value = %s; current->type = %d\n", current->value, current->type);
 		if (current->type == T_SPECIAL)
 		{
