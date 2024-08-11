@@ -29,6 +29,7 @@ int	parse(t_shell *shell)
 	{
 		expand_dollar_tokens(shell);
 		expand_wildcard_tokens(shell);
+		strip_spaces(shell);
 		shell->ast = get_nodes_and_or(shell->head, NULL, NULL);
 		if (!shell->ast)
 		{

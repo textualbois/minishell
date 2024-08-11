@@ -199,6 +199,9 @@ int			check_start_end(char *input);
 int			quotes_a_parentheses(char *input);
 int			check_consecutive_operators(char *input);
 
+// -strip_spaces.c
+void		strip_spaces(t_shell *shell);
+
 // -utils.c
 t_tokentype	get_token_type(char *str);
 void		free_tokens(t_shell *shell);

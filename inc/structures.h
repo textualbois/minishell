@@ -26,10 +26,11 @@ typedef enum e_tokentype
 	T_PIPE,
 	T_OR,
 	T_AND,
-	T_DOLLAR,
-	T_EXCODE,
+	T_SPACE,
 	T_WILDCARD,
 	T_WORD_EXPAND,
+	T_DOLLAR,
+	T_EXCODE,
 	T_SQUOTE,
 	T_DQUOTE
 }	t_tokentype;

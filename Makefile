@@ -83,7 +83,7 @@ SRC = $(SRC_DIR)/main.c \
 	$(SRC_DIR)/loop/loop.c \
 	$(SRC_DIR)/exec/pipex_api/here_doc.c $(SRC_DIR)/exec/pipex_api/manage_fd.c $(SRC_DIR)/exec/pipex_api/manage_fd_helpers.c \
 	$(SRC_DIR)/exec/exec0.c $(SRC_DIR)/exec/exec_builtin.c $(SRC_DIR)/exec/pipex_wrapper.c $(SRC_DIR)/exec/stdio_save_restore.c\
-	$(SRC_DIR)/parse/ast_helper.c $(SRC_DIR)/parse/ast_setup.c $(SRC_DIR)/parse/ast_debug.c \
+	$(SRC_DIR)/parse/ast_helper.c $(SRC_DIR)/parse/ast_setup.c $(SRC_DIR)/parse/ast_debug.c $(SRC_DIR)/parse/strip_spaces.c \
 	$(SRC_DIR)/parse/parse.c $(SRC_DIR)/parse/lexer.c $(SRC_DIR)/parse/lexer_utils.c \
 	$(SRC_DIR)/parse/utils.c \
 	$(SRC_DIR)/expand/expand_dollar.c $(SRC_DIR)/expand/expand_wildcard.c $(SRC_DIR)/expand/expand_utils.c \
