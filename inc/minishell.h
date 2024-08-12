@@ -160,6 +160,10 @@ int			shell_loop(t_shell	*shell);
 void		*ft_readline(t_shell *shell);
 int			handle_input(t_shell *shell);
 
+// -loop_further.c
+void		*ft_readline_further(t_shell *shell);
+int			prompt_further(t_shell *shell);
+
 // -------------------------------------------DIR---parse
 // -ast_debug.c
 int			print_ast(t_shell *shell);

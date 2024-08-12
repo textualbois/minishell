@@ -25,6 +25,8 @@ int	parse(t_shell *shell)
 		printf("Error: tokenization failed\n");
 		return (1);
 	}
+	else if (shell->tail->type >= T_PIPE && shell->tail->type <= T_SPACE)
+		return (prompt_further(shell));
 	if (shell->token_count > 0)
 	{
 		expand_dollar_tokens(shell);

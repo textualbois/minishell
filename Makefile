@@ -80,7 +80,7 @@ HEADER = $(INC_DIR)/minishell.h
 
 # LIST OF SOURCE FILES
 SRC = $(SRC_DIR)/main.c \
-	$(SRC_DIR)/loop/loop.c \
+	$(SRC_DIR)/loop/loop.c $(SRC_DIR)/loop/loop_further.c\
 	$(SRC_DIR)/exec/pipex_api/here_doc.c $(SRC_DIR)/exec/pipex_api/manage_fd.c $(SRC_DIR)/exec/pipex_api/manage_fd_helpers.c \
 	$(SRC_DIR)/exec/exec0.c $(SRC_DIR)/exec/exec_builtin.c $(SRC_DIR)/exec/pipex_wrapper.c $(SRC_DIR)/exec/stdio_save_restore.c\
 	$(SRC_DIR)/parse/ast_helper.c $(SRC_DIR)/parse/ast_setup.c $(SRC_DIR)/parse/ast_debug.c $(SRC_DIR)/parse/strip_spaces.c \
