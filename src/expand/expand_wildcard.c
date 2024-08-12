@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_wildcard.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
+/*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 18:25:03 by mrusu             #+#    #+#             */
-/*   Updated: 2024/08/09 15:15:14 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/08/12 10:48:37 by isemin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,19 +20,18 @@
 void	expand_wildcard_tokens(t_shell *shell)
 {
 	t_token			*current;
-	t_token			*prev;
 	DIR				*dir;
 
 	current = shell->head;
-	prev = NULL;
-	while (current)
+	while (current) // loops through all tokens
 	{
 		if (current->type == T_WILDCARD)
 		{
+			current = wildcard_join(current);
 			dir = opendir(".");
 			if (dir)
 			{
-				expand_wildcard_token(shell, current, &prev, dir);
+				expand_wildcard_token(shell, current, dir);
 			}
 			else
 			{
@@ -40,7 +39,6 @@ void	expand_wildcard_tokens(t_shell *shell)
 				return ;
 			}
 		}
-		prev = current;
 		current = current->next;
 	}
 }
@@ -51,27 +49,29 @@ void	expand_wildcard_tokens(t_shell *shell)
 *	files to the token list.
 */
 void	expand_wildcard_token(t_shell *shell, t_token *token,
-			t_token **prev, DIR *dir)
+								DIR *dir)
 {
 	struct dirent	*entry;
 	bool			found_match;
 
 	found_match = false;
 	entry = readdir(dir);
-	while (entry != NULL)
+	while (entry != NULL) // loops through all files in the directory
 	{
 		if (entry->d_name[0] != '.')
 		{
 			if (match(token->value, entry->d_name))
 			{
-				add_token(shell, T_WORD, ft_strdup(entry->d_name));
+				// should be insert token instead of add token
+				insert_token(shell, token , T_WORD, entry->d_name);
+				// add_token(shell, T_WORD, ft_strdup(entry->d_name));
 				found_match = true;
 			}
 		}
 		entry = readdir(dir);
 	}
 	closedir(dir);
-	handle_wildcard_match(shell, token, prev, found_match);
+	handle_wildcard_match(shell, token, token->prev, found_match);
 }
 
 /*
@@ -79,14 +79,22 @@ void	expand_wildcard_token(t_shell *shell, t_token *token,
 *	list otherwise it treats the wildcard token as a normal word
 */
 void	handle_wildcard_match(t_shell *shell, t_token *token,
-	t_token **prev, bool found_match)
+								t_token *prev, bool found_match)
 {
 	if (found_match)
 	{
-		if (*prev)
-			(*prev)->next = token->next;
+		if (prev)
+		{
+			prev->next = token->next;
+			if (token->next)
+				token->next->prev = prev;
+		}
 		else
+		{
 			shell->head = token->next;
+			if (token->next)
+				token->next->prev = prev;
+		}
 		free(token->value);
 		free(token);
 	}
@@ -96,50 +104,23 @@ void	handle_wildcard_match(t_shell *shell, t_token *token,
 	}
 }
 
-/*
-* @ brief: Matches the given pattern with the string,
-*	returning true if they match, false otherwise.
-*/
-bool	match(const char *pattern, const char *string)
-{
-	bool		result;
-	const char	*laststar_pat;
-	const char	*laststar_str;
 
-	laststar_pat = NULL;
-	laststar_str = string;
-	result = match_re(pattern, string, &laststar_pat, &laststar_str);
-	return (result);
-}
-
-/*
-* @ brief: Matches the given pattern with the string,
-*	returning true if they match, false otherwise.
-*/
-bool	match_re(const char *pattern, const char *string,
-			const char **laststar_pat, const char **laststar_str)
+bool	match(char *pattern, char *string)
 {
-	while (*string)
+	if (*pattern == '\0') // if pattern is empty
+		return (*string == '\0'); // if string is also empty return true
+	else if (*pattern == '*') // if we have a wildcard *
 	{
-		if (*pattern == '?' || *pattern == *string)
+
+		while (*string != '\0') // while string not over
 		{
-			string++;
-			pattern++;
-		}
-		else if (*pattern == '*')
-		{
-			*laststar_pat = pattern++;
-			*laststar_str = string;
-		}
-		else if (*laststar_pat)
-		{
-			pattern = *laststar_pat + 1;
-			string = ++(*laststar_str);
-		}
-		else
-			return (false);
+			if (match(pattern + 1, string)) // assume * matches none. i.e. see if it pattern matches the rest of the string
+				return (true);
+			string++; // assume * matches one more char.
+		} //
+		return (match(pattern + 1, string));
 	}
-	while (*pattern == '*')
-		pattern++;
-	return (*pattern == '\0');
+	else if (*pattern == *string) // if literal matches
+		return (match(pattern + 1, string + 1)); // check next character
+	return (false);
 }

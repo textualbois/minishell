@@ -6,7 +6,7 @@
 /*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 13:17:13 by mrusu             #+#    #+#             */
-/*   Updated: 2024/08/10 16:11:00 by isemin           ###   ########.fr       */
+/*   Updated: 2024/08/12 10:09:51 by isemin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,16 +143,17 @@ char		*expand_variables(t_shell *shell, const char *str,
 t_token		*fallback_on_prev_token(t_token *current);
 void		handle_single_quote(t_token *token);
 void		handle_exit_code(t_shell *shell, t_token *token);
+t_token		*wildcard_join(t_token *current);
 
 // -expand_wildcard.c
 void		expand_wildcard_tokens(t_shell *shell);
 void		expand_wildcard_token(t_shell *shell, t_token *token,
-				t_token **prev, DIR *dir);
+									DIR *dir);
 void		handle_wildcard_match(t_shell *shell, t_token *token,
-				t_token **prev, bool found_match);
-bool		match(const char *pattern, const char *string);
-bool		match_re(const char *pattern, const char *string,
-				const char **laststar_pat, const char **laststar_str);
+									t_token *prev, bool found_match);
+bool		match(char *pattern, char *string);
+// bool		match_re(const char *pattern, const char *string,
+// 				const char **laststar_pat, const char **laststar_str);
 
 // -------------------------------------------DIR---loop
 // -loop.c
@@ -210,6 +211,10 @@ int			check_consecutive_operators(char *input);
 
 // -strip_spaces.c
 void		strip_spaces(t_shell *shell);
+
+// -token_extras.c
+void		insert_token(t_shell *shell, t_token *wc_token, \
+					t_tokentype type, char *value);
 
 // -utils.c
 t_tokentype	get_token_type(char *str);
