@@ -6,7 +6,7 @@
 #    By: isemin <isemin@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/01 09:20:11 by mrusu             #+#    #+#              #
-#    Updated: 2024/08/10 14:51:01 by isemin           ###   ########.fr        #
+#    Updated: 2024/08/12 10:05:29 by isemin           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -85,7 +85,7 @@ SRC = $(SRC_DIR)/main.c \
 	$(SRC_DIR)/exec/exec0.c $(SRC_DIR)/exec/exec_builtin.c $(SRC_DIR)/exec/pipex_wrapper.c $(SRC_DIR)/exec/stdio_save_restore.c\
 	$(SRC_DIR)/parse/ast_helper.c $(SRC_DIR)/parse/ast_setup.c $(SRC_DIR)/parse/ast_debug.c $(SRC_DIR)/parse/strip_spaces.c \
 	$(SRC_DIR)/parse/parse.c $(SRC_DIR)/parse/lexer.c $(SRC_DIR)/parse/lexer_utils.c \
-	$(SRC_DIR)/parse/utils.c \
+	$(SRC_DIR)/parse/utils.c $(SRC_DIR)/parse/token_extras.c\
 	$(SRC_DIR)/expand/expand_dollar.c $(SRC_DIR)/expand/expand_wildcard.c $(SRC_DIR)/expand/expand_utils.c $(SRC_DIR)/expand/expand_utils2.c \
 	$(SRC_DIR)/prompts/terminal_prompt.c \
 	$(SRC_DIR)/setup/env.c $(SRC_DIR)/setup/init_shell.c \
