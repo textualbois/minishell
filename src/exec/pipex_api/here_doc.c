@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 19:27:13 by isemin            #+#    #+#             */
-/*   Updated: 2024/08/07 18:54:05 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/08/12 14:15:59 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,6 @@ int	here_doc4shell(int fd_array[][2], t_command *cmd, char *delimiter)
 		free(here_doc_file);
 		return (EXIT_FAILURE);
 	}
-	free(here_doc_file);
 	receive_input(fd_array[0][READ_END], delimiter);
 	unlink(here_doc_file);
 	free(here_doc_file);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 13:17:13 by mrusu             #+#    #+#             */
-/*   Updated: 2024/08/10 16:11:00 by isemin           ###   ########.fr       */
+/*   Updated: 2024/08/12 14:09:00 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,10 +113,13 @@ int			redirect_input_between_pipes(int fd_array[][2], int cmd_num);
 void		save_stdio(int fd[2]);
 void		restore_stdio(int fd[2]);
 
-// ---exec0.c
-int			execute_ast(t_shell *shell, t_tree *node, int exit_code);
+// ---exec_builtin.c
 int			execute_builtin(t_shell *shell, t_command *cmd);
 int			is_builtin(t_command *cmd);
+void		init_fds_pipe4shell(int fd[4][2]);
+
+// ---exec0.c
+int			execute_ast(t_shell *shell, t_tree *node, int exit_code);
 
 // ---pipex_wrapper.c
 int			pipex_wrapper(t_shell *shell, t_command *cmd);
