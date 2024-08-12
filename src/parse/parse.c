@@ -6,11 +6,13 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 16:29:47 by mrusu             #+#    #+#             */
-/*   Updated: 2024/08/09 15:26:48 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/08/12 09:26:27 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
+
+void	trim_trailing_spaces(t_shell *shell);
 
 /*
 * @ brief: Parses the raw input string, tokenizes it
@@ -25,7 +27,8 @@ int	parse(t_shell *shell)
 		printf("Error: tokenization failed\n");
 		return (1);
 	}
-	else if (shell->tail->type >= T_PIPE && shell->tail->type <= T_SPACE)
+	trim_trailing_spaces(shell);
+	if (shell->tail->type >= T_PIPE && shell->tail->type <= T_SPACE)
 		return (prompt_further(shell));
 	if (shell->token_count > 0)
 	{
@@ -42,6 +45,29 @@ int	parse(t_shell *shell)
 	else
 		shell->ast = NULL;
 	return (0);
+}
+
+/*
+* @ brief: Trims the trailing spaces from the token list.
+*/
+void	trim_trailing_spaces(t_shell *shell)
+{
+	t_token	*current;
+	t_token	*tmp;	
+
+	current = shell->tail;
+	while (current && current->type == T_SPACE)
+	{
+		tmp = current;
+		current = current->prev;
+		if (current)
+			current->next = NULL;
+		else
+			shell->head = NULL;
+		free(tmp->value);
+		free(tmp);
+		shell->tail = current;
+	}
 }
 
 /*

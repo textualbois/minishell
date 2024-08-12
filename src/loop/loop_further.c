@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   loop.c                                             :+:      :+:    :+:   */
+/*   loop_further.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 14:02:02 by isemin            #+#    #+#             */
-/*   Updated: 2024/08/09 14:03:11 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/08/12 08:58:12 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	*ft_readline_further(t_shell *shell)
 {
 	char	*extra_line;
 	char	*old_input;
-	
+
 	old_input = shell->input;
 	extra_line = readline("> ");
 	if (shell->input == NULL)
@@ -32,7 +32,7 @@ void	*ft_readline_further(t_shell *shell)
 	return ((void *)1);
 }
 
-int prompt_further(t_shell *shell)
+int	prompt_further(t_shell *shell)
 {
 	char	*t_input;
 	char	*o_input;
