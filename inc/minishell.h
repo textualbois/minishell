@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 13:17:13 by mrusu             #+#    #+#             */
-/*   Updated: 2024/08/12 10:09:51 by isemin           ###   ########.fr       */
+/*   Updated: 2024/08/12 10:55:36 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,6 +160,7 @@ bool		match(char *pattern, char *string);
 int			shell_loop(t_shell	*shell);
 void		*ft_readline(t_shell *shell);
 int			handle_input(t_shell *shell);
+int			trim_and_free_input(t_shell *shell);
 
 // -loop_further.c
 void		*ft_readline_further(t_shell *shell);
