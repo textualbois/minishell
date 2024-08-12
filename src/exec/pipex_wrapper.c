@@ -46,24 +46,24 @@ int	pipex_wrapper(t_shell *shell, t_command *cmd)
 {
 	int			fd[4][2];
 	int			pid;
-	int			i;
+	int			cmd_num;
 
 	pipe_fd_init(fd);
-	i = 2;
+	cmd_num = 1;
 	save_stdio(fd[3]);
 	while (cmd != NULL)
 	{
-		if (set_fds_pipe4shell(fd, i - 1, cmd) != -1)
+		if (set_fds_pipe4shell(fd, cmd_num, cmd) != -1)
 		{
 			pid = fork();
 			if (pid < 0)
 				werror_exit(EXIT_FAILURE, "fork_failed", 2);
 			else if (pid == CHILD)
-				child_sequence(fd, i, cmd, shell);
+				child_sequence(fd, cmd_num, cmd, shell);
 		}
-		close_fds_parent4shell(fd, i - 1, cmd);
+		close_fds_parent4shell(fd, cmd_num, cmd);
 		cmd = cmd->next;
-		i++;
+		cmd_num++;
 	}
 	return (parent_await(pid, fd));
 }
