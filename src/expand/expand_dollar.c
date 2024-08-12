@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_dollar.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
+/*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 10:57:00 by mrusu             #+#    #+#             */
-/*   Updated: 2024/08/09 15:14:58 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/08/12 07:12:45 by isemin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	expand_dollar_tokens(t_shell *shell)
 	t_token	*current;
 
 	current = shell->head;
-	while (current)
+	while (current) // goes over all tokens
 	{
 		if (current->type == T_WORD_EXPAND || current->type == T_DQUOTE)
 			handle_word_or_dquote(shell, current);
@@ -33,17 +33,17 @@ void	expand_dollar_tokens(t_shell *shell)
 			handle_exit_code(shell, current);
 		else if (ft_strchr(current->value, '*'))
 			current->type = T_WILDCARD;
-		else 
+		else // if not dollar-type or wildcard, skip to next token
 		{
 			current = current->next;
 			continue;
 		}
-		if (ft_strchr(current->value, '*'))
+		if (ft_strchr(current->value, '*')) // YES WE NEED THIS CHECK TWICE
 			current->type = T_WILDCARD;
-		else
+		else // if not a wildcard, but was a dollar-type, join to previous token
 			current = fallback_on_prev_token(current);
 		current = current->next;
-	}
+	} // this is end of function, rest is debug
 
 	current = shell->head;
 
