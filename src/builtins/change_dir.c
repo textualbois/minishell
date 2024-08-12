@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   change_dir.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
+/*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 19:05:09 by isemin            #+#    #+#             */
-/*   Updated: 2024/08/07 18:42:41 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/08/12 12:46:30 by isemin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,8 +99,9 @@ static int	change_dir(t_shell *shell, char *dir, char *oldpwd)
 int	builtin_cd(t_shell *shell, char **args)
 {
 	char	*oldpwd;
+	char	dir[1024];
 
-	oldpwd = get_env_value(shell->env_list, "PWD");
+	oldpwd = getcwd(dir, 1024);
 	if (args[1] == NULL || ft_strcmp(args[1], "~") == 0)
 		return (change_dir_to_home(shell, oldpwd));
 	else if (ft_strcmp(args[1], "-") == 0)
