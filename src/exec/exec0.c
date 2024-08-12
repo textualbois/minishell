@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec0.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 13:20:20 by mrusu             #+#    #+#             */
-/*   Updated: 2024/08/10 13:30:07 by isemin           ###   ########.fr       */
+/*   Updated: 2024/08/12 12:05:10 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ static int	create_and_close_files(t_command *cmd);
 
 int	execute_ast(t_shell *shell, t_tree *node, int exit_code)
 {
-	// printf("execute_ast opened\n");
 	if (!node->token)
 		return (create_and_close_files(node->cmd), 0);
 	else if (node->cmd && node->cmd->name)

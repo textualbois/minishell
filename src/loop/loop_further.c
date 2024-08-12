@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 14:02:02 by isemin            #+#    #+#             */
-/*   Updated: 2024/08/12 10:53:12 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/08/12 12:33:07 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,7 @@ void	*ft_readline_further(t_shell *shell)
 	old_input = shell->input;
 	extra_line = readline("> ");
 	if (extra_line == NULL)
-	{
-		printf("ft_readline_further: readline gave null\n");
 		return (NULL);
-	}
 	if (old_input == NULL)
 	{
 		shell->input = extra_line;

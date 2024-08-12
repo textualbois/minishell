@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 13:17:13 by mrusu             #+#    #+#             */
-/*   Updated: 2024/08/12 10:55:36 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/08/12 12:04:39 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,9 +148,9 @@ t_token		*wildcard_join(t_token *current);
 // -expand_wildcard.c
 void		expand_wildcard_tokens(t_shell *shell);
 void		expand_wildcard_token(t_shell *shell, t_token *token,
-									DIR *dir);
+				DIR *dir);
 void		handle_wildcard_match(t_shell *shell, t_token *token,
-									t_token *prev, bool found_match);
+				t_token *prev, bool found_match);
 bool		match(char *pattern, char *string);
 // bool		match_re(const char *pattern, const char *string,
 // 				const char **laststar_pat, const char **laststar_str);
