@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 10:57:00 by mrusu             #+#    #+#             */
-/*   Updated: 2024/08/09 15:14:58 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/08/12 18:51:14 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,8 +90,12 @@ char	*expand_word_token(t_shell *shell, const char *str)
 	result = ft_strdup("");
 	while (str[i])
 	{
-		i = handle_quotes(str, i, &in_dquote);
-		if (str[i] != '"')
+		if (str[i] == '"')
+		{
+			in_dquote = !in_dquote;
+			i++;
+		}
+		else
 		{
 			expanded = expand_variables(shell, str, &i, in_dquote);
 			result = ft_strjoin_free(result, expanded);
