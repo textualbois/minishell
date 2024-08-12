@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 14:02:02 by isemin            #+#    #+#             */
-/*   Updated: 2024/08/09 14:03:11 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/08/12 10:53:20 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,7 @@ int	shell_loop(t_shell *shell)
 		}
 		else
 		{
-			printf("hehe i passed the parse\n");
 			shell->exit_code = execute_ast(shell, shell->ast, EXIT_SUCCESS);
-			printf("hehe i passed the execution\n");
 			free_tokens(shell);
 			free(shell->input);
 		}
@@ -71,14 +69,30 @@ void	*ft_readline(t_shell *shell)
 */
 int	handle_input(t_shell *shell)
 {
-	char	*t_input;
-	char	*o_input;
+	int		ret;
 
 	if (ft_readline(shell) == NULL)
 	{
 		printf("Exiting shell.\n");
 		return (-2);
 	}
+	ret = trim_and_free_input(shell);
+	if (ret != 0)
+		return (ret);
+	return (0);
+}
+
+/*
+* @brief: o_input is the original input, t_input is the trimmed input.
+*	If the trimmed input is empty, free the original input and return -1.
+*	If the trimmed input is different from the original input,
+*	allocate a new string and copy the trimmed input. Free the original input.
+*/
+int	trim_and_free_input(t_shell *shell)
+{
+	char	*o_input;
+	char	*t_input;
+
 	o_input = shell->input;
 	t_input = o_input;
 	while (*t_input && (*t_input == ' ' || *t_input == '\t'))
@@ -91,9 +105,12 @@ int	handle_input(t_shell *shell)
 	if (t_input != o_input)
 	{
 		shell->input = ft_strdup(t_input);
-		free(o_input);
 		if (!shell->input)
+		{
+			free(o_input);
 			return (-2);
+		}
+		free(o_input);
 	}
 	return (0);
 }

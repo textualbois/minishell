@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 13:17:13 by mrusu             #+#    #+#             */
-/*   Updated: 2024/08/10 16:11:00 by isemin           ###   ########.fr       */
+/*   Updated: 2024/08/12 10:53:38 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,6 +159,7 @@ bool		match_re(const char *pattern, const char *string,
 int			shell_loop(t_shell	*shell);
 void		*ft_readline(t_shell *shell);
 int			handle_input(t_shell *shell);
+int			trim_and_free_input(t_shell *shell);
 
 // -loop_further.c
 void		*ft_readline_further(t_shell *shell);
@@ -255,5 +256,6 @@ int			ft_strcmp(const char *str1, const char *str2);
 // ---wild_math.c
 int			my_max(int a, int b);
 int			my_min(int a, int b);
+
 
 #endif

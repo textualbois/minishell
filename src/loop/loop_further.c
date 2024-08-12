@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 14:02:02 by isemin            #+#    #+#             */
-/*   Updated: 2024/08/12 08:58:12 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/08/12 10:53:12 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,15 @@ void	*ft_readline_further(t_shell *shell)
 
 	old_input = shell->input;
 	extra_line = readline("> ");
-	if (shell->input == NULL)
+	if (extra_line == NULL)
 	{
-		printf("readline gave null\n");
+		printf("ft_readline_further: readline gave null\n");
 		return (NULL);
+	}
+	if (old_input == NULL)
+	{
+		shell->input = extra_line;
+		return ((void *)1);
 	}
 	shell->input = ft_strjoin(old_input, extra_line);
 	free(old_input);
@@ -34,29 +39,12 @@ void	*ft_readline_further(t_shell *shell)
 
 int	prompt_further(t_shell *shell)
 {
-	char	*t_input;
-	char	*o_input;
+	int	ret;
 
 	if (ft_readline_further(shell) == NULL)
-	{
-		printf("Exiting shell.\n");
 		return (-2);
-	}
-	o_input = shell->input;
-	t_input = o_input;
-	while (*t_input && (*t_input == ' ' || *t_input == '\t'))
-		t_input++;
-	if (*t_input == '\0')
-	{
-		free(o_input);
-		return (-1);
-	}
-	if (t_input != o_input)
-	{
-		shell->input = ft_strdup(t_input);
-		free(o_input);
-		if (!shell->input)
-			return (-2);
-	}
+	ret = trim_and_free_input(shell);
+	if (ret != 0)
+		return (ret);
 	return (parse(shell));
 }
