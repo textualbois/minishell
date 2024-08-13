@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
+/*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 15:34:33 by mrusu             #+#    #+#             */
-/*   Updated: 2024/08/12 09:20:57 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/08/13 13:05:19 by isemin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,12 +68,6 @@ void	handle_character(t_shell *shell, char *input, int *i, int *start)
 			add_word_token(shell, input, *start, *i);
 		handle_dollar_char(shell, input, i, start);
 	}
-	// else if (input[*i] == '*')
-	// {
-	// 	if (*i > *start)
-	// 		add_word_token(shell, input, *start, *i);
-	// 	handle_wildcard_char(shell, input, i, start);
-	// }
 }
 
 /*
@@ -110,18 +104,16 @@ void	handle_quote(t_shell *shell, char *input, int *i, int *start)
 }
 
 /*
-* @ brief: Processes special characters in the input string, 
+* @ brief: Processes special characters in the input string,
 *	creating tokens for them and updating the token start index.
 */
 void	handle_special_chars(t_shell *shell, char *input, int *i, int *start)
 {
 	char		special[3];
-	// t_tokentype	type;
 
 	special[0] = input[*i];
 	special[1] = '\0';
 	special[2] = '\0';
-	// type = get_token_type(input + *i);
 	if (special[0] == '$' && input[*i + 1] == '?')
 	{
 		add_token(shell, T_EXCODE, ft_strdup("$?"));
