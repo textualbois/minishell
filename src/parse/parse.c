@@ -6,13 +6,11 @@
 /*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 16:29:47 by mrusu             #+#    #+#             */
-/*   Updated: 2024/08/13 12:56:32 by isemin           ###   ########.fr       */
+/*   Updated: 2024/08/13 13:01:37 by isemin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
-
-void	trim_trailing_spaces(t_shell *shell);
 
 /*
 * @ brief: Parses the raw input string, tokenizes it
@@ -48,36 +46,10 @@ int	parse(t_shell *shell)
 }
 
 /*
-* @ brief: Trims the trailing spaces from the token list.
-*/
-void	trim_trailing_spaces(t_shell *shell)
-{
-	t_token	*current;
-	t_token	*tmp;
-
-	current = shell->tail;
-	while (current && current->type == T_SPACE)
-	{
-		tmp = current;
-		current = current->prev;
-		if (current)
-			current->next = NULL;
-		else
-			shell->head = NULL;
-		free(tmp->value);
-		free(tmp);
-		shell->tail = current;
-	}
-}
-
-/*
 * @ brief: calls other functions to check the syntax of the input string.
 */
 int	syntax_check(char *input)
 {
-	// int	i;
-
-	// i = 0;
 	if (check_start_end(input) != 0)
 		return (1);
 	if (quotes_a_parentheses(input) != 0)

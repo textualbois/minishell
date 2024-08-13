@@ -6,7 +6,7 @@
 /*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 13:17:13 by mrusu             #+#    #+#             */
-/*   Updated: 2024/08/13 12:55:48 by isemin           ###   ########.fr       */
+/*   Updated: 2024/08/13 13:02:12 by isemin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -215,6 +215,7 @@ int			check_consecutive_operators(char *input);
 
 // -strip_spaces.c
 void		strip_spaces(t_shell *shell);
+void		trim_trailing_spaces(t_shell *shell);
 
 // -token_extras.c
 void		insert_token(t_shell *shell, t_token *wc_token, \

@@ -6,7 +6,7 @@
 /*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 10:23:40 by isemin            #+#    #+#             */
-/*   Updated: 2024/08/13 10:30:11 by isemin           ###   ########.fr       */
+/*   Updated: 2024/08/13 13:01:28 by isemin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,5 +56,28 @@ void	strip_spaces(t_shell *shell)
 		}
 		else
 			current = current->next;
+	}
+}
+
+/*
+* @ brief: Trims the trailing spaces from the token list.
+*/
+void	trim_trailing_spaces(t_shell *shell)
+{
+	t_token	*current;
+	t_token	*tmp;
+
+	current = shell->tail;
+	while (current && current->type == T_SPACE)
+	{
+		tmp = current;
+		current = current->prev;
+		if (current)
+			current->next = NULL;
+		else
+			shell->head = NULL;
+		free(tmp->value);
+		free(tmp);
+		shell->tail = current;
 	}
 }
