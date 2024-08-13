@@ -6,7 +6,7 @@
 /*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 20:11:50 by isemin            #+#    #+#             */
-/*   Updated: 2024/04/28 19:10:14 by isemin           ###   ########.fr       */
+/*   Updated: 2024/08/13 19:09:33 by isemin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,13 @@ void	*clear_arr(char **res_arr)
 	arr_len = ft_arrlen(res_arr);
 	while (count < arr_len)
 	{
-		free(res_arr[count]);
+		if (res_arr[count] != NULL)
+			free(res_arr[count]);
 		res_arr[count] = NULL;
 		count++;
 	}
-	free(res_arr);
+	if (res_arr != NULL)
+		free(res_arr);
 	res_arr = NULL;
 	return (NULL);
 }
