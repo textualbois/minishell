@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 10:48:53 by isemin            #+#    #+#             */
-/*   Updated: 2024/08/13 16:16:00 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/08/13 17:26:58 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,15 @@ void	handle_exit_code(t_shell *shell, t_token *token)
 
 void	handle_single_quote(t_token *token)
 {
-	free(token->value);
-	token->value = ft_substr(token->value, 1, ft_strlen(token->value) - 2);
-	token->type = T_WORD;
+	char	*new_value;
+
+	if (token->value && ft_strlen(token->value) >= 2)
+	{
+		new_value = ft_substr(token->value, 1, ft_strlen(token->value) - 2);
+		free(token->value);
+		token->value = new_value;
+		token->type = T_WORD;
+	}
 }
 
 t_token	*fallback_on_prev_token(t_token *current)
