@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_builtin.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 13:28:48 by isemin            #+#    #+#             */
-/*   Updated: 2024/08/10 16:00:31 by isemin           ###   ########.fr       */
+/*   Updated: 2024/08/12 14:06:38 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ int	execute_builtin(t_shell *shell, t_command *cmd)
 	int	exit_code;
 	int	fd[4][2];
 
+	init_fds_pipe4shell(fd);
 	save_stdio(fd[3]);
 	set_fds_pipe4shell(fd, 1, cmd);
 	exit_code = EXIT_FAILURE;
@@ -40,6 +41,19 @@ int	execute_builtin(t_shell *shell, t_command *cmd)
 	close_all_4shell(fd);
 	restore_stdio(fd[3]);
 	return (exit_code);
+}
+
+
+void	init_fds_pipe4shell(int fd[4][2])
+{
+	fd[0][0] = -1;
+	fd[0][1] = -1;
+	fd[1][0] = -1;
+	fd[1][1] = -1;
+	fd[2][0] = -1;
+	fd[2][1] = -1;
+	fd[3][0] = -1;
+	fd[3][1] = -1;
 }
 
 /*

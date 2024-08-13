@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   loop.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
+/*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 14:02:02 by isemin            #+#    #+#             */
-/*   Updated: 2024/08/12 10:53:20 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/08/13 09:59:37 by isemin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,9 @@ int	shell_loop(t_shell *shell)
 			continue ;
 		}
 		else
-		{
 			shell->exit_code = execute_ast(shell, shell->ast, EXIT_SUCCESS);
-			free_tokens(shell);
-			free(shell->input);
-		}
+		free_tokens(shell);
+		free(shell->input);
 	}
 	return (0);
 }
@@ -64,7 +62,7 @@ void	*ft_readline(t_shell *shell)
 
 /*
 * @brief: if readlien give NULL it means is EOF and we return -2
-*	to shell loop, if the input is empty we return - 1, free 
+*	to shell loop, if the input is empty we return - 1, free
 *	shell input and continut the loop. or 0 for a valid input.
 */
 int	handle_input(t_shell *shell)
