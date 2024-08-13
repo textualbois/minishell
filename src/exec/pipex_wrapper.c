@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_wrapper.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 22:14:48 by isemin            #+#    #+#             */
-/*   Updated: 2024/08/10 16:11:35 by isemin           ###   ########.fr       */
+/*   Updated: 2024/08/13 16:14:45 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static void	pipe_fd_init(int fd[4][2])
 	}
 }
 
-void child_sequence(int fd[][2], int index, t_command *cmd, t_shell *shell)
+void	child_sequence(int fd[][2], int index, t_command *cmd, t_shell *shell)
 {
 	signal(SIGQUIT, sigquit_handler);
 	close(fd[(index % 2) + 1][READ_END]);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast_helper.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 15:58:09 by isemin            #+#    #+#             */
-/*   Updated: 2024/08/13 13:36:11 by isemin           ###   ########.fr       */
+/*   Updated: 2024/08/13 16:13:01 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,32 +128,3 @@ char	**list_to_arr_no_limit(t_token *start)
 	}
 	return (res);
 }
-
-// char	**list_to_arr(t_token *start, t_token *stop)
-// {
-// 	t_token	*current;
-// 	char	**res;
-// 	int		i;
-
-// 	current = start;
-// 	i = 0;
-// 	while (current != stop)
-// 	{
-// 		if (current->type == T_WORD)
-// 			i++;
-// 		current = current->next;
-// 	}
-// 	res = ft_calloc(sizeof(char *), i + 1);
-// 	current = start;
-// 	i = 0;
-// 	while (current != stop)
-// 	{
-// 		if (current->type == T_WORD)
-// 		{
-// 			res[i] = current->value;
-// 			i++;
-// 		}
-// 		current = current->next;
-// 	}
-// 	return (res);
-// }

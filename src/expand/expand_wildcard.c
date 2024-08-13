@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_wildcard.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 18:25:03 by mrusu             #+#    #+#             */
-/*   Updated: 2024/08/13 12:49:08 by isemin           ###   ########.fr       */
+/*   Updated: 2024/08/13 16:16:22 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	expand_wildcard_tokens(t_shell *shell)
 	DIR				*dir;
 
 	current = shell->head;
-	while (current) // loops through all tokens
+	while (current)
 	{
 		next = current->next;
 		if (current->type == T_WILDCARD)
@@ -104,7 +104,6 @@ void	handle_wildcard_match(t_shell *shell, t_token *token,
 		token->type = T_WORD;
 	}
 }
-
 
 bool	match(char *pattern, char *string)
 {

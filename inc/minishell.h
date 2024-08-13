@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 13:17:13 by mrusu             #+#    #+#             */
-/*   Updated: 2024/08/13 14:40:22 by isemin           ###   ########.fr       */
+/*   Updated: 2024/08/13 16:13:19 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,12 +151,10 @@ t_token		*wildcard_join(t_token *current);
 // -expand_wildcard.c
 void		expand_wildcard_tokens(t_shell *shell);
 void		expand_wildcard_token(t_shell *shell, t_token *token,
-									DIR *dir);
+				DIR *dir);
 void		handle_wildcard_match(t_shell *shell, t_token *token,
-									t_token *prev, bool found_match);
+				t_token *prev, bool found_match);
 bool		match(char *pattern, char *string);
-// bool		match_re(const char *pattern, const char *string,
-// 				const char **laststar_pat, const char **laststar_str);
 
 // -------------------------------------------DIR---loop
 // -loop.c
@@ -170,26 +168,21 @@ void		*ft_readline_further(t_shell *shell);
 int			prompt_further(t_shell *shell);
 
 // -------------------------------------------DIR---parse
-// -ast_debug.c
-int			print_ast(t_shell *shell);
-void		print_ast_recursive1(t_tree *node, int depth);
-int			depth_counter(int get_set, int direction, int val);
-void		print_ast_recursive2(t_tree *tree);
-int			print_ast_recursive2main(t_tree *tree, int is_left, int offset, int depth, char s[20][255]);
-
 // -ast_helper.c
 t_token		*get_input_file(t_command *cmd, t_token *start, t_token *stop);
 t_token		*get_heredoc(t_command *cmd, t_token *start, t_token *stop);
 t_token		*get_output_file(t_command *cmd, t_token *start, t_token *stop);
 char		**list_to_arr_no_limit(t_token *start);
-// char		**list_to_arr(t_token *start, t_token *stop);
 
 // -ast_herlper2.c
-t_tree		*add_tree_node_pipe(t_token *pipe_token, t_token *start, t_token *stop, t_tree *parent);
-t_tree		*add_tree_node_and_or(t_token *head_token, t_token *start, t_token *stop, t_tree *parent);
+t_tree		*add_tree_node_pipe(t_token *pipe_token, t_token *start,
+				t_token *stop, t_tree *parent);
+t_tree		*add_tree_node_and_or(t_token *head_token, t_token *start,
+				t_token *stop, t_tree *parent);
 t_token		*get_pivot_token(t_token *current, int *depth, \
 						int *head_node_depth, t_token *head_token);
-t_token		*process_redirections(t_command *cmd, t_token *current, t_token *stop);
+t_token		*process_redirections(t_command *cmd, t_token *current,
+				t_token *stop);
 
 // -ast_setup.c
 t_tree		*init_cmd_node(t_token *start, t_token *stop, t_tree *parent);

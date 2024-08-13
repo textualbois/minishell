@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_utils2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 10:48:53 by isemin            #+#    #+#             */
-/*   Updated: 2024/08/13 12:47:26 by isemin           ###   ########.fr       */
+/*   Updated: 2024/08/13 16:16:00 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ t_token	*wildcard_join(t_token *current)
 
 	prev = current->prev;
 	current = fallback_on_prev_token(current);
-
 	if (current->next != NULL && (current->next->type == T_WORD))
 		current = fallback_on_prev_token(current->next);
 	current->type = T_WILDCARD;
