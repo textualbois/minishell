@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec0.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
+/*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 13:20:20 by mrusu             #+#    #+#             */
-/*   Updated: 2024/08/13 16:14:34 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/08/13 16:33:24 by isemin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ static int	create_and_close_files(t_command *cmd)
 			return (EXIT_FAILURE);
 		}
 	}
-	if (fd != 0)
+	if (fd > 0)
 		close(fd);
 	unlink(cmd->output_file);
 	return (EXIT_SUCCESS);

@@ -6,7 +6,7 @@
 /*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 22:14:48 by isemin            #+#    #+#             */
-/*   Updated: 2024/08/13 16:22:33 by isemin           ###   ########.fr       */
+/*   Updated: 2024/08/13 16:35:06 by isemin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,8 @@ static void	pipe_fd_init(int fd[4][2])
 void	child_sequence(int fd[][2], int index, t_command *cmd, t_shell *shell)
 {
 	signal(SIGQUIT, sigquit_handler);
-	close(fd[(index % 2) + 1][READ_END]);
+	if ((fd[(index % 2) + 1][READ_END]) != -1)
+		close(fd[(index % 2) + 1][READ_END]);
 	if (cmd->name == NULL)
 		exit(EXIT_SUCCESS);
 	else if (is_builtin(cmd))
@@ -79,12 +80,14 @@ static int	parent_await(int last_pid, int fd_array[4][2])
 		if (WTERMSIG(status) == 3)
 			printf("Quit: %d\n", WTERMSIG(status));
 		close_all_4shell(fd_array);
-		close(STDIN_FILENO);
+		if (close(STDIN_FILENO) == -1)
+			perror("stdin close");
 		restore_stdio(fd_array[3]);
 		return (128 + WTERMSIG(status));
 	}
 	close_all_4shell(fd_array);
-	close(STDIN_FILENO);
+	if (close(STDIN_FILENO) == -1)
+		perror("stdin close");
 	restore_stdio(fd_array[3]);
 	while (pid != -1)
 		pid = wait(NULL);

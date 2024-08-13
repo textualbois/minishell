@@ -6,7 +6,7 @@
 /*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 22:59:57 by isemin            #+#    #+#             */
-/*   Updated: 2024/08/10 14:14:30 by isemin           ###   ########.fr       */
+/*   Updated: 2024/08/13 16:30:12 by isemin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,19 +74,16 @@ void	close_fds_parent4shell(int fd_array[][2], int cmd_num, t_command *cmd)
 	if (cmd->heredoc_delimiter != NULL)
 	{
 		if (close(fd_array[0][WRITE_END]) == -1)
-			perror("close");
+			close(fd_array[0][WRITE_END]);
 	}
 	else if (cmd->output_file != NULL)
 	{
-		if (close(fd_array[0][WRITE_END]) == -1)
-			perror("close");
+		if (fd_array[0][WRITE_END] != -1)
+			close(fd_array[0][WRITE_END]);
 	}
 	else
 	{
 		if (fd_array[(cmd_num % 2) + 1][WRITE_END] != -1)
-		{
-			if (close(fd_array[(cmd_num % 2) + 1][WRITE_END]) == -1)
-				perror("close");
-		}
+			close(fd_array[(cmd_num % 2) + 1][WRITE_END]);
 	}
 }
