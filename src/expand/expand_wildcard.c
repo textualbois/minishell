@@ -6,7 +6,7 @@
 /*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 18:25:03 by mrusu             #+#    #+#             */
-/*   Updated: 2024/08/12 10:48:37 by isemin           ###   ########.fr       */
+/*   Updated: 2024/08/13 11:33:18 by isemin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,17 @@
 void	expand_wildcard_tokens(t_shell *shell)
 {
 	t_token			*current;
+	t_token			*next;
 	DIR				*dir;
 
 	current = shell->head;
 	while (current) // loops through all tokens
 	{
+		next = current->next;
 		if (current->type == T_WILDCARD)
 		{
 			current = wildcard_join(current);
+			next = current->next;
 			dir = opendir(".");
 			if (dir)
 			{
@@ -39,7 +42,7 @@ void	expand_wildcard_tokens(t_shell *shell)
 				return ;
 			}
 		}
-		current = current->next;
+		current = next;
 	}
 }
 
