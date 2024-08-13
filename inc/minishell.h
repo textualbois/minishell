@@ -6,7 +6,7 @@
 /*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 13:17:13 by mrusu             #+#    #+#             */
-/*   Updated: 2024/08/13 13:02:12 by isemin           ###   ########.fr       */
+/*   Updated: 2024/08/13 14:40:22 by isemin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,7 +182,14 @@ t_token		*get_input_file(t_command *cmd, t_token *start, t_token *stop);
 t_token		*get_heredoc(t_command *cmd, t_token *start, t_token *stop);
 t_token		*get_output_file(t_command *cmd, t_token *start, t_token *stop);
 char		**list_to_arr_no_limit(t_token *start);
-char		**list_to_arr(t_token *start, t_token *stop);
+// char		**list_to_arr(t_token *start, t_token *stop);
+
+// -ast_herlper2.c
+t_tree		*add_tree_node_pipe(t_token *pipe_token, t_token *start, t_token *stop, t_tree *parent);
+t_tree		*add_tree_node_and_or(t_token *head_token, t_token *start, t_token *stop, t_tree *parent);
+t_token		*get_pivot_token(t_token *current, int *depth, \
+						int *head_node_depth, t_token *head_token);
+t_token		*process_redirections(t_command *cmd, t_token *current, t_token *stop);
 
 // -ast_setup.c
 t_tree		*init_cmd_node(t_token *start, t_token *stop, t_tree *parent);

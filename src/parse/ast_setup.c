@@ -6,7 +6,7 @@
 /*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 15:58:09 by isemin            #+#    #+#             */
-/*   Updated: 2024/08/09 16:54:21 by isemin           ###   ########.fr       */
+/*   Updated: 2024/08/13 15:52:29 by isemin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ t_tree	*get_nodes_and_or(t_token *start, t_token *stop, t_tree *parent)
 	int		head_node_depth;
 	t_token	*head_token;
 	t_token	*current;
-	int 	type;
 
 	depth = 0;
 	head_node_depth = 0;
@@ -26,64 +25,14 @@ t_tree	*get_nodes_and_or(t_token *start, t_token *stop, t_tree *parent)
 	current = start;
 	while (current != stop)
 	{
-		type = current->type;
-			printf("Checking Token: Type = ");
-			if (type == T_WORD)
-				printf("WORD");
-			else if (type == T_PIPE)
-				printf("PIPE");
-			else if (type == T_OR)
-				printf("OR");
-			else if (type == T_AND)
-				printf("AND");
-			else if (type == T_SPECIAL)
-				printf("SPECIAL");
-			else if (type == T_DOLLAR)
-				printf("DOLLAR");
-			else if (type == T_EXCODE)
-				printf("$?");
-			else if (type == T_WILDCARD)
-				printf("WILDCARD");
-			else if (type == T_WORD_EXPAND)
-				printf("T_WORD_EXPAND");
-			else if (type == T_SQUOTE)
-				printf("T_SQUOTE");
-			else if (type == T_DQUOTE)
-				printf("T_DQUOTE");
-			else if (type == T_SPACE)
-				printf("T_SPACE");
-			else
-				printf("UNKNOWN");
-			printf(", Value = '%s'\n", current->value);
-
-		
-
-		if (current->type == T_SPECIAL && current->value[0] == '(')
-			depth++;
-		else if (current->type == T_SPECIAL && current->value[0] == ')')
-			depth--;
-		else if (current->type == T_OR || current->type == T_AND)
-		{
-			if (depth < head_node_depth || head_token == NULL)
-			{
-				head_node_depth = depth;
-				head_token = current;
-			}
-		}
+		head_token = get_pivot_token(current, &depth, \
+									&head_node_depth, head_token);
 		current = current->next;
 	}
-	// printf("went through and/or while loop\n");
 	if (head_token != NULL)
-	{
-		t_tree *res = init_tree_node(head_token, parent);
-		res->left = get_nodes_and_or(start, head_token, res);
-		res->right = get_nodes_and_or(head_token->next, stop, res);
-		return (res);
-	}
+		return (add_tree_node_and_or(head_token, start, stop, parent));
 	else if (start != stop)
-	{
 		return (get_nodes_pipes(start, stop, parent));
-	}
 	else
 		return (NULL);
 }
@@ -92,7 +41,6 @@ t_tree	*get_nodes_pipes(t_token *start, t_token *stop, t_tree *parent)
 {
 	t_token	*current;
 	t_token	*pipe_token;
-	t_tree	*res;
 
 	current = start;
 	pipe_token = NULL;
@@ -105,27 +53,10 @@ t_tree	*get_nodes_pipes(t_token *start, t_token *stop, t_tree *parent)
 		}
 		current = current->next;
 	}
-	// printf("went through pipe node while loop\n");
 	if (pipe_token != NULL)
-	{
-		res = init_tree_node(pipe_token, parent);
-		res->left = init_cmd_node(start, pipe_token, res);  // Assuming init_cmd can take a list up to a point
-		if (res->left == NULL)
-		{
-			perror("Error: Failed to create left node of pipe\n");
-			return (NULL);
-		}
-		res->right = get_nodes_pipes(pipe_token->next, stop, res);
-		if (res->right->token && res->right->token->type == T_PIPE)
-			res->left->cmd->next = res->right->left->cmd;
-		else
-			res->left->cmd->next = res->right->cmd;
-		return (res);
-	}
+		return (add_tree_node_pipe(pipe_token, start, stop, parent));
 	else
-	{
 		return (init_cmd_node(start, stop, parent));
-	}
 }
 
 t_tree	*init_cmd_node(t_token *start, t_token *stop, t_tree *parent)
@@ -135,37 +66,23 @@ t_tree	*init_cmd_node(t_token *start, t_token *stop, t_tree *parent)
 	t_command	*cmd;
 	int			got_cmd_name;
 
-	printf("getting cmd node\n");
 	got_cmd_name = 0;
-	cmd = ft_calloc(sizeof(t_command), 1); //1
-	current = start; //5
+	cmd = ft_calloc(sizeof(t_command), 1);
+	current = start;
 	while (current != stop)
 	{
-		// if (current->type == T_SPACE)
-		// 	continue;
-		printf("current->value = %s; current->type = %d\n", current->value, current->type);
 		if (current->type == T_SPECIAL)
-		{
-			printf("special type: current->value = %s\n", current->value);
-			if (current->value[1] == '<')
-				current = get_heredoc(cmd, current, stop); //3
-			else if (current->value[0] == '>')
-				current = get_output_file(cmd, current, stop); //4
-			else if (current->value[0] == '<')
-				current = get_input_file(cmd, current, stop); //2
-			//current = current->next;
-		}
+			current = process_redirections(cmd, current, stop);
 		else if (got_cmd_name == 0)
 		{
-			cmd->name = current->value; //11
-			cmd->args = list_to_arr_no_limit(current); //6
+			cmd->name = current->value;
+			cmd->args = list_to_arr_no_limit(current);
 			got_cmd_name = 1;
-			res = init_tree_node(current, parent);	//8
-			res->cmd = cmd;	//9
+			res = init_tree_node(current, parent);
+			res->cmd = cmd;
 		}
 		current = current->next;
 	}
-	printf("went through cmd_node while loop\n");
 	return (res);
 }
 
