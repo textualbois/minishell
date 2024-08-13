@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   manage_fd_helpers.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
+/*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 20:27:40 by isemin            #+#    #+#             */
-/*   Updated: 2024/08/07 18:55:28 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/08/13 16:18:35 by isemin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	setup_infile_read_fd(int fd_array[][2], char *input_file)
 	if (fd_array[0][READ_END] == -1)
 		return (perror_return(EXIT_FAILURE, input_file));
 	if (dup2(fd_array[0][READ_END], STDIN_FILENO) == -1)
-		return (perror_return(EXIT_FAILURE, "1_dup2"));
+		return (perror_return(EXIT_FAILURE, "dup2"));
 	else
 		close(fd_array[0][READ_END]);
 	return (EXIT_SUCCESS);

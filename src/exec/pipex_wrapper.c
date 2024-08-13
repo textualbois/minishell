@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_wrapper.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
+/*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 22:14:48 by isemin            #+#    #+#             */
-/*   Updated: 2024/08/13 16:14:45 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/08/13 16:22:33 by isemin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,14 +79,12 @@ static int	parent_await(int last_pid, int fd_array[4][2])
 		if (WTERMSIG(status) == 3)
 			printf("Quit: %d\n", WTERMSIG(status));
 		close_all_4shell(fd_array);
-		if (close(STDIN_FILENO) == -1)
-			perror("close error");
+		close(STDIN_FILENO);
 		restore_stdio(fd_array[3]);
 		return (128 + WTERMSIG(status));
 	}
 	close_all_4shell(fd_array);
-	if (close(STDIN_FILENO) == -1)
-		perror("close error");
+	close(STDIN_FILENO);
 	restore_stdio(fd_array[3]);
 	while (pid != -1)
 		pid = wait(NULL);
