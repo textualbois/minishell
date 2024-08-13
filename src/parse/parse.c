@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
+/*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 16:29:47 by mrusu             #+#    #+#             */
-/*   Updated: 2024/08/12 09:26:27 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/08/13 12:56:32 by isemin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	parse(t_shell *shell)
 		return (prompt_further(shell));
 	if (shell->token_count > 0)
 	{
-		expand_dollar_tokens(shell);
+		expand_dollar_tokens(shell, shell->head);
 		expand_wildcard_tokens(shell);
 		strip_spaces(shell);
 		shell->ast = get_nodes_and_or(shell->head, NULL, NULL);
@@ -53,7 +53,7 @@ int	parse(t_shell *shell)
 void	trim_trailing_spaces(t_shell *shell)
 {
 	t_token	*current;
-	t_token	*tmp;	
+	t_token	*tmp;
 
 	current = shell->tail;
 	while (current && current->type == T_SPACE)
@@ -120,7 +120,7 @@ int	check_start_end(char *input)
 * @ brief: Checks if there are unmatched quotes or
 *	parentheses in the input string. It loops through the
 *	the input string and check for opening and closing quotes
-*	and parentheses. 
+*	and parentheses.
 */
 int	quotes_a_parentheses(char *input)
 {

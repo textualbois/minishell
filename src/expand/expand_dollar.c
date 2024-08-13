@@ -6,7 +6,7 @@
 /*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 10:57:00 by mrusu             #+#    #+#             */
-/*   Updated: 2024/08/13 10:01:17 by isemin           ###   ########.fr       */
+/*   Updated: 2024/08/13 12:56:32 by isemin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,9 @@
 * @ brief: Expands the dollar tokens by replacing them with the value of the
 *	variables they represent, based on tokens type.
 */
-void	expand_dollar_tokens(t_shell *shell)
+void	expand_dollar_tokens(t_shell *shell, t_token *current)
 {
-	t_token	*current;
-
-	current = shell->head;
-	while (current) // goes over all tokens
+	while (current)
 	{
 		if (current->type == T_WORD_EXPAND || current->type == T_DQUOTE)
 			handle_word_or_dquote(shell, current);
@@ -33,54 +30,15 @@ void	expand_dollar_tokens(t_shell *shell)
 			handle_exit_code(shell, current);
 		else if (ft_strchr(current->value, '*'))
 			current->type = T_WILDCARD;
-		else // if not dollar-type or wildcard, skip to next token
+		else
 		{
 			current = current->next;
-			continue;
+			continue ;
 		}
-		if (ft_strchr(current->value, '*')) // YES WE NEED THIS CHECK TWICE
+		if (ft_strchr(current->value, '*'))
 			current->type = T_WILDCARD;
-		else // if not a wildcard, but was a dollar-type, join to previous token
-			current = fallback_on_prev_token(current);
-		current = current->next;
-	} // this is end of function, rest is debug
-
-	current = shell->head;
-
-	int type;
-
-
-	while (current)
-	{
-		type = current->type;
-		printf("After dollar expansion: Type = ");
-		if (type == T_WORD)
-			printf("WORD");
-		else if (type == T_PIPE)
-			printf("PIPE");
-		else if (type == T_OR)
-			printf("OR");
-		else if (type == T_AND)
-			printf("AND");
-		else if (type == T_SPECIAL)
-			printf("SPECIAL");
-		else if (type == T_DOLLAR)
-			printf("DOLLAR");
-		else if (type == T_EXCODE)
-			printf("$?");
-		else if (type == T_WILDCARD)
-			printf("WILDCARD");
-		else if (type == T_WORD_EXPAND)
-			printf("T_WORD_EXPAND");
-		else if (type == T_SQUOTE)
-			printf("T_SQUOTE");
-		else if (type == T_DQUOTE)
-			printf("T_DQUOTE");
-		else if (type == T_SPACE)
-			printf("T_SPACE");
 		else
-			printf("UNKNOWN");
-		printf(", Value = '%s'\n", current->value);
+			current = fallback_on_prev_token(current);
 		current = current->next;
 	}
 }

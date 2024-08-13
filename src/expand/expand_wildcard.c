@@ -6,7 +6,7 @@
 /*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 18:25:03 by mrusu             #+#    #+#             */
-/*   Updated: 2024/08/13 11:33:18 by isemin           ###   ########.fr       */
+/*   Updated: 2024/08/13 12:49:08 by isemin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,15 +59,13 @@ void	expand_wildcard_token(t_shell *shell, t_token *token,
 
 	found_match = false;
 	entry = readdir(dir);
-	while (entry != NULL) // loops through all files in the directory
+	while (entry != NULL)
 	{
 		if (entry->d_name[0] != '.')
 		{
 			if (match(token->value, entry->d_name))
 			{
-				// should be insert token instead of add token
-				insert_token(shell, token , T_WORD, entry->d_name);
-				// add_token(shell, T_WORD, ft_strdup(entry->d_name));
+				insert_token(shell, token, T_WORD, entry->d_name);
 				found_match = true;
 			}
 		}
@@ -110,20 +108,19 @@ void	handle_wildcard_match(t_shell *shell, t_token *token,
 
 bool	match(char *pattern, char *string)
 {
-	if (*pattern == '\0') // if pattern is empty
-		return (*string == '\0'); // if string is also empty return true
-	else if (*pattern == '*') // if we have a wildcard *
+	if (*pattern == '\0')
+		return (*string == '\0');
+	else if (*pattern == '*')
 	{
-
-		while (*string != '\0') // while string not over
+		while (*string != '\0')
 		{
-			if (match(pattern + 1, string)) // assume * matches none. i.e. see if it pattern matches the rest of the string
+			if (match(pattern + 1, string))
 				return (true);
-			string++; // assume * matches one more char.
-		} //
+			string++;
+		}
 		return (match(pattern + 1, string));
 	}
-	else if (*pattern == *string) // if literal matches
-		return (match(pattern + 1, string + 1)); // check next character
+	else if (*pattern == *string)
+		return (match(pattern + 1, string + 1));
 	return (false);
 }

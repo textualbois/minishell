@@ -6,7 +6,7 @@
 /*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 10:48:53 by isemin            #+#    #+#             */
-/*   Updated: 2024/08/12 10:48:57 by isemin           ###   ########.fr       */
+/*   Updated: 2024/08/13 12:47:26 by isemin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ t_token	*fallback_on_prev_token(t_token *current)
 	t_token	*prev;
 
 	prev = current->prev;
-	if (prev != NULL && (prev->type == T_SPACE || prev->type == T_WORD)) // is the second half of the condition correct? maybe we should fallback to other types as well
+	if (prev != NULL && (prev->type == T_SPACE || prev->type == T_WORD))
 	{
 		new_value = ft_strjoin(prev->value, current->value);
 		free(prev->value);
@@ -52,12 +52,9 @@ t_token	*wildcard_join(t_token *current)
 	t_token	*prev;
 
 	prev = current->prev;
-	// it's always fine to fallback, because dollar tokens dont fall forward
 	current = fallback_on_prev_token(current);
-	// do not join forward if current->next was a T_SPACE
-	// because if current->next->next was a $ token, it made a fallback. if the fallback
-	// was made on to a T_SPACE, we should keep the space between intact
-	if (current->next != NULL && (current->next->type == T_WORD)) // is this condition correct? what can we join to?
+
+	if (current->next != NULL && (current->next->type == T_WORD))
 		current = fallback_on_prev_token(current->next);
 	current->type = T_WILDCARD;
 	return (current);
