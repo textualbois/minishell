@@ -6,7 +6,7 @@
 /*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 17:12:27 by isemin            #+#    #+#             */
-/*   Updated: 2024/08/13 19:07:58 by isemin           ###   ########.fr       */
+/*   Updated: 2024/08/14 12:08:46 by isemin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void	free_env_list(t_env *env_list)
 	t_env	*next_env;
 
 	current_env = env_list;
+	perror("free_env_list\n");
 	while (current_env)
 	{
 		next_env = current_env->next;
@@ -32,23 +33,29 @@ void	free_env_list(t_env *env_list)
 // Helper function to free the command structures in the AST
 void	free_ast(t_tree *root)
 {
+	perror("free_ast\n");
 	if (root != NULL)
 	{
-		if (root->left != NULL)
+		if (root->left != NULL) // problem with self
 		{
 			free_ast(root->left);
 			root->left = NULL;
 		}
-		if (root->right != NULL)
+		if (root->right != NULL) // problem with self
 		{
 			free_ast(root->right);
 			root->right = NULL;
 		}
-		if (root->cmd != NULL)
+		if (root->cmd != NULL) // problem with cmd
 		{
+			perror("free_ast: root->cmd\n");
 			clear_arr(root->cmd->args);
 			root->cmd->args = NULL;
-			// free(root->cmd->name);
+			if (root->cmd->name)
+			{
+				free(root->cmd->name);
+				root->cmd->name = NULL;
+			}
 			if (root && root->cmd && root->cmd->input_file)
 			{
 				free(root->cmd->input_file);
@@ -69,6 +76,9 @@ void	free_ast(t_tree *root)
 		root = NULL;
 	}
 }
+
+
+
 // void free_command(t_command *cmd)
 // {
 // 	if (cmd != NULL)
@@ -87,6 +97,7 @@ void	free_ast(t_tree *root)
 // Main function to free the shell structure
 void	free_shell(t_shell *shell)
 {
+	perror("free_shell\n");
 	if (shell != NULL)
 	{
 		free(shell->terminal_prompt);

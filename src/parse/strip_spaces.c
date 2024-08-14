@@ -6,7 +6,7 @@
 /*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 10:23:40 by isemin            #+#    #+#             */
-/*   Updated: 2024/08/13 13:01:28 by isemin           ###   ########.fr       */
+/*   Updated: 2024/08/13 19:20:10 by isemin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,9 @@ static void	remove_token(t_shell *shell, t_token *current)
 	current = current->next;
 	free(temp->value);
 	free(temp);
+	temp->value = NULL;
+	temp = NULL;
+	shell->token_count--;
 }
 
 void	strip_spaces(t_shell *shell)
@@ -48,7 +51,7 @@ void	strip_spaces(t_shell *shell)
 		if (current->type == T_SPACE)
 		{
 			temp = current->next;
-			if (current->value[0] == '\0')
+			if (current->value[0] == '\0' || current->value[0] == ' ')
 				remove_token(shell, current);
 			else
 				current->type = T_WORD;
@@ -76,8 +79,9 @@ void	trim_trailing_spaces(t_shell *shell)
 			current->next = NULL;
 		else
 			shell->head = NULL;
-		free(tmp->value);
-		free(tmp);
-		shell->tail = current;
+		// free(tmp->value);
+		// free(tmp);
+		// shell->tail = current;
+		remove_token(shell, tmp);
 	}
 }

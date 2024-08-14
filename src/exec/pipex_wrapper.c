@@ -6,7 +6,7 @@
 /*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 22:14:48 by isemin            #+#    #+#             */
-/*   Updated: 2024/08/13 16:35:06 by isemin           ###   ########.fr       */
+/*   Updated: 2024/08/13 19:28:06 by isemin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,13 +32,22 @@ static void	pipe_fd_init(int fd[4][2])
 
 void	child_sequence(int fd[][2], int index, t_command *cmd, t_shell *shell)
 {
+	int	res_code;
+
 	signal(SIGQUIT, sigquit_handler);
 	if ((fd[(index % 2) + 1][READ_END]) != -1)
 		close(fd[(index % 2) + 1][READ_END]);
 	if (cmd->name == NULL)
 		exit(EXIT_SUCCESS);
 	else if (is_builtin(cmd))
-		exit(execute_builtin(shell, cmd));
+	{
+		res_code = execute_builtin(shell, cmd);
+		// if (ft_strcmp(cmd->name, "exit") == 0)
+		free_shell(shell);
+		// clear_arr(shell->env);
+		// free_env_list(shell->env_list);
+		exit(res_code);
+	}
 	else
 		try_execution(cmd->name, cmd->args, shell->path, shell->env);
 }

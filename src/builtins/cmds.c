@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmds.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
+/*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 12:30:36 by mrusu             #+#    #+#             */
-/*   Updated: 2024/08/09 11:16:46 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/08/14 12:01:06 by isemin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,11 @@ int	builtin_exit(t_shell *shell, t_command *cmd)
 	while (cmd->args[ac])
 		ac++;
 	if (ac == 1)
-		exit(shell->exit_code);
+	{
+		excode = shell->exit_code;
+		free_shell(shell);
+		exit(excode);
+	}
 	else
 	{
 		if (ft_isnum(cmd->args[1]))
@@ -81,8 +85,9 @@ int	builtin_exit(t_shell *shell, t_command *cmd)
 				excode = 256 + excode;
 			else if (excode > 255)
 				excode = excode % 256;
-			shell->exit_code = excode;
-			exit(shell->exit_code);
+			// shell->exit_code = excode;
+			free_shell(shell);
+			exit(excode);
 		}
 		else
 			return (printf("%s: numeric argument required\n",

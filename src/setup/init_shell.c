@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_shell.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
+/*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 13:30:39 by isemin            #+#    #+#             */
-/*   Updated: 2024/08/09 12:25:06 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/08/14 12:10:49 by isemin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	init_shell(t_shell *shell, char **env)
 		printf(RED"No environment found. Exiting...\n"RESET);
 		exit(1);
 	}
-	shell->env = env;
+	shell->env = ft_arrdup(env);
 	shell->user = getenv("USER");
 	shell->cmd_paths = get_path(env);
 	shell->path = NULL;
@@ -31,6 +31,8 @@ void	init_shell(t_shell *shell, char **env)
 	shell->terminal_prompt = NULL;
 	shell->stdio_fds[0] = dup(STDIN_FILENO);
 	shell->stdio_fds[1] = dup(STDOUT_FILENO);
+	shell->ast = NULL;
+	shell->pwd = NULL;
 	init_shell_env(shell);
 }
 

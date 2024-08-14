@@ -6,7 +6,7 @@
 /*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 15:58:09 by isemin            #+#    #+#             */
-/*   Updated: 2024/08/13 15:52:29 by isemin           ###   ########.fr       */
+/*   Updated: 2024/08/13 20:09:39 by isemin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,11 +75,12 @@ t_tree	*init_cmd_node(t_token *start, t_token *stop, t_tree *parent)
 			current = process_redirections(cmd, current, stop);
 		else if (got_cmd_name == 0)
 		{
-			cmd->name = current->value;
+			cmd->name = ft_strdup(current->value);
 			cmd->args = list_to_arr_no_limit(current);
 			got_cmd_name = 1;
 			res = init_tree_node(current, parent);
 			res->cmd = cmd;
+			cmd->next = NULL;
 		}
 		current = current->next;
 	}
@@ -90,7 +91,7 @@ t_tree	*init_tree_node(t_token *token, t_tree *parent)
 {
 	t_tree	*new_node;
 
-	new_node = ft_calloc(1, sizeof(t_tree));
+	new_node = ft_calloc(sizeof(t_tree), 1);
 	if (!new_node)
 	{
 		perror("Error: Failed to allocate memory for tree node\n");

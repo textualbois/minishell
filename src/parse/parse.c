@@ -6,7 +6,7 @@
 /*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 16:29:47 by mrusu             #+#    #+#             */
-/*   Updated: 2024/08/13 13:01:37 by isemin           ###   ########.fr       */
+/*   Updated: 2024/08/13 19:22:41 by isemin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ int	parse(t_shell *shell)
 		printf("Error: tokenization failed\n");
 		return (1);
 	}
+	// shell->token_count
 	trim_trailing_spaces(shell);
 	if (shell->tail->type >= T_PIPE && shell->tail->type <= T_SPACE)
 		return (prompt_further(shell));
@@ -34,6 +35,7 @@ int	parse(t_shell *shell)
 		expand_wildcard_tokens(shell);
 		strip_spaces(shell);
 		shell->ast = get_nodes_and_or(shell->head, NULL, NULL);
+		free_tokens(shell);
 		if (!shell->ast)
 		{
 			perror("Error: failed to build AST\n");

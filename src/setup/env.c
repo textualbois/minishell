@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
+/*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 13:28:51 by isemin            #+#    #+#             */
-/*   Updated: 2024/08/09 11:25:58 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/08/13 17:49:00 by isemin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,28 +112,34 @@ char	**sync_env_from_list(t_env *env_list)
 void	update_env_shell(t_shell *shell)
 {
 	char	**env;
+	// int i = 0;
 
 	env = sync_env_from_list(shell->env_list);
+	if (shell->env != NULL)
+	{
+		clear_arr(shell->env);
+	}
+	// free_env_list(shell->env_list);
 	if (env == NULL)
 		return ;
 	shell->env = env;
 }
 
-/*
-* @brief: free the env_list.
-*/
-void	free_env_list(t_env *env_list)
-{
-	t_env	*current_env;
-	t_env	*next_env;
+// /*
+// * @brief: free the env_list.
+// */
+// void	free_env_list(t_env *env_list)
+// {
+// 	t_env	*current_env;
+// 	t_env	*next_env;
 
-	current_env = env_list;
-	while (current_env)
-	{
-		next_env = current_env->next;
-		free(current_env->key);
-		free(current_env->value);
-		free(current_env);
-		current_env = next_env;
-	}
-}
+// 	current_env = env_list;
+// 	while (current_env)
+// 	{
+// 		next_env = current_env->next;
+// 		free(current_env->key);
+// 		free(current_env->value);
+// 		free(current_env);
+// 		current_env = next_env;
+// 	}
+// }

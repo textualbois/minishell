@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast_helper.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
+/*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 15:58:09 by isemin            #+#    #+#             */
-/*   Updated: 2024/08/13 16:13:01 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/08/13 20:05:09 by isemin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ char	**list_to_arr_no_limit(t_token *start)
 	{
 		if (current->type == T_WORD)
 		{
-			res[count] = current->value;
+			res[count] = ft_strdup(current->value);
 			count++;
 		}
 		else if (current->value[0] == '>' || current->value[0] == '<')

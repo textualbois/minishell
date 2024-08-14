@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
+/*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 13:17:13 by mrusu             #+#    #+#             */
-/*   Updated: 2024/08/13 16:13:19 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/08/13 17:24:46 by isemin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -265,5 +265,11 @@ int			ft_strcmp(const char *str1, const char *str2);
 // ---wild_math.c
 int			my_max(int a, int b);
 int			my_min(int a, int b);
+
+// ---free.c
+void 		free_shell(t_shell *shell);
+// void		free_command(t_command *cmd);
+void		free_ast(t_tree *root);
+
 
 #endif
