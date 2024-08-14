@@ -6,11 +6,13 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 12:30:36 by mrusu             #+#    #+#             */
-/*   Updated: 2024/08/14 16:39:19 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/08/14 21:46:41 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static int	handle_exit_arg(t_shell *shell, t_command *cmd);
 
 /*
 * @brief: print arguments, -n no newline.
@@ -46,7 +48,6 @@ int	builtin_pwd(void)
 {
 	char	cwd[1024];
 
-	//printf("%s\n", getcwd(cwd, sizeof(cwd)));
 	if (getcwd(cwd, sizeof(cwd)) != NULL)
 	{
 		ft_putstr_fd(cwd, STDOUT_FILENO);
@@ -61,7 +62,7 @@ int	builtin_pwd(void)
 }
 
 /*
-* @brief: exit minishell. // free some stuff.
+* @brief: exit minishell no arg and if arg then call .
 */
 int	builtin_exit(t_shell *shell, t_command *cmd)
 {
@@ -80,20 +81,29 @@ int	builtin_exit(t_shell *shell, t_command *cmd)
 	}
 	else
 	{
-		if (ft_isnum(cmd->args[1]))
-		{
-			excode = ft_atoi(cmd->args[1]);
-			if (excode < 0)
-				excode = 256 + excode;
-			else if (excode > 255)
-				excode = excode % 256;
-			// shell->exit_code = excode;
-			free_shell(shell, 0);
-			exit(excode);
-		}
-		else
-			return (printf("%s: numeric argument required\n",
-					cmd->args[1]), exit(255), 255);
+		return (handle_exit_arg(shell, cmd));
+	}
+}
+
+static int	handle_exit_arg(t_shell *shell, t_command *cmd)
+{
+	int	excode;
+
+	if (ft_isnum(cmd->args[1]))
+	{
+		excode = ft_atoi(cmd->args[1]);
+		if (excode < 0)
+			excode = 256 + excode;
+		else if (excode > 255)
+			excode = excode % 256;
+		free_shell(shell, 0);
+		exit(excode);
+	}
+	else
+	{
+		printf("exit: %s: numeric argument required\n", cmd->args[1]);
+		exit(255);
+		return (255);
 	}
 }
 

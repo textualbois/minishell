@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 17:12:27 by isemin            #+#    #+#             */
-/*   Updated: 2024/08/14 14:11:09 by isemin           ###   ########.fr       */
+/*   Updated: 2024/08/14 21:32:53 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
-
 
 void	free_env_list(t_env *env_list)
 {
@@ -19,7 +18,6 @@ void	free_env_list(t_env *env_list)
 	t_env	*next_env;
 
 	current_env = env_list;
-	// perror("free_env_list\n");
 	while (current_env)
 	{
 		next_env = current_env->next;
@@ -33,22 +31,20 @@ void	free_env_list(t_env *env_list)
 // Helper function to free the command structures in the AST
 void	free_ast(t_tree *root)
 {
-	// perror("free_ast\n");
 	if (root != NULL)
 	{
-		if (root->left != NULL) // problem with self
+		if (root->left != NULL)
 		{
 			free_ast(root->left);
 			root->left = NULL;
 		}
-		if (root->right != NULL) // problem with self
+		if (root->right != NULL)
 		{
 			free_ast(root->right);
 			root->right = NULL;
 		}
-		if (root->cmd != NULL) // problem with cmd
+		if (root->cmd != NULL)
 		{
-			// perror("free_ast: root->cmd\n");
 			clear_arr(root->cmd->args);
 			root->cmd->args = NULL;
 			if (root->cmd->name)
@@ -77,32 +73,13 @@ void	free_ast(t_tree *root)
 	}
 }
 
-
-
-// void free_command(t_command *cmd)
-// {
-// 	if (cmd != NULL)
-// 	{
-// 		clear_arr(cmd->args);  // Free the argument list
-// 		free(cmd->name);               // Free the command name
-// 		free(cmd->input_file);         // Free the input file name, if any
-// 		free(cmd->output_file);        // Free the output file name, if any
-// 		free(cmd->heredoc_delimiter);  // Free the heredoc delimiter, if used
-// 		free(cmd);                     // Finally free the command structure itself
-// 	}
-// }
-
-
-
 // Main function to free the shell structure
 void	free_shell(t_shell *shell, int input_status)
 {
-	// perror("free_shell\n");
 	if (shell != NULL)
 	{
 		free(shell->terminal_prompt);
 		free(shell->input);
-		// free(shell->user);
 		free_env_list(shell->env_list);
 		if (shell->env != NULL)
 			clear_arr(shell->env);
@@ -119,6 +96,36 @@ void	free_shell(t_shell *shell, int input_status)
 			free_ast(shell->ast);
 			shell->ast = NULL;
 		}
-		// free(shell);
 	}
+}
+
+/*
+* @brief: free one node of the environment list.
+*/
+void	free_env_node(t_env *env_node)
+{
+	free(env_node->key);
+	free(env_node->value);
+	free(env_node);
+}
+
+/*
+* @ brief: clears the shell's token list.
+*/
+void	free_tokens(t_shell *shell)
+{
+	t_token	*current;
+	t_token	*next;
+
+	current = shell->head;
+	while (current)
+	{
+		next = current->next;
+		free(current->value);
+		free(current);
+		current = next;
+	}
+	shell->head = NULL;
+	shell->tail = NULL;
+	shell->token_count = 0;
 }

@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 13:28:51 by isemin            #+#    #+#             */
-/*   Updated: 2024/08/14 16:56:21 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/08/14 21:31:40 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,22 +122,3 @@ void	update_env_shell(t_shell *shell)
 		return ;
 	shell->env = env;
 }
-
-// /*
-// * @brief: free the env_list.
-// */
-// void	free_env_list(t_env *env_list)
-// {
-// 	t_env	*current_env;
-// 	t_env	*next_env;
-
-// 	current_env = env_list;
-// 	while (current_env)
-// 	{
-// 		next_env = current_env->next;
-// 		free(current_env->key);
-// 		free(current_env->value);
-// 		free(current_env);
-// 		current_env = next_env;
-// 	}
-// }

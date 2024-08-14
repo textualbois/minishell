@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 13:17:13 by mrusu             #+#    #+#             */
-/*   Updated: 2024/08/14 20:27:50 by isemin           ###   ########.fr       */
+/*   Updated: 2024/08/14 21:46:04 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,6 @@
 # define RESET "\033[m"
 
 // **********************====FUNCTION DECLARATION====*********************
-// main.c
-
 // -------------------------------------------DIR---builtins
 // ---cmds.c
 int			builtin_echo(char **args);
@@ -83,7 +81,6 @@ int			builtin_cd(t_shell *shell, char **args);
 // ---env.c
 int			builtin_env(t_shell *shell, char **args);
 int			builtin_unset(t_shell *shell, char *key);
-void		free_env_node(t_env *env_node);
 char		*get_env_value(t_env *env_list, char *key);
 
 // ---export.c
@@ -224,7 +221,6 @@ void		insert_token(t_shell *shell, t_token *wc_token, \
 
 // -utils.c
 t_tokentype	get_token_type(char *str);
-void		free_tokens(t_shell *shell);
 int			token_count(t_env *env_list);
 int			check_redirect_syntax(char *input, int *i);
 
@@ -243,7 +239,6 @@ t_env		*init_env_list(char **env);
 int			add_env_node(t_env **env_list, char *key, char *value);
 char		**sync_env_from_list(t_env *env_list);
 void		update_env_shell(t_shell *shell);
-void		free_env_list(t_env *env_list);
 
 // -------------------------------------------DIR---signals
 // -signals.c
@@ -253,24 +248,18 @@ void		disable_ctrl_chars(void);
 void		sigquit_handler(int sig);
 
 // -------------------------------------------DIR---utils
-// ---env.c
-t_env		*get_tail(t_env *env_list);
-t_env		*get_key_node(t_env *env_list, char *key);
-
 // ---utiles0.c
 char		**ft_arrdup(char **arr);
 int			ft_isspace(char c);
 int			ft_is_special_char(char c);
 int			ft_strcmp(const char *str1, const char *str2);
 
-// ---wild_math.c
-int			my_max(int a, int b);
-int			my_min(int a, int b);
-
 // ---free.c
-void 		free_shell(t_shell *shell, int input_status);
-// void		free_command(t_command *cmd);
+void		free_env_list(t_env *env_list);
+void		free_shell(t_shell *shell, int input_status);
 void		free_ast(t_tree *root);
+void		free_env_node(t_env *env_node);
+void		free_tokens(t_shell *shell);
 
 
 #endif

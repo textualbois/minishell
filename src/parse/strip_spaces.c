@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   strip_spaces.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 10:23:40 by isemin            #+#    #+#             */
-/*   Updated: 2024/08/14 13:17:58 by isemin           ###   ########.fr       */
+/*   Updated: 2024/08/14 21:29:31 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ static void	remove_token(t_shell *shell, t_token *current)
 	current = current->next;
 	free(temp->value);
 	free(temp);
-	// temp->value = NULL;
 	temp = NULL;
 	shell->token_count--;
 }
@@ -79,9 +78,6 @@ void	trim_trailing_spaces(t_shell *shell)
 			current->next = NULL;
 		else
 			shell->head = NULL;
-		// free(tmp->value);
-		// free(tmp);
-		// shell->tail = current;
 		remove_token(shell, tmp);
 	}
 }

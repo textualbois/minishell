@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: isemin <isemin@student.42.fr>              +#+  +:+       +#+         #
+#    By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/01 09:20:11 by mrusu             #+#    #+#              #
-#    Updated: 2024/08/13 17:22:42 by isemin           ###   ########.fr        #
+#    Updated: 2024/08/14 21:06:49 by mrusu            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -89,7 +89,7 @@ SRC = $(SRC_DIR)/main.c \
 	$(SRC_DIR)/expand/expand_dollar.c $(SRC_DIR)/expand/expand_wildcard.c $(SRC_DIR)/expand/expand_utils.c $(SRC_DIR)/expand/expand_utils2.c \
 	$(SRC_DIR)/prompts/terminal_prompt.c \
 	$(SRC_DIR)/setup/env.c $(SRC_DIR)/setup/init_shell.c \
-	$(SRC_DIR)/utils/utils0.c $(SRC_DIR)/utils/env.c $(SRC_DIR)/utils/wild_math.c $(SRC_DIR)/utils/free.c \
+	$(SRC_DIR)/utils/utils0.c $(SRC_DIR)/utils/free.c \
 	$(SRC_DIR)/builtins/cmds.c $(SRC_DIR)/builtins/env.c $(SRC_DIR)/builtins/export.c $(SRC_DIR)/builtins/change_dir.c \
 	$(SRC_DIR)/signal/signals.c \
 

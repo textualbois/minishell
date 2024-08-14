@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 14:19:18 by isemin            #+#    #+#             */
-/*   Updated: 2024/08/14 20:29:49 by isemin           ###   ########.fr       */
+/*   Updated: 2024/08/14 21:12:55 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,24 +20,15 @@
 int	builtin_env(t_shell *shell, char **args)
 {
 	t_env	*env_node;
-	// t_token	*token;
 
-	// token = shell->head;
-	// if (token != NULL && ft_strcmp(token->value, "env") == 0)
-	// {
-	// 	// token = token->next;
-	// 	// while (token && token->type == T_SPACE)
-	// 		// token = token->next;
 	if (args[1] != NULL)
 		return (printf("env: %s: No such file or directory\n",
-			args[1]), 127);
-	// }
+				args[1]), 127);
 	if (!shell->env_list)
 		return (127);
 	env_node = shell->env_list;
 	while (env_node)
 	{
-		// if (env_node->value && *env_node->value)
 		printf("%s=%s\n", env_node->key, env_node->value);
 		env_node = env_node->next;
 	}
@@ -48,23 +39,6 @@ int	builtin_env(t_shell *shell, char **args)
 * @brief: unset a variable from the environment list.
 * traverse the list and remove the node with matching key.
 */
-
-
-
-void	print_env_array(char **env)
-{
-	int	i = 0;
-	if (env == NULL)
-	{
-		printf("Environment array is NULL.\n");
-		return ;
-	}
-	while (env[i] != NULL)
-	{
-		printf("env[%d]: %s\n", i, env[i]);
-		i++;
-	}
-}
 int	builtin_unset(t_shell *shell, char *key)
 {
 	t_env	*current_env;
@@ -84,24 +58,12 @@ int	builtin_unset(t_shell *shell, char *key)
 				shell->env_list = current_env->next;
 			free_env_node(current_env);
 			update_env_shell(shell);
-			print_env_list(shell->env_list); //debug
-			print_env_array(shell->env); //debug
 			return (0);
 		}
 		last_node = current_env;
 		current_env = current_env->next;
 	}
 	return (1);
-}
-
-/*
-* @brief: free one node of the environment list.
-*/
-void	free_env_node(t_env *env_node)
-{
-	free(env_node->key);
-	free(env_node->value);
-	free(env_node);
 }
 
 /*

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_shell.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 13:30:39 by isemin            #+#    #+#             */
-/*   Updated: 2024/08/14 17:41:57 by isemin           ###   ########.fr       */
+/*   Updated: 2024/08/14 21:31:01 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,6 @@ void	init_shell(t_shell *shell, char **env)
 	{
 		printf(RED"No environment found. Exiting...\n"RESET);
 		exit(1);
-	}
-	else
-	{
-		ft_putstr_fd("Environment found.\n", 1);
-		ft_putstr_fd("Environment found.\n", 2);
 	}
 	shell->env = ft_arrdup(env);
 	shell->user = getenv("USER");
@@ -57,12 +52,6 @@ void	init_shell_env(t_shell *shell)
 		return ;
 	}
 	shlvl = ft_atoi(env_val);
-	ft_putstr_fd("\n\nshlvl: ", 2);
-	ft_putnbr_fd(shlvl, 2);
-	ft_putstr_fd("\n\n", 2);
-	ft_putstr_fd("\n\nshlvl: ", 1);
-	ft_putnbr_fd(shlvl, 1);
-	ft_putstr_fd("\n\n", 1);
 	shlvl_str = ft_itoa(shlvl + 1);
 	kv_pair = ft_strjoin("SHLVL=", shlvl_str);
 	builtin_export(shell, (char *[]){NULL, kv_pair, NULL});

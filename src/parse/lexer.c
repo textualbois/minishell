@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 15:34:33 by mrusu             #+#    #+#             */
-/*   Updated: 2024/08/14 20:11:24 by isemin           ###   ########.fr       */
+/*   Updated: 2024/08/14 21:28:44 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,12 +102,7 @@ void	handle_quote(t_shell *shell, char *input, int *i, int *start)
 		*start = j + 1;
 	}
 	else
-	{
-		printf("Teoretically: Never gonna give you up,\n");
-		printf("never gonna let you down,\n");
-		printf("never gonna run around and desert you.\n");
-		return ;
-	}
+		return (printf("Teoretically: Never gonna give you up,\n"), (void)42);
 }
 
 /*

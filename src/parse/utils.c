@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 10:05:39 by mrusu             #+#    #+#             */
-/*   Updated: 2024/08/14 13:13:37 by isemin           ###   ########.fr       */
+/*   Updated: 2024/08/14 21:32:44 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,29 +40,6 @@ t_tokentype	get_token_type(char *str)
 		return (T_DOLLAR);
 	else
 		return (T_WORD);
-}
-
-/*
-* @ brief: clears the shell's token list.
-*/
-void	free_tokens(t_shell *shell)
-{
-	t_token	*current;
-	t_token	*next;
-
-	current = shell->head;
-	while (current)
-	{
-		next = current->next;
-		free(current->value);
-		free(current);
-		// current->value = NULL;
-		// current = NULL;
-		current = next;
-	}
-	shell->head = NULL;
-	shell->tail = NULL;
-	shell->token_count = 0;
 }
 
 /*

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_wrapper.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 22:14:48 by isemin            #+#    #+#             */
-/*   Updated: 2024/08/14 20:41:13 by isemin           ###   ########.fr       */
+/*   Updated: 2024/08/14 21:44:55 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,24 +50,12 @@ void	child_sequence(int fd[][2], int index, t_command *cmd, t_shell *shell)
 		exit(EXIT_SUCCESS);
 	else if (is_builtin(cmd))
 	{
-		// ft_putstr_fd("Builtin command\n", 2);
-		// ft_putstr_fd(cmd->args[0], 2);
-		// ft_putstr_fd("\n", 2);
-		// ft_putstr_fd(cmd->args[1], 2);
-		// ft_putstr_fd("\n", 2);
 		res_code = execute_builtin_w_pipe(shell, cmd);
-		// // if (ft_strcmp(cmd->name, "exit") == 0)
 		free_shell(shell, 0);
-		// clear_arr(shell->env);
-		// free_env_list(shell->env_list);
 		exit(res_code);
 	}
 	else
-	{
-	ft_putstr_fd("Not a builtin command\n", 2);
-	try_execution(cmd->name, cmd->args, shell->path, shell->env);
-
-	 }
+		try_execution(cmd->name, cmd->args, shell->path, shell->env);
 }
 
 int	pipex_wrapper(t_shell *shell, t_command *cmd)
@@ -81,9 +69,6 @@ int	pipex_wrapper(t_shell *shell, t_command *cmd)
 	save_stdio(fd[3]);
 	while (cmd != NULL)
 	{
-		ft_putstr_fd("cmd: {", 2);
-		ft_putstr_fd(cmd->name, 2);
-		ft_putstr_fd("}\n", 2);
 		if (set_fds_pipe4shell(fd, cmd_num, cmd) != -1)
 		{
 			pid = fork();

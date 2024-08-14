@@ -3,29 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   loop.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 14:02:02 by isemin            #+#    #+#             */
-/*   Updated: 2024/08/14 17:54:08 by isemin           ###   ########.fr       */
+/*   Updated: 2024/08/14 21:36:41 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
-
-void	print_env_array_loop(char **env)
-{
-	int	i = 0;
-	if (env == NULL)
-	{
-		printf("Environment array is NULL.\n");
-		return ;
-	}
-	while (env[i] != NULL)
-	{
-		printf("env[%d]: %s\n", i, env[i]);
-		i++;
-	}
-}
 
 /*
 * @brief : set up the signal handler, int status for input handle
@@ -38,7 +23,6 @@ int	shell_loop(t_shell *shell)
 	signal_handlers();
 	while (42)
 	{
-		// print_env_array_loop(shell->env); //debug
 		form_prompt(shell, NULL);
 		input_status = handle_input(shell);
 		if (input_status == -2)
@@ -47,7 +31,7 @@ int	shell_loop(t_shell *shell)
 			continue ;
 		if (parse(shell) != 0)
 		{
-			printf("Parsing failed\n");
+			printf(RED"Parsing failed\n"RESET);
 			free(shell->input);
 			continue ;
 		}
@@ -57,9 +41,7 @@ int	shell_loop(t_shell *shell)
 		free_ast(shell->ast);
 		free(shell->input);
 	}
-	//free_tokens(shell);
 	free_shell(shell, input_status);
-	printf("Exiting shell1231231232erwfdz.\n");
 	return (0);
 }
 
@@ -71,10 +53,7 @@ void	*ft_readline(t_shell *shell)
 {
 	shell->input = readline(shell->terminal_prompt);
 	if (shell->input == NULL)
-	{
-		printf("readline gave null\n");
 		return (NULL);
-	}
 	if (*(shell->input) != 0)
 		add_history(shell->input);
 	return ((void *)1);
@@ -91,7 +70,7 @@ int	handle_input(t_shell *shell)
 
 	if (ft_readline(shell) == NULL)
 	{
-		printf("Exiting shell.\n");
+		printf(RED"Exiting shell.\n");
 		return (-2);
 	}
 	ret = trim_and_free_input(shell);
