@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 13:17:13 by mrusu             #+#    #+#             */
-/*   Updated: 2024/08/14 21:46:04 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/08/14 23:33:12 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,7 @@ void		close_all_4shell(int fd_array[4][2]);
 // -expand_dollar.c
 void		expand_dollar_tokens(t_shell *shell, t_token *token);
 void		handle_word_or_dquote(t_shell *shell, t_token *token);
-void		process_dollar_token(t_shell *shell, t_token *current);
+void		process_dollar_token(t_shell *shell, t_token *current, char *str);
 char		*expand_word_token(t_shell *shell, const char *str);
 
 // -expand_utils.c
