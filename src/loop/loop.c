@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 14:02:02 by isemin            #+#    #+#             */
-/*   Updated: 2024/08/14 21:36:41 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/08/15 00:32:12 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int	handle_input(t_shell *shell)
 
 	if (ft_readline(shell) == NULL)
 	{
-		printf(RED"Exiting shell.\n");
+		printf(RED"Exiting shell.\n"RESET);
 		return (-2);
 	}
 	ret = trim_and_free_input(shell);

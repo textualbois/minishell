@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/15 17:23:19 by isemin            #+#    #+#             */
-/*   Updated: 2024/08/07 17:56:15 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/08/15 00:31:38 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,6 @@ char	*get_full_path(char *cmd, char **env_paths)
 	int		path_i;
 
 	path_i = 0;
-	if (env_paths == NULL)
-		env_paths = get_path_arr("PATH=/bin:/sbin:/usr/bin:/usr/sbin");
 	if (env_paths != NULL)
 	{
 		while (env_paths[path_i] != NULL)
