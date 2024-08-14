@@ -6,7 +6,7 @@
 /*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 12:30:36 by mrusu             #+#    #+#             */
-/*   Updated: 2024/08/14 12:24:25 by isemin           ###   ########.fr       */
+/*   Updated: 2024/08/14 16:07:14 by isemin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,14 @@ int	builtin_pwd(void)
 {
 	char	cwd[1024];
 
+	//printf("%s\n", getcwd(cwd, sizeof(cwd)));
 	if (getcwd(cwd, sizeof(cwd)) != NULL)
 	{
-		printf("%s\n", cwd);
+		ft_putstr_fd(cwd, 2);
+		ft_putchar_fd('\n', 2);
+		ft_putstr_fd(cwd, 1);
+		ft_putchar_fd('\n', 1);
+		// printf("%s\n", cwd);
 		return (0);
 	}
 	else

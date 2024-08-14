@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
+/*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 14:19:18 by isemin            #+#    #+#             */
-/*   Updated: 2024/08/09 13:33:33 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/08/14 16:06:52 by isemin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,11 @@ int	builtin_env(t_shell *shell)
 	t_env	*env_node;
 	char	*input;
 
+	ft_putstr_fd("\n\nBUULTIN ENV\n\n", 2);
 	input = shell->input;
 	while (ft_isspace(*input))
 		input++;
-	if (ft_strcmp(input, "env") != 0)
+	if (ft_strcmp(input, "env") != 0 && ft_strcmp(input, "env ") != 0 )
 	{
 		printf("env: %s: No such file or directory\n", (input + 3));
 		return (127);
@@ -32,10 +33,16 @@ int	builtin_env(t_shell *shell)
 	if (!shell->env_list)
 		return (127);
 	env_node = shell->env_list;
+	if (env_node)
+		ft_putstr_fd("\nENV NODE NOT NULL \n\n", 2);
 	while (env_node)
 	{
 		if (env_node->value && *env_node->value)
 		{
+			ft_putstr_fd(env_node->key, 2);
+			ft_putstr_fd("=", 2);
+			ft_putstr_fd(env_node->value, 2);
+			ft_putchar_fd('\n', 2);
 			printf("%s=%s\n", env_node->key, env_node->value);
 		}
 		env_node = env_node->next;
@@ -72,6 +79,7 @@ int	builtin_unset(t_env **env_list, char *key)
 		last_node = current_env;
 		current_env = current_env->next;
 	}
+	// shell->env = sync_env_from_list(*env_list);
 	return (1);
 }
 

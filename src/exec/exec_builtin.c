@@ -3,14 +3,43 @@
 /*                                                        :::      ::::::::   */
 /*   exec_builtin.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
+/*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 13:28:48 by isemin            #+#    #+#             */
-/*   Updated: 2024/08/13 16:14:39 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/08/14 16:04:26 by isemin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
+
+
+int	execute_builtin_w_pipe(t_shell *shell, t_command *cmd)
+{
+	int	exit_code;
+
+	exit_code = EXIT_FAILURE;
+	if (ft_strcmp(cmd->name, "echo") == 0)
+		exit_code = builtin_echo(cmd->args);
+	else if (ft_strcmp(cmd->name, "cd") == 0)
+		exit_code = builtin_cd(shell, cmd->args);
+	else if (ft_strcmp(cmd->name, "pwd") == 0 || ft_strcmp(cmd->name, "pwd ") == 0)
+		exit_code = builtin_pwd();
+	else if (ft_strcmp(cmd->name, "export") == 0)
+		exit_code = builtin_export(shell, cmd->args);
+	else if (ft_strcmp(cmd->name, "unset") == 0)
+		exit_code = builtin_unset(&shell->env_list, cmd->args[1]);
+	else if (ft_strcmp(cmd->name, "env") == 0 || ft_strcmp(cmd->name, "env ") == 0)
+		exit_code = builtin_env(shell);
+	else if (ft_strcmp(cmd->name, "exit") == 0)
+		exit_code = builtin_exit(shell, cmd);
+	else
+	{
+		ft_putstr_fd(cmd->name, 2);
+		ft_putstr_fd(" was not recognised", 2);
+		ft_putstr_fd("\n", 2);
+	}
+	return (exit_code);
+}
 
 /*
 * @brief: Executes a builtin command if it exists.

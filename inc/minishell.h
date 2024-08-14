@@ -6,7 +6,7 @@
 /*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 13:17:13 by mrusu             #+#    #+#             */
-/*   Updated: 2024/08/14 12:22:55 by isemin           ###   ########.fr       */
+/*   Updated: 2024/08/14 13:59:58 by isemin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,7 @@ void		save_stdio(int fd[2]);
 void		restore_stdio(int fd[2]);
 
 // ---exec_builtin.c
+int			execute_builtin_w_pipe(t_shell *shell, t_command *cmd);
 int			execute_builtin(t_shell *shell, t_command *cmd);
 int			is_builtin(t_command *cmd);
 void		init_fds_pipe4shell(int fd[4][2]);

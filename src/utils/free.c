@@ -6,7 +6,7 @@
 /*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 17:12:27 by isemin            #+#    #+#             */
-/*   Updated: 2024/08/14 12:23:23 by isemin           ###   ########.fr       */
+/*   Updated: 2024/08/14 14:11:09 by isemin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	free_env_list(t_env *env_list)
 	t_env	*next_env;
 
 	current_env = env_list;
-	perror("free_env_list\n");
+	// perror("free_env_list\n");
 	while (current_env)
 	{
 		next_env = current_env->next;
@@ -33,7 +33,7 @@ void	free_env_list(t_env *env_list)
 // Helper function to free the command structures in the AST
 void	free_ast(t_tree *root)
 {
-	perror("free_ast\n");
+	// perror("free_ast\n");
 	if (root != NULL)
 	{
 		if (root->left != NULL) // problem with self
@@ -48,7 +48,7 @@ void	free_ast(t_tree *root)
 		}
 		if (root->cmd != NULL) // problem with cmd
 		{
-			perror("free_ast: root->cmd\n");
+			// perror("free_ast: root->cmd\n");
 			clear_arr(root->cmd->args);
 			root->cmd->args = NULL;
 			if (root->cmd->name)
@@ -97,7 +97,7 @@ void	free_ast(t_tree *root)
 // Main function to free the shell structure
 void	free_shell(t_shell *shell, int input_status)
 {
-	perror("free_shell\n");
+	// perror("free_shell\n");
 	if (shell != NULL)
 	{
 		free(shell->terminal_prompt);
