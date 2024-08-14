@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
+/*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 13:17:13 by mrusu             #+#    #+#             */
-/*   Updated: 2024/08/14 16:50:54 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/08/14 20:27:50 by isemin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ int			ft_isnum(const char *str);
 int			builtin_cd(t_shell *shell, char **args);
 
 // ---env.c
-int			builtin_env(t_shell *shell);
+int			builtin_env(t_shell *shell, char **args);
 int			builtin_unset(t_shell *shell, char *key);
 void		free_env_node(t_env *env_node);
 char		*get_env_value(t_env *env_list, char *key);

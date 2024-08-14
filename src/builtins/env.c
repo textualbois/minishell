@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
+/*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 14:19:18 by isemin            #+#    #+#             */
-/*   Updated: 2024/08/14 17:15:05 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/08/14 20:29:49 by isemin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,28 +17,28 @@
 * it will print an error message and return 127.
 */
 
-int	builtin_env(t_shell *shell)
+int	builtin_env(t_shell *shell, char **args)
 {
 	t_env	*env_node;
-	t_token	*token;
+	// t_token	*token;
 
-	token = shell->head;
-	if (token != NULL && ft_strcmp(token->value, "env") == 0)
-	{
-		token = token->next;
-		while (token && token->type == T_SPACE)
-			token = token->next;
-		if (token != NULL)
-			return (printf("env: %s: No such file or directory\n",
-					token->value), 127);
-	}
+	// token = shell->head;
+	// if (token != NULL && ft_strcmp(token->value, "env") == 0)
+	// {
+	// 	// token = token->next;
+	// 	// while (token && token->type == T_SPACE)
+	// 		// token = token->next;
+	if (args[1] != NULL)
+		return (printf("env: %s: No such file or directory\n",
+			args[1]), 127);
+	// }
 	if (!shell->env_list)
 		return (127);
 	env_node = shell->env_list;
 	while (env_node)
 	{
-		if (env_node->value && *env_node->value)
-			printf("%s=%s\n", env_node->key, env_node->value);
+		// if (env_node->value && *env_node->value)
+		printf("%s=%s\n", env_node->key, env_node->value);
 		env_node = env_node->next;
 	}
 	return (0);

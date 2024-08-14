@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_builtin.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
+/*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 13:28:48 by isemin            #+#    #+#             */
-/*   Updated: 2024/08/14 16:50:29 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/08/14 20:27:22 by isemin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	execute_builtin_w_pipe(t_shell *shell, t_command *cmd)
 	else if (ft_strcmp(cmd->name, "unset") == 0)
 		exit_code = builtin_unset(shell, cmd->args[1]);
 	else if (ft_strcmp(cmd->name, "env") == 0)
-		exit_code = builtin_env(shell);
+		exit_code = builtin_env(shell, cmd->args);
 	else if (ft_strcmp(cmd->name, "exit") == 0)
 		exit_code = builtin_exit(shell, cmd);
 	else
@@ -63,7 +63,7 @@ int	execute_builtin(t_shell *shell, t_command *cmd)
 	if (ft_strcmp(cmd->name, "unset") == 0)
 		exit_code = builtin_unset(shell, cmd->args[1]);
 	if (ft_strcmp(cmd->name, "env") == 0)
-		exit_code = builtin_env(shell);
+		exit_code = builtin_env(shell, cmd->args);
 	if (ft_strcmp(cmd->name, "exit") == 0)
 		exit_code = builtin_exit(shell, cmd);
 	close_all_4shell(fd);

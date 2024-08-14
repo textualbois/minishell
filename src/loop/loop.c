@@ -6,11 +6,26 @@
 /*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 14:02:02 by isemin            #+#    #+#             */
-/*   Updated: 2024/08/14 13:16:03 by isemin           ###   ########.fr       */
+/*   Updated: 2024/08/14 17:54:08 by isemin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
+
+void	print_env_array_loop(char **env)
+{
+	int	i = 0;
+	if (env == NULL)
+	{
+		printf("Environment array is NULL.\n");
+		return ;
+	}
+	while (env[i] != NULL)
+	{
+		printf("env[%d]: %s\n", i, env[i]);
+		i++;
+	}
+}
 
 /*
 * @brief : set up the signal handler, int status for input handle
@@ -23,6 +38,7 @@ int	shell_loop(t_shell *shell)
 	signal_handlers();
 	while (42)
 	{
+		// print_env_array_loop(shell->env); //debug
 		form_prompt(shell, NULL);
 		input_status = handle_input(shell);
 		if (input_status == -2)

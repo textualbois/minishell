@@ -6,7 +6,7 @@
 /*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 15:34:33 by mrusu             #+#    #+#             */
-/*   Updated: 2024/08/13 18:09:12 by isemin           ###   ########.fr       */
+/*   Updated: 2024/08/14 20:11:24 by isemin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	tokenize(t_shell *shell, char *input)
 */
 void	handle_character(t_shell *shell, char *input, int *i, int *start)
 {
-	char *temp;
+	char	*temp;
 
 	if (ft_isspace(input[*i]))
 	{
@@ -83,6 +83,7 @@ void	handle_quote(t_shell *shell, char *input, int *i, int *start)
 	char		quote;
 	int			j;
 	t_tokentype	type;
+	char		*temp;
 
 	quote = input[*i];
 	j = *i + 1;
@@ -94,7 +95,9 @@ void	handle_quote(t_shell *shell, char *input, int *i, int *start)
 			type = T_DQUOTE;
 		else
 			type = T_SQUOTE;
-		add_token(shell, type, ft_substr(input, *i, j - *i + 1));
+		temp = ft_substr(input, *i + 1, j - (*i + 1));
+		add_token(shell, type, temp);
+		free(temp);
 		*i = j;
 		*start = j + 1;
 	}
