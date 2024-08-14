@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 14:19:18 by isemin            #+#    #+#             */
-/*   Updated: 2024/08/14 16:06:52 by isemin           ###   ########.fr       */
+/*   Updated: 2024/08/14 17:15:05 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,35 +16,29 @@
 * @brief: print the environment list. if any arguments are passed
 * it will print an error message and return 127.
 */
+
 int	builtin_env(t_shell *shell)
 {
 	t_env	*env_node;
-	char	*input;
+	t_token	*token;
 
-	ft_putstr_fd("\n\nBUULTIN ENV\n\n", 2);
-	input = shell->input;
-	while (ft_isspace(*input))
-		input++;
-	if (ft_strcmp(input, "env") != 0 && ft_strcmp(input, "env ") != 0 )
+	token = shell->head;
+	if (token != NULL && ft_strcmp(token->value, "env") == 0)
 	{
-		printf("env: %s: No such file or directory\n", (input + 3));
-		return (127);
+		token = token->next;
+		while (token && token->type == T_SPACE)
+			token = token->next;
+		if (token != NULL)
+			return (printf("env: %s: No such file or directory\n",
+					token->value), 127);
 	}
 	if (!shell->env_list)
 		return (127);
 	env_node = shell->env_list;
-	if (env_node)
-		ft_putstr_fd("\nENV NODE NOT NULL \n\n", 2);
 	while (env_node)
 	{
 		if (env_node->value && *env_node->value)
-		{
-			ft_putstr_fd(env_node->key, 2);
-			ft_putstr_fd("=", 2);
-			ft_putstr_fd(env_node->value, 2);
-			ft_putchar_fd('\n', 2);
 			printf("%s=%s\n", env_node->key, env_node->value);
-		}
 		env_node = env_node->next;
 	}
 	return (0);
@@ -54,15 +48,32 @@ int	builtin_env(t_shell *shell)
 * @brief: unset a variable from the environment list.
 * traverse the list and remove the node with matching key.
 */
-int	builtin_unset(t_env **env_list, char *key)
-{
-	t_env	*last_node;
-	t_env	*current_env;
 
-	last_node = NULL;
-	current_env = *env_list;
-	if (!env_list || !key)
+
+
+void	print_env_array(char **env)
+{
+	int	i = 0;
+	if (env == NULL)
+	{
+		printf("Environment array is NULL.\n");
+		return ;
+	}
+	while (env[i] != NULL)
+	{
+		printf("env[%d]: %s\n", i, env[i]);
+		i++;
+	}
+}
+int	builtin_unset(t_shell *shell, char *key)
+{
+	t_env	*current_env;
+	t_env	*last_node;
+
+	if (!shell->env_list || !key)
 		return (1);
+	current_env = shell->env_list;
+	last_node = NULL;
 	while (current_env)
 	{
 		if (ft_strcmp(current_env->key, key) == 0)
@@ -70,16 +81,16 @@ int	builtin_unset(t_env **env_list, char *key)
 			if (last_node)
 				last_node->next = current_env->next;
 			else
-				*env_list = current_env->next;
+				shell->env_list = current_env->next;
 			free_env_node(current_env);
-			if (ft_strcmp(key, "USER") == 0)
-				form_prompt(NULL, "");
+			update_env_shell(shell);
+			print_env_list(shell->env_list); //debug
+			print_env_array(shell->env); //debug
 			return (0);
 		}
 		last_node = current_env;
 		current_env = current_env->next;
 	}
-	// shell->env = sync_env_from_list(*env_list);
 	return (1);
 }
 

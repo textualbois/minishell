@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   exec_builtin.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 13:28:48 by isemin            #+#    #+#             */
-/*   Updated: 2024/08/14 16:04:26 by isemin           ###   ########.fr       */
+/*   Updated: 2024/08/14 16:50:29 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
-
 
 int	execute_builtin_w_pipe(t_shell *shell, t_command *cmd)
 {
@@ -22,13 +21,13 @@ int	execute_builtin_w_pipe(t_shell *shell, t_command *cmd)
 		exit_code = builtin_echo(cmd->args);
 	else if (ft_strcmp(cmd->name, "cd") == 0)
 		exit_code = builtin_cd(shell, cmd->args);
-	else if (ft_strcmp(cmd->name, "pwd") == 0 || ft_strcmp(cmd->name, "pwd ") == 0)
+	else if (ft_strcmp(cmd->name, "pwd") == 0)
 		exit_code = builtin_pwd();
 	else if (ft_strcmp(cmd->name, "export") == 0)
 		exit_code = builtin_export(shell, cmd->args);
 	else if (ft_strcmp(cmd->name, "unset") == 0)
-		exit_code = builtin_unset(&shell->env_list, cmd->args[1]);
-	else if (ft_strcmp(cmd->name, "env") == 0 || ft_strcmp(cmd->name, "env ") == 0)
+		exit_code = builtin_unset(shell, cmd->args[1]);
+	else if (ft_strcmp(cmd->name, "env") == 0)
 		exit_code = builtin_env(shell);
 	else if (ft_strcmp(cmd->name, "exit") == 0)
 		exit_code = builtin_exit(shell, cmd);
@@ -62,7 +61,7 @@ int	execute_builtin(t_shell *shell, t_command *cmd)
 	if (ft_strcmp(cmd->name, "export") == 0)
 		exit_code = builtin_export(shell, cmd->args);
 	if (ft_strcmp(cmd->name, "unset") == 0)
-		exit_code = builtin_unset(&shell->env_list, cmd->args[1]);
+		exit_code = builtin_unset(shell, cmd->args[1]);
 	if (ft_strcmp(cmd->name, "env") == 0)
 		exit_code = builtin_env(shell);
 	if (ft_strcmp(cmd->name, "exit") == 0)

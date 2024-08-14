@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 13:28:51 by isemin            #+#    #+#             */
-/*   Updated: 2024/08/13 17:49:00 by isemin           ###   ########.fr       */
+/*   Updated: 2024/08/14 16:56:21 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,14 +112,12 @@ char	**sync_env_from_list(t_env *env_list)
 void	update_env_shell(t_shell *shell)
 {
 	char	**env;
-	// int i = 0;
 
 	env = sync_env_from_list(shell->env_list);
 	if (shell->env != NULL)
 	{
 		clear_arr(shell->env);
 	}
-	// free_env_list(shell->env_list);
 	if (env == NULL)
 		return ;
 	shell->env = env;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmds.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 12:30:36 by mrusu             #+#    #+#             */
-/*   Updated: 2024/08/14 16:07:14 by isemin           ###   ########.fr       */
+/*   Updated: 2024/08/14 16:39:19 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,11 +49,8 @@ int	builtin_pwd(void)
 	//printf("%s\n", getcwd(cwd, sizeof(cwd)));
 	if (getcwd(cwd, sizeof(cwd)) != NULL)
 	{
-		ft_putstr_fd(cwd, 2);
-		ft_putchar_fd('\n', 2);
-		ft_putstr_fd(cwd, 1);
-		ft_putchar_fd('\n', 1);
-		// printf("%s\n", cwd);
+		ft_putstr_fd(cwd, STDOUT_FILENO);
+		ft_putchar_fd('\n', STDOUT_FILENO);
 		return (0);
 	}
 	else

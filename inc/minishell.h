@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 13:17:13 by mrusu             #+#    #+#             */
-/*   Updated: 2024/08/14 13:59:58 by isemin           ###   ########.fr       */
+/*   Updated: 2024/08/14 16:50:54 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ int			builtin_cd(t_shell *shell, char **args);
 
 // ---env.c
 int			builtin_env(t_shell *shell);
-int			builtin_unset(t_env **env_list, char *key);
+int			builtin_unset(t_shell *shell, char *key);
 void		free_env_node(t_env *env_node);
 char		*get_env_value(t_env *env_list, char *key);
 
