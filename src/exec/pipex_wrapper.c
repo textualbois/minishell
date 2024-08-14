@@ -6,7 +6,7 @@
 /*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 22:14:48 by isemin            #+#    #+#             */
-/*   Updated: 2024/08/13 19:28:06 by isemin           ###   ########.fr       */
+/*   Updated: 2024/08/14 12:24:34 by isemin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	child_sequence(int fd[][2], int index, t_command *cmd, t_shell *shell)
 	{
 		res_code = execute_builtin(shell, cmd);
 		// if (ft_strcmp(cmd->name, "exit") == 0)
-		free_shell(shell);
+		free_shell(shell, 0);
 		// clear_arr(shell->env);
 		// free_env_list(shell->env_list);
 		exit(res_code);

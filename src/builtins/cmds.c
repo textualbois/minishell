@@ -6,7 +6,7 @@
 /*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 12:30:36 by mrusu             #+#    #+#             */
-/*   Updated: 2024/08/14 12:01:06 by isemin           ###   ########.fr       */
+/*   Updated: 2024/08/14 12:24:25 by isemin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ int	builtin_exit(t_shell *shell, t_command *cmd)
 	if (ac == 1)
 	{
 		excode = shell->exit_code;
-		free_shell(shell);
+		free_shell(shell, 0);
 		exit(excode);
 	}
 	else
@@ -86,7 +86,7 @@ int	builtin_exit(t_shell *shell, t_command *cmd)
 			else if (excode > 255)
 				excode = excode % 256;
 			// shell->exit_code = excode;
-			free_shell(shell);
+			free_shell(shell, 0);
 			exit(excode);
 		}
 		else

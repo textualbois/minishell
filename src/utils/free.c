@@ -6,7 +6,7 @@
 /*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 17:12:27 by isemin            #+#    #+#             */
-/*   Updated: 2024/08/14 12:08:46 by isemin           ###   ########.fr       */
+/*   Updated: 2024/08/14 12:23:23 by isemin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ void	free_ast(t_tree *root)
 
 
 // Main function to free the shell structure
-void	free_shell(t_shell *shell)
+void	free_shell(t_shell *shell, int input_status)
 {
 	perror("free_shell\n");
 	if (shell != NULL)
@@ -114,7 +114,7 @@ void	free_shell(t_shell *shell)
 			clear_arr(shell->path);
 		if (shell->pwd != NULL)
 			free(shell->pwd);
-		if (shell->ast != NULL)
+		if (input_status != -2 && shell->ast != NULL)
 		{
 			free_ast(shell->ast);
 			shell->ast = NULL;

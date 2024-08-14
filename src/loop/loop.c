@@ -6,7 +6,7 @@
 /*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 14:02:02 by isemin            #+#    #+#             */
-/*   Updated: 2024/08/13 19:53:27 by isemin           ###   ########.fr       */
+/*   Updated: 2024/08/14 12:25:22 by isemin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	shell_loop(t_shell *shell)
 		free(shell->input);
 	}
 	//free_tokens(shell);
-	free_shell(shell);
+	free_shell(shell, input_status);
 	printf("Exiting shell1231231232erwfdz.\n");
 	return (0);
 }
