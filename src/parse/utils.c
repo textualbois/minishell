@@ -6,7 +6,7 @@
 /*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 10:05:39 by mrusu             #+#    #+#             */
-/*   Updated: 2024/08/14 11:53:21 by isemin           ###   ########.fr       */
+/*   Updated: 2024/08/14 13:13:37 by isemin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@ void	free_tokens(t_shell *shell)
 		next = current->next;
 		free(current->value);
 		free(current);
+		// current->value = NULL;
+		// current = NULL;
 		current = next;
 	}
 	shell->head = NULL;

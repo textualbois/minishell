@@ -6,7 +6,7 @@
 /*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 10:23:40 by isemin            #+#    #+#             */
-/*   Updated: 2024/08/13 19:20:10 by isemin           ###   ########.fr       */
+/*   Updated: 2024/08/14 13:17:58 by isemin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static void	remove_token(t_shell *shell, t_token *current)
 	current = current->next;
 	free(temp->value);
 	free(temp);
-	temp->value = NULL;
+	// temp->value = NULL;
 	temp = NULL;
 	shell->token_count--;
 }

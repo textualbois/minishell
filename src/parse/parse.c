@@ -6,7 +6,7 @@
 /*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 16:29:47 by mrusu             #+#    #+#             */
-/*   Updated: 2024/08/13 19:22:41 by isemin           ###   ########.fr       */
+/*   Updated: 2024/08/14 13:15:11 by isemin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,9 @@ int	parse(t_shell *shell)
 		expand_wildcard_tokens(shell);
 		strip_spaces(shell);
 		shell->ast = get_nodes_and_or(shell->head, NULL, NULL);
-		free_tokens(shell);
+		// free_tokens(shell);
+		// shell->head = NULL;
+		// shell->tail = NULL;
 		if (!shell->ast)
 		{
 			perror("Error: failed to build AST\n");
