@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 13:17:13 by mrusu             #+#    #+#             */
-/*   Updated: 2024/08/14 23:33:12 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/08/15 02:04:24 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -260,6 +260,5 @@ void		free_shell(t_shell *shell, int input_status);
 void		free_ast(t_tree *root);
 void		free_env_node(t_env *env_node);
 void		free_tokens(t_shell *shell);
-
 
 #endif

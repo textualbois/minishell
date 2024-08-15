@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 10:57:00 by mrusu             #+#    #+#             */
-/*   Updated: 2024/08/15 00:47:12 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/08/15 02:10:04 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,40 +18,18 @@
 */
 void	expand_dollar_tokens(t_shell *shell, t_token *current)
 {
-	printf("Tokens before expansion:\n");
-	t_token *tmp = current;
-	while (tmp)
-	{
-		printf("Token type: %d, Token value: %s\n", tmp->type, tmp->value);
-		tmp = tmp->next;
-	}
-	printf("\n");
 	while (current)
 	{
 		if (current->type == T_WORD_EXPAND || current->type == T_DQUOTE)
-		{
-			printf("Handling word or dquote\n");
 			handle_word_or_dquote(shell, current);
-		}
 		else if (current->type == T_SQUOTE)
-		{
-			printf("Handling single quote\n");
 			handle_single_quote(current);
-		}
 		else if (current->type == T_DOLLAR)
-		{
-			printf("Handling dollar\n");
 			process_dollar_token(shell, current, ft_strdup(current->value));
-		}
 		else if (current->type == T_EXCODE)
-		{
-			printf("Handling exit code\n");
 			handle_exit_code(shell, current);
-		}
 		else if (ft_strchr(current->value, '*'))
-		{
 			current->type = T_WILDCARD;
-		}
 		else
 		{
 			current = current->next;
@@ -63,14 +41,6 @@ void	expand_dollar_tokens(t_shell *shell, t_token *current)
 			current = fallback_on_prev_token(current);
 		current = current->next;
 	}
-	printf("Tokens after expansion:\n");
-	tmp = shell->head;
-	while (tmp)
-	{
-		printf("Token type: %d, Token value: %s\n", tmp->type, tmp->value);
-		tmp = tmp->next;
-	}
-	printf("\n");
 }
 
 /*
@@ -84,11 +54,10 @@ void	handle_word_or_dquote(t_shell *shell, t_token *token)
 	q_c = 0;
 	while (token->value[q_c] == '\'' || token->value[q_c] == '"')
 		q_c++;
-	printf("q_c: %d\n", q_c);
-	printf("Token value after word/dquote handling: '%s'\n", token->value);
 	if (token->value[q_c] == '$')
 	{
-		process_dollar_token(shell, token, ft_substr(token->value, q_c + 1, ft_strlen(token->value) - q_c - 1 - (q_c > 0)));
+		process_dollar_token(shell, token, ft_substr(token->value, q_c + 1,
+				ft_strlen(token->value) - q_c - 1 - (q_c > 0)));
 		if (q_c > 0)
 		{
 			temp = ft_strjoin_free(ft_strdup("\'"), token->value);
@@ -97,11 +66,9 @@ void	handle_word_or_dquote(t_shell *shell, t_token *token)
 		}
 	}
 	token->type = T_WORD;
-	printf("Token value after dollar expansion: '%s'\n", token->value);
 	if (token->prev != NULL && token->prev->type == T_WORD)
 	{
 		fallback_on_prev_token(token);
-		printf("Token value after fallback: '%s'\n", token->value);
 	}
 }
 

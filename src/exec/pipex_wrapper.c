@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 22:14:48 by isemin            #+#    #+#             */
-/*   Updated: 2024/08/14 21:44:55 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/08/15 02:12:47 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ static int	parent_await(int last_pid, int fd_array[4][2]);
 static void	try_execution(char *cmd, char **args, char \
 							**env_paths, char **envp);
 
-//maybe comment out this
 static void	pipe_fd_init(int fd[4][2])
 {
 	int	i;
@@ -37,15 +36,6 @@ void	child_sequence(int fd[][2], int index, t_command *cmd, t_shell *shell)
 	signal(SIGQUIT, sigquit_handler);
 	if ((fd[(index % 2) + 1][READ_END]) != -1)
 		close(fd[(index % 2) + 1][READ_END]);
-	else
-	{
-		ft_putstr_fd("For cmd [",2);
-		ft_putstr_fd(cmd->name,2);
-		ft_putstr_fd("] child read not open\n",2);
-		ft_putstr_fd("fd[",2);
-		ft_putnbr_fd((index % 2) + 1,2);
-		ft_putstr_fd("][READ_END] == 1\n",2);
-	}
 	if (cmd->name == NULL)
 		exit(EXIT_SUCCESS);
 	else if (is_builtin(cmd))
