@@ -3,14 +3,44 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
+/*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 13:28:51 by isemin            #+#    #+#             */
-/*   Updated: 2024/08/14 21:31:40 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/08/15 02:38:14 by isemin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
+
+static char	**sync_path(t_env *current_env);
+
+static char	**sync_path(t_env *current_env)
+{
+	char	*path;
+	char	**path_arr;
+	char	**path_arr_temp;
+
+	path = NULL;
+	path_arr = NULL;
+	while (current_env)
+	{
+		if (ft_strncmp(current_env->key, "PATH", 5) == 0)
+		{
+			path = current_env->value;
+			break ;
+		}
+		current_env = current_env->next;
+	}
+	if (path == NULL)
+		return (NULL);
+	path_arr_temp = ft_split(current_env->value, ':');
+	if (path_arr_temp != NULL)
+	{
+		path_arr = ft_map_s2a(path_arr_temp, "/\0", ft_strjoin);
+		clear_arr(path_arr_temp);
+	}
+	return (path_arr);
+}
 
 /*
 * @brief: create env list with the environment variables
@@ -77,7 +107,7 @@ int	add_env_node(t_env **env_list, char *key, char *value)
 * @brief: go through the env_list and update the shell->env with the new values.
 * becouse changes are made to the env_list.
 */
-char	**sync_env_from_list(t_env *env_list)
+char	**sync_env_from_list(t_env *env_list, t_shell *shell)
 {
 	t_env	*current_env;
 	char	**env;
@@ -85,8 +115,7 @@ char	**sync_env_from_list(t_env *env_list)
 	char	*temp;
 
 	current_env = env_list;
-	i = token_count(env_list);
-	env = malloc(sizeof(char *) * (i + 1));
+	env = malloc(sizeof(char *) * (token_count(env_list) + 1));
 	if (env == NULL)
 		return (printf("malloc failed"), NULL);
 	current_env = env_list;
@@ -102,6 +131,7 @@ char	**sync_env_from_list(t_env *env_list)
 		i++;
 	}
 	env[i] = NULL;
+	shell->path = sync_path(env_list);
 	return (env);
 }
 
@@ -113,7 +143,7 @@ void	update_env_shell(t_shell *shell)
 {
 	char	**env;
 
-	env = sync_env_from_list(shell->env_list);
+	env = sync_env_from_list(shell->env_list, shell);
 	if (shell->env != NULL)
 	{
 		clear_arr(shell->env);
