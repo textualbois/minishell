@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils0.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 13:22:09 by mrusu             #+#    #+#             */
-/*   Updated: 2024/08/14 12:07:15 by isemin           ###   ########.fr       */
+/*   Updated: 2024/08/15 02:16:23 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,7 @@ char	**ft_arrdup(char **arr)
 		if (!new_arr[i])
 		{
 			while (i > 0)
-			{
-				printf("freeing %s\n", new_arr[i - 1]);
 				free(new_arr[--i]);
-			}
-			printf("freeing new_arr\n");
 			free(new_arr);
 			return (NULL);
 		}
