@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 10:57:00 by mrusu             #+#    #+#             */
-/*   Updated: 2024/08/15 02:10:04 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/08/15 02:57:22 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,31 @@ void	expand_dollar_tokens(t_shell *shell, t_token *current)
 /*
 * @ brief: Handles a T_WORD_EXPAND or T_DQUOTE token by expanding the word.
 */
+// void	handle_word_or_dquote(t_shell *shell, t_token *token)
+// {
+// 	char	*temp;
+// 	int		q_c;
+
+// 	q_c = 0;
+// 	while (token->value[q_c] == '\'' || token->value[q_c] == '"')
+// 		q_c++;
+// 	if (token->value[q_c] == '$')
+// 	{
+// 		process_dollar_token(shell, token, ft_substr(token->value, q_c + 1,
+// 				ft_strlen(token->value) - q_c - 1 - (q_c > 0)));
+// 		if (q_c > 0)
+// 		{
+// 			temp = ft_strjoin_free(ft_strdup("\'"), token->value);
+// 			free(token->value);
+// 			token->value = ft_strjoin_free(temp, "\'");
+// 		}
+// 	}
+// 	token->type = T_WORD;
+// 	if (token->prev != NULL && token->prev->type == T_WORD)
+// 	{
+// 		fallback_on_prev_token(token);
+// 	}
+// }
 void	handle_word_or_dquote(t_shell *shell, t_token *token)
 {
 	char	*temp;
@@ -58,18 +83,18 @@ void	handle_word_or_dquote(t_shell *shell, t_token *token)
 	{
 		process_dollar_token(shell, token, ft_substr(token->value, q_c + 1,
 				ft_strlen(token->value) - q_c - 1 - (q_c > 0)));
-		if (q_c > 0)
-		{
-			temp = ft_strjoin_free(ft_strdup("\'"), token->value);
-			free(token->value);
-			token->value = ft_strjoin_free(temp, "\'");
-		}
+	}
+	if (token->next && token->next->type == T_WORD)
+	{
+		temp = ft_strjoin_free(token->value, token->next->value);
+		free(token->next->value);
+		token->next->value = temp;
+		token->value = token->next->value;
+		token->next = token->next->next;
 	}
 	token->type = T_WORD;
 	if (token->prev != NULL && token->prev->type == T_WORD)
-	{
 		fallback_on_prev_token(token);
-	}
 }
 
 /*
