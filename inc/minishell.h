@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
+/*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 13:17:13 by mrusu             #+#    #+#             */
-/*   Updated: 2024/08/15 02:27:44 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/08/15 02:40:32 by isemin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -228,7 +228,7 @@ void		init_shell_env(t_shell *shell);
 // -env.c
 t_env		*init_env_list(char **env);
 int			add_env_node(t_env **env_list, char *key, char *value);
-char		**sync_env_from_list(t_env *env_list);
+char		**sync_env_from_list(t_env *env_list, t_shell *shell);
 void		update_env_shell(t_shell *shell);
 
 // -------------------------------------------DIR---signals
