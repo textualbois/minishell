@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   terminal_prompt.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
+/*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 14:48:23 by isemin            #+#    #+#             */
-/*   Updated: 2024/08/09 09:40:35 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/08/15 03:12:20 by isemin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,11 @@ void	form_prompt(t_shell *shell, char *new_user_name)
 			free(user);
 		user = malloc(sizeof(char) * (ft_strlen(new_user_name) + 1));
 		ft_strlcpy(user, new_user_name, ft_strlen(new_user_name) + 1);
+	}
+	else if (new_user_name == NULL && shell == NULL)
+	{
+		if (user)
+			free(user);
 	}
 	else
 	{

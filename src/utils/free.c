@@ -6,7 +6,7 @@
 /*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 17:12:27 by isemin            #+#    #+#             */
-/*   Updated: 2024/08/15 02:49:25 by isemin           ###   ########.fr       */
+/*   Updated: 2024/08/15 03:14:56 by isemin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,7 @@ void	free_shell(t_shell *shell, int input_status)
 			shell->ast = NULL;
 		}
 	}
+	form_prompt(NULL, NULL);
 }
 
 /*
