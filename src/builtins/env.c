@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 14:19:18 by isemin            #+#    #+#             */
-/*   Updated: 2024/08/14 21:12:55 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/08/15 02:20:25 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,4 +81,14 @@ char	*get_env_value(t_env *env_list, char *key)
 		current_env = current_env->next;
 	}
 	return (NULL);
+}
+
+/*
+* @brief: free one node of the environment list.
+*/
+void	free_env_node(t_env *env_node)
+{
+	free(env_node->key);
+	free(env_node->value);
+	free(env_node);
 }

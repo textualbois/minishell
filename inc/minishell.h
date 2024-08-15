@@ -6,7 +6,7 @@
 /*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 13:17:13 by mrusu             #+#    #+#             */
-/*   Updated: 2024/08/15 02:04:24 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/08/15 02:27:44 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,16 +49,6 @@
 #  define ANY_CHILD -1
 # endif
 
-// ast_debug
-# define GET 0
-# define SET 1
-# define LEFT -1
-# define RIGHT 1
-# define DOWN 2
-# define UP -2
-# define CURRENT_WIDTH 3
-# define CURRENT_DEPTH -3
-
 // Colors
 # define RED "\033[1;31m"
 # define GREEN "\033[0;32m"
@@ -82,6 +72,7 @@ int			builtin_cd(t_shell *shell, char **args);
 int			builtin_env(t_shell *shell, char **args);
 int			builtin_unset(t_shell *shell, char *key);
 char		*get_env_value(t_env *env_list, char *key);
+void		free_env_node(t_env *env_node);
 
 // ---export.c
 int			builtin_export(t_shell *shell, char **args);
@@ -258,7 +249,6 @@ int			ft_strcmp(const char *str1, const char *str2);
 void		free_env_list(t_env *env_list);
 void		free_shell(t_shell *shell, int input_status);
 void		free_ast(t_tree *root);
-void		free_env_node(t_env *env_node);
 void		free_tokens(t_shell *shell);
 
 #endif
