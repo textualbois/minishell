@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
+/*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 17:12:27 by isemin            #+#    #+#             */
-/*   Updated: 2024/08/14 21:32:53 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/08/15 02:08:29 by isemin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,32 @@ void	free_env_list(t_env *env_list)
 	}
 }
 
+static void	free_cmd(t_command *cmd)
+{
+	clear_arr(root->cmd->args);
+	root->cmd->args = NULL;
+	if (root->cmd->name)
+	{
+		free(root->cmd->name);
+		root->cmd->name = NULL;
+	}
+	if (root && root->cmd && root->cmd->input_file)
+	{
+		free(root->cmd->input_file);
+		root->cmd->input_file = NULL;
+	}
+	if (root && root->cmd && root->cmd->output_file)
+	{
+		free(root->cmd->output_file);
+		root->cmd->output_file = NULL;
+	}
+	if (root && root->cmd)
+	{
+		free(root->cmd);
+		root->cmd = NULL;
+	}
+}
+
 // Helper function to free the command structures in the AST
 void	free_ast(t_tree *root)
 {
@@ -44,30 +70,7 @@ void	free_ast(t_tree *root)
 			root->right = NULL;
 		}
 		if (root->cmd != NULL)
-		{
-			clear_arr(root->cmd->args);
-			root->cmd->args = NULL;
-			if (root->cmd->name)
-			{
-				free(root->cmd->name);
-				root->cmd->name = NULL;
-			}
-			if (root && root->cmd && root->cmd->input_file)
-			{
-				free(root->cmd->input_file);
-				root->cmd->input_file = NULL;
-			}
-			if (root && root->cmd && root->cmd->output_file)
-			{
-				free(root->cmd->output_file);
-				root->cmd->output_file = NULL;
-			}
-			if (root && root->cmd)
-			{
-				free(root->cmd);
-				root->cmd = NULL;
-			}
-		}
+			free_cmd(root->cmd);
 		free(root);
 		root = NULL;
 	}
