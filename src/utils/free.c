@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
+/*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 17:12:27 by isemin            #+#    #+#             */
-/*   Updated: 2024/08/15 02:20:15 by mrusu            ###   ########.fr       */
+/*   Updated: 2024/08/15 02:49:25 by isemin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,13 +85,13 @@ void	free_shell(t_shell *shell, int input_status)
 		free(shell->input);
 		free_env_list(shell->env_list);
 		if (shell->env != NULL)
-			clear_arr(shell->env);
+			shell->env = clear_arr(shell->env);
 		free(shell->heredoc);
 		free(shell->last_input);
 		if (shell->cmd_paths != NULL)
-			clear_arr(shell->cmd_paths);
+			shell->cmd_paths = clear_arr(shell->cmd_paths);
 		if (shell->path != NULL)
-			clear_arr(shell->path);
+			shell->path = clear_arr(shell->path);
 		if (shell->pwd != NULL)
 			free(shell->pwd);
 		if (input_status != -2 && shell->ast != NULL)

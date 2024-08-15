@@ -6,7 +6,7 @@
 /*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 13:28:51 by isemin            #+#    #+#             */
-/*   Updated: 2024/08/15 02:38:14 by isemin           ###   ########.fr       */
+/*   Updated: 2024/08/15 02:54:29 by isemin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,6 @@ char	**sync_env_from_list(t_env *env_list, t_shell *shell)
 	env = malloc(sizeof(char *) * (token_count(env_list) + 1));
 	if (env == NULL)
 		return (printf("malloc failed"), NULL);
-	current_env = env_list;
 	i = 0;
 	while (current_env)
 	{
@@ -131,6 +130,8 @@ char	**sync_env_from_list(t_env *env_list, t_shell *shell)
 		i++;
 	}
 	env[i] = NULL;
+	if (shell->path != NULL)
+		shell->path = clear_arr(shell->path);
 	shell->path = sync_path(env_list);
 	return (env);
 }
