@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mrusu <mrusu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 17:12:27 by isemin            #+#    #+#             */
-/*   Updated: 2024/08/15 02:10:24 by isemin           ###   ########.fr       */
+/*   Updated: 2024/08/15 02:20:15 by mrusu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,16 +100,6 @@ void	free_shell(t_shell *shell, int input_status)
 			shell->ast = NULL;
 		}
 	}
-}
-
-/*
-* @brief: free one node of the environment list.
-*/
-void	free_env_node(t_env *env_node)
-{
-	free(env_node->key);
-	free(env_node->value);
-	free(env_node);
 }
 
 /*
