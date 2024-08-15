@@ -6,7 +6,7 @@
 /*   By: isemin <isemin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 17:12:27 by isemin            #+#    #+#             */
-/*   Updated: 2024/08/15 02:08:29 by isemin           ###   ########.fr       */
+/*   Updated: 2024/08/15 02:10:24 by isemin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	free_env_list(t_env *env_list)
 	}
 }
 
-static void	free_cmd(t_command *cmd)
+static void	free_cmd(t_tree *root)
 {
 	clear_arr(root->cmd->args);
 	root->cmd->args = NULL;
@@ -70,7 +70,7 @@ void	free_ast(t_tree *root)
 			root->right = NULL;
 		}
 		if (root->cmd != NULL)
-			free_cmd(root->cmd);
+			free_cmd(root);
 		free(root);
 		root = NULL;
 	}
